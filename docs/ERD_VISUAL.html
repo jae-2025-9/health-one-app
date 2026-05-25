@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>건강 one app ERD 보드</title>
+  <style>
+    :root {
+      --bg: #f7f8f5;
+      --ink: #20251f;
+      --muted: #626b60;
+      --line: #cbd3c7;
+      --core: #1f7a5a;
+      --core-soft: #e3f3eb;
+      --user: #315f9f;
+      --user-soft: #e6edf8;
+      --ai: #8a5a20;
+      --ai-soft: #fff0d7;
+      --domain: #5f6070;
+      --domain-soft: #ececf2;
+      --care: #a23f46;
+      --care-soft: #fae7e9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(1180px, calc(100vw - 48px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: white;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .column {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .group {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 14px;
+    }
+
+    .group h2 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .entity {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      padding: 12px 13px;
+      margin-top: 9px;
+      box-shadow: 0 1px 2px rgba(25, 35, 22, 0.06);
+    }
+
+    .entity:first-of-type {
+      margin-top: 0;
+    }
+
+    .entity strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+
+    .entity span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .user {
+      border-color: #abc0df;
+      background: var(--user-soft);
+    }
+
+    .core {
+      border-color: #8fcbb3;
+      background: var(--core-soft);
+    }
+
+    .ai {
+      border-color: #e0bd84;
+      background: var(--ai-soft);
+    }
+
+    .care {
+      border-color: #e8a5aa;
+      background: var(--care-soft);
+    }
+
+    .domain {
+      border-color: #c7c8d4;
+      background: var(--domain-soft);
+    }
+
+    .center {
+      display: grid;
+      align-content: center;
+      min-height: 100%;
+    }
+
+    .hub {
+      border: 3px solid var(--core);
+      border-radius: 8px;
+      background: white;
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(28, 80, 60, 0.12);
+    }
+
+    .hub .label {
+      color: var(--core);
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hub h2 {
+      margin: 5px 0 8px;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .hub p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .arrows {
+      margin: 18px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .flow-note {
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .summary {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .summary section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      padding: 15px;
+    }
+
+    .summary h2 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .summary p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 880px) {
+      main {
+        width: min(100vw - 28px, 720px);
+        padding-top: 22px;
+      }
+
+      .board,
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .center {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>건강 one app ERD 보드</h1>
+    <p class="lead">발표용 요약 ERD입니다. 핵심은 모든 건강 기록을 <code>health_events</code>에 모으고, 세부 정보만 도메인 테이블로 나누는 구조입니다.</p>
+
+    <div class="legend" aria-label="범례">
+      <span class="chip">파랑: 사용자/출처</span>
+      <span class="chip">초록: 중심 이벤트</span>
+      <span class="chip">회색: 생활 기록 도메인</span>
+      <span class="chip">노랑: 사진/AI 분석</span>
+      <span class="chip">빨강: 복용/주의정보</span>
+    </div>
+
+    <div class="board">
+      <div class="column">
+        <section class="group">
+          <h2>사용자와 입력 출처</h2>
+          <div class="entity user">
+            <strong>users</strong>
+            <span>회원 계정, 이메일, 이름</span>
+          </div>
+          <div class="entity user">
+            <strong>user_profiles</strong>
+            <span>키, 몸무게, 알레르기, 시간대</span>
+          </div>
+          <div class="entity user">
+            <strong>data_sources</strong>
+            <span>manual, vision_ai, label_scan, apple_health, samsung_health</span>
+          </div>
+        </section>
+
+        <section class="group">
+          <h2>사진과 AI 분석</h2>
+          <div class="entity ai">
+            <strong>media_assets</strong>
+            <span>식사 사진, 음료 라벨, 화장품 성분표</span>
+          </div>
+          <div class="entity ai">
+            <strong>ai_analysis_results</strong>
+            <span>모델명, 신뢰도, 분석 결과, 안전 문구</span>
+          </div>
+        </section>
+      </div>
+
+      <div class="center">
+        <div class="hub">
+          <div class="label">Core Timeline</div>
+          <h2>health_events</h2>
+          <p>활동, 수면, 식사, 음용, 복용, 화장품 사용을 같은 시간축에 저장합니다.</p>
+        </div>
+        <div class="arrows">사용자/출처 -> health_events -> 도메인 상세 기록</div>
+        <div class="flow-note">
+          외부 Health API 데이터는 <code>source_id + external_record_id</code>로 중복 생성을 막습니다.
+        </div>
+      </div>
+
+      <div class="column">
+        <section class="group">
+          <h2>생활 기록 도메인</h2>
+          <div class="entity domain">
+            <strong>activity_records</strong>
+            <span>걸음, 운동 시간, 활동 칼로리</span>
+          </div>
+          <div class="entity domain">
+            <strong>sleep_records</strong>
+            <span>수면 시간, 수면 단계, 수면 점수</span>
+          </div>
+          <div class="entity domain">
+            <strong>meal_logs + food_items</strong>
+            <span>식사, 음식 항목, 칼로리, 영양소</span>
+          </div>
+          <div class="entity domain">
+            <strong>beverage_logs</strong>
+            <span>수분, 커피, 캔음료, 카페인, 당류</span>
+          </div>
+          <div class="entity domain">
+            <strong>cosmetic_products + ingredients</strong>
+            <span>화장품 제품, 성분, 사용 반응</span>
+          </div>
+        </section>
+
+        <section class="group">
+          <h2>복용과 알림</h2>
+          <div class="entity care">
+            <strong>medication_items + supplement_items</strong>
+            <span>약/영양제 품목</span>
+          </div>
+          <div class="entity care">
+            <strong>intake_logs</strong>
+            <span>실제 복용 기록</span>
+          </div>
+          <div class="entity care">
+            <strong>interaction_checks</strong>
+            <span>상호작용 주의정보, 전문가 상담 권고</span>
+          </div>
+          <div class="entity care">
+            <strong>reminder_rules + notification_logs</strong>
+            <span>복용/수분/생활 알림</span>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="summary">
+      <section>
+        <h2>왜 중심 테이블이 필요한가</h2>
+        <p>모든 기록을 같은 시간축에 놓아야 일간/주간 리포트에서 수면, 활동, 식사, 복용, 화장품 사용을 한 번에 합칠 수 있습니다.</p>
+      </section>
+      <section>
+        <h2>사진 분석 구조</h2>
+        <p>사진 원본은 <code>media_assets</code>, AI 결과는 <code>ai_analysis_results</code>에 저장해서 식사/음료/화장품 분석이 같은 구조를 씁니다.</p>
+      </section>
+      <section>
+        <h2>안전선</h2>
+        <p>약/영양제 분석은 진단이 아니라 건강 관리용 주의정보입니다. 고위험 또는 불확실한 조합은 전문가 상담 권고를 포함합니다.</p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

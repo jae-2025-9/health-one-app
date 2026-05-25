@@ -1,0 +1,1654 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Health One App API",
+    "version": "0.1.0",
+    "description": "Backend-first API contract for 건강 one app, a personal health factor logging and AI analysis app."
+  },
+  "servers": [
+    {
+      "url": "https://api.health-one.example/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Create a user account",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/AuthResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Issue an access token",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/AuthResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/me/profile": {
+      "get": {
+        "tags": ["Profile"],
+        "summary": "Get my health profile",
+        "responses": {
+          "200": {
+            "description": "Profile response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Profile"],
+        "summary": "Update my health profile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserProfilePatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated profile response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/health-events": {
+      "get": {
+        "tags": ["Health Events"],
+        "summary": "List health events by type and time range",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/HealthEventType"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Health event list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthEventListResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Health Events"],
+        "summary": "Create a common health event",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HealthEventCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created health event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthEventResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/activities": {
+      "post": {
+        "tags": ["Activities"],
+        "summary": "Create an activity record",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/HealthEventCreated"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/activities/summary": {
+      "get": {
+        "tags": ["Activities"],
+        "summary": "Get activity summary",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FromDate"
+          },
+          {
+            "$ref": "#/components/parameters/ToDate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SummaryResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/sleep-records": {
+      "post": {
+        "tags": ["Sleep"],
+        "summary": "Create a sleep record",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SleepCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/HealthEventCreated"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/sleep-records/summary": {
+      "get": {
+        "tags": ["Sleep"],
+        "summary": "Get sleep summary",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FromDate"
+          },
+          {
+            "$ref": "#/components/parameters/ToDate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SummaryResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/meals/analyze-image": {
+      "post": {
+        "tags": ["Meals"],
+        "summary": "Analyze a meal image",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageAnalysisRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Meal image analysis draft",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MealAnalysisResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/meals": {
+      "get": {
+        "tags": ["Meals"],
+        "summary": "List meal records",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FromDate"
+          },
+          {
+            "$ref": "#/components/parameters/ToDate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ListResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Meals"],
+        "summary": "Create or confirm a meal record",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MealCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/HealthEventCreated"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/beverages/analyze-label": {
+      "post": {
+        "tags": ["Beverages"],
+        "summary": "Analyze a beverage label image",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageAnalysisRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Beverage label analysis draft",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BeverageAnalysisResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/beverages": {
+      "post": {
+        "tags": ["Beverages"],
+        "summary": "Create a beverage record",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BeverageCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/HealthEventCreated"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/beverages/summary": {
+      "get": {
+        "tags": ["Beverages"],
+        "summary": "Get beverage, water, caffeine, and sugar summary",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FromDate"
+          },
+          {
+            "$ref": "#/components/parameters/ToDate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SummaryResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/intakes/items": {
+      "post": {
+        "tags": ["Intakes"],
+        "summary": "Register a medication or supplement item",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntakeItemCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/ResourceResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/intakes/logs": {
+      "post": {
+        "tags": ["Intakes"],
+        "summary": "Create a medication or supplement intake log",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntakeLogCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/HealthEventCreated"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/intakes/schedule": {
+      "get": {
+        "tags": ["Intakes"],
+        "summary": "Get intake schedule for a date",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ListResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/interaction-checks": {
+      "post": {
+        "tags": ["Interaction Checks"],
+        "summary": "Check medication and supplement caution information",
+        "description": "Returns wellness caution information, not diagnosis, treatment, or prescription guidance.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InteractionCheckCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Interaction check result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InteractionCheckResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/interaction-checks/{id}": {
+      "get": {
+        "tags": ["Interaction Checks"],
+        "summary": "Get an interaction check result",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Interaction check result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InteractionCheckResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/cosmetics/analyze-ingredients": {
+      "post": {
+        "tags": ["Cosmetics"],
+        "summary": "Analyze cosmetic ingredient text or image",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticAnalysisRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ResourceResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/cosmetics/usage-logs": {
+      "post": {
+        "tags": ["Cosmetics"],
+        "summary": "Create a cosmetic usage log",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticUsageCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/HealthEventCreated"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/reminders": {
+      "get": {
+        "tags": ["Reminders"],
+        "summary": "List reminder rules",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ListResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reminders"],
+        "summary": "Create a reminder rule",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReminderCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/ResourceResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/reminders/{id}": {
+      "patch": {
+        "tags": ["Reminders"],
+        "summary": "Update a reminder rule",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReminderPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ResourceResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/reports/daily": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get daily health factor report",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SummaryResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/reports/weekly": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get weekly health factor report",
+        "parameters": [
+          {
+            "name": "weekStart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/SummaryResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/integrations/health-sync": {
+      "post": {
+        "tags": ["Integrations"],
+        "summary": "Sync Apple HealthKit or Samsung Health data from a mobile client",
+        "description": "The mobile app reads authorized HealthKit or Samsung Health records and uploads normalized events. The server deduplicates by sourceId and externalRecordId.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HealthSyncRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "$ref": "#/components/responses/ResourceResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "parameters": {
+      "IdPath": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "FromDate": {
+        "name": "from",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "ToDate": {
+        "name": "to",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "responses": {
+      "AuthResponse": {
+        "description": "Authentication response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AuthResponse"
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "description": "Error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiErrorResponse"
+            }
+          }
+        }
+      },
+      "HealthEventCreated": {
+        "description": "Created health event response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HealthEventResponse"
+            }
+          }
+        }
+      },
+      "ListResponse": {
+        "description": "Generic list response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ListResponse"
+            }
+          }
+        }
+      },
+      "ResourceResponse": {
+        "description": "Generic resource response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ResourceResponse"
+            }
+          }
+        }
+      },
+      "SummaryResponse": {
+        "description": "Summary response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SummaryResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ApiMeta": {
+        "type": "object",
+        "required": ["requestId", "generatedAt"],
+        "properties": {
+          "requestId": {
+            "type": "string"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ApiError": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "ApiErrorResponse": {
+        "type": "object",
+        "required": ["error", "meta"],
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ApiError"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "DataSourceType": {
+        "type": "string",
+        "enum": [
+          "manual",
+          "vision_ai",
+          "label_scan",
+          "apple_health",
+          "samsung_health",
+          "wearable"
+        ]
+      },
+      "HealthEventType": {
+        "type": "string",
+        "enum": [
+          "activity",
+          "sleep",
+          "meal",
+          "beverage",
+          "intake",
+          "cosmetic_usage",
+          "health_sync"
+        ]
+      },
+      "RiskLevel": {
+        "type": "string",
+        "enum": ["low", "medium", "high", "unknown"]
+      },
+      "SignupRequest": {
+        "type": "object",
+        "required": ["email", "password", "displayName"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8
+          },
+          "displayName": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthPayload": {
+        "type": "object",
+        "required": ["accessToken", "tokenType", "user"],
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string",
+            "const": "Bearer"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AuthPayload"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": ["id", "email", "displayName"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "displayName": {
+            "type": "string"
+          }
+        }
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "birthDate": {
+            "type": ["string", "null"],
+            "format": "date"
+          },
+          "sex": {
+            "type": ["string", "null"]
+          },
+          "heightCm": {
+            "type": ["number", "null"]
+          },
+          "weightKg": {
+            "type": ["number", "null"]
+          },
+          "activityGoal": {
+            "type": ["string", "null"]
+          },
+          "timezone": {
+            "type": "string",
+            "default": "Asia/Seoul"
+          },
+          "allergies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "healthNotes": {
+            "type": "object"
+          }
+        }
+      },
+      "UserProfilePatch": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/UserProfile"
+          }
+        ]
+      },
+      "UserProfileResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/UserProfile"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "HealthEventCreate": {
+        "type": "object",
+        "required": ["eventType", "sourceType", "startedAt", "timezone"],
+        "properties": {
+          "eventType": {
+            "$ref": "#/components/schemas/HealthEventType"
+          },
+          "sourceType": {
+            "$ref": "#/components/schemas/DataSourceType"
+          },
+          "sourceId": {
+            "type": ["string", "null"],
+            "format": "uuid"
+          },
+          "externalRecordId": {
+            "type": ["string", "null"]
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "confidenceScore": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "rawPayload": {
+            "type": "object"
+          }
+        }
+      },
+      "HealthEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HealthEventCreate"
+          },
+          {
+            "type": "object",
+            "required": ["id", "createdAt"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "HealthEventResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/HealthEvent"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "HealthEventListResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HealthEvent"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "ActivityCreate": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HealthEventCreate"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "steps": {
+                "type": ["integer", "null"],
+                "minimum": 0
+              },
+              "activeMinutes": {
+                "type": ["integer", "null"],
+                "minimum": 0
+              },
+              "activeKcal": {
+                "type": ["number", "null"],
+                "minimum": 0
+              },
+              "workoutType": {
+                "type": ["string", "null"]
+              },
+              "distanceMeters": {
+                "type": ["number", "null"],
+                "minimum": 0
+              }
+            }
+          }
+        ]
+      },
+      "SleepCreate": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HealthEventCreate"
+          },
+          {
+            "type": "object",
+            "required": ["totalMinutes"],
+            "properties": {
+              "totalMinutes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "awakeMinutes": {
+                "type": ["integer", "null"],
+                "minimum": 0
+              },
+              "deepSleepMinutes": {
+                "type": ["integer", "null"],
+                "minimum": 0
+              },
+              "remSleepMinutes": {
+                "type": ["integer", "null"],
+                "minimum": 0
+              },
+              "sleepScore": {
+                "type": ["number", "null"],
+                "minimum": 0,
+                "maximum": 100
+              },
+              "qualityNote": {
+                "type": ["string", "null"]
+              }
+            }
+          }
+        ]
+      },
+      "ImageAnalysisRequest": {
+        "type": "object",
+        "required": ["imageUrl"],
+        "properties": {
+          "imageUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "takenAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "timezone": {
+            "type": "string",
+            "default": "Asia/Seoul"
+          }
+        }
+      },
+      "MealCreate": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HealthEventCreate"
+          },
+          {
+            "type": "object",
+            "required": ["mealType", "items"],
+            "properties": {
+              "mealType": {
+                "type": "string"
+              },
+              "totalKcal": {
+                "type": ["number", "null"],
+                "minimum": 0
+              },
+              "carbsG": {
+                "type": ["number", "null"],
+                "minimum": 0
+              },
+              "proteinG": {
+                "type": ["number", "null"],
+                "minimum": 0
+              },
+              "fatG": {
+                "type": ["number", "null"],
+                "minimum": 0
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/FoodItem"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "FoodItem": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "servingAmount": {
+            "type": ["number", "null"]
+          },
+          "servingUnit": {
+            "type": ["string", "null"]
+          },
+          "kcal": {
+            "type": ["number", "null"],
+            "minimum": 0
+          },
+          "carbsG": {
+            "type": ["number", "null"],
+            "minimum": 0
+          },
+          "proteinG": {
+            "type": ["number", "null"],
+            "minimum": 0
+          },
+          "fatG": {
+            "type": ["number", "null"],
+            "minimum": 0
+          },
+          "confidenceScore": {
+            "type": ["number", "null"],
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      },
+      "MealAnalysisResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": ["analysisId", "mealDraft", "safetyNotice"],
+            "properties": {
+              "analysisId": {
+                "type": "string"
+              },
+              "mealDraft": {
+                "$ref": "#/components/schemas/MealCreate"
+              },
+              "safetyNotice": {
+                "type": "string"
+              }
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "BeverageCreate": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HealthEventCreate"
+          },
+          {
+            "type": "object",
+            "required": ["beverageType"],
+            "properties": {
+              "beverageType": {
+                "type": "string"
+              },
+              "name": {
+                "type": ["string", "null"]
+              },
+              "volumeMl": {
+                "type": ["number", "null"],
+                "minimum": 0
+              },
+              "kcal": {
+                "type": ["number", "null"],
+                "minimum": 0
+              },
+              "sugarG": {
+                "type": ["number", "null"],
+                "minimum": 0
+              },
+              "caffeineMg": {
+                "type": ["number", "null"],
+                "minimum": 0
+              }
+            }
+          }
+        ]
+      },
+      "BeverageAnalysisResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": ["analysisId", "beverageDraft", "safetyNotice"],
+            "properties": {
+              "analysisId": {
+                "type": "string"
+              },
+              "beverageDraft": {
+                "$ref": "#/components/schemas/BeverageCreate"
+              },
+              "safetyNotice": {
+                "type": "string"
+              }
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "IntakeItemCreate": {
+        "type": "object",
+        "required": ["itemType", "name"],
+        "properties": {
+          "itemType": {
+            "type": "string",
+            "enum": ["medication", "supplement"]
+          },
+          "name": {
+            "type": "string"
+          },
+          "ingredientName": {
+            "type": ["string", "null"]
+          },
+          "doseAmount": {
+            "type": ["string", "null"]
+          },
+          "instructions": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "IntakeLogCreate": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HealthEventCreate"
+          },
+          {
+            "type": "object",
+            "required": ["takenAt", "status"],
+            "properties": {
+              "medicationItemId": {
+                "type": ["string", "null"],
+                "format": "uuid"
+              },
+              "supplementItemId": {
+                "type": ["string", "null"],
+                "format": "uuid"
+              },
+              "takenAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["scheduled", "taken", "skipped"]
+              },
+              "note": {
+                "type": ["string", "null"]
+              }
+            }
+          }
+        ]
+      },
+      "InteractionCheckCreate": {
+        "type": "object",
+        "required": ["items"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["itemType", "itemId"],
+              "properties": {
+                "itemType": {
+                  "type": "string",
+                  "enum": ["medication", "supplement"]
+                },
+                "itemId": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "InteractionCheck": {
+        "type": "object",
+        "required": ["id", "riskLevel", "summary", "recommendation", "safetyNotice", "createdAt"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "riskLevel": {
+            "$ref": "#/components/schemas/RiskLevel"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "safetyNotice": {
+            "type": "string",
+            "description": "This is wellness caution information and not medical diagnosis, treatment, or prescription guidance."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "InteractionCheckResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InteractionCheck"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "CosmeticAnalysisRequest": {
+        "type": "object",
+        "properties": {
+          "productName": {
+            "type": ["string", "null"]
+          },
+          "brand": {
+            "type": ["string", "null"]
+          },
+          "ingredientText": {
+            "type": ["string", "null"]
+          },
+          "imageUrl": {
+            "type": ["string", "null"],
+            "format": "uri"
+          },
+          "skinType": {
+            "type": ["string", "null"]
+          }
+        },
+        "anyOf": [
+          {
+            "required": ["ingredientText"]
+          },
+          {
+            "required": ["imageUrl"]
+          }
+        ]
+      },
+      "CosmeticUsageCreate": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HealthEventCreate"
+          },
+          {
+            "type": "object",
+            "required": ["cosmeticProductId"],
+            "properties": {
+              "cosmeticProductId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "bodyArea": {
+                "type": ["string", "null"]
+              },
+              "reactionNote": {
+                "type": ["string", "null"]
+              }
+            }
+          }
+        ]
+      },
+      "ReminderCreate": {
+        "type": "object",
+        "required": ["targetType", "title", "rrule"],
+        "properties": {
+          "targetType": {
+            "type": "string",
+            "enum": ["intake", "hydration", "sleep", "activity", "custom"]
+          },
+          "targetId": {
+            "type": ["string", "null"],
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "rrule": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "ReminderPatch": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "rrule": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "HealthSyncRequest": {
+        "type": "object",
+        "required": ["sourceType", "events"],
+        "properties": {
+          "sourceType": {
+            "type": "string",
+            "enum": ["apple_health", "samsung_health"]
+          },
+          "externalAccountId": {
+            "type": ["string", "null"]
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HealthEventCreate"
+            }
+          }
+        }
+      },
+      "ListResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "ResourceResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "type": "object"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "SummaryResponse": {
+        "type": "object",
+        "required": ["data", "meta"],
+        "properties": {
+          "data": {
+            "type": "object"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      }
+    }
+  }
+}

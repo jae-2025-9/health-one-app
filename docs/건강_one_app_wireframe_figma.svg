@@ -1,0 +1,349 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3350" height="2050" viewBox="0 0 3350 2050">
+<rect width="100%" height="100%" fill="#F3F4F6"/>
+<text x="90" y="90" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="46" font-weight="900" fill="#111827" text-anchor="start">건강 one app Wireframe</text>
+<text x="90" y="128" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="20" font-weight="500" fill="#4B5563" text-anchor="start">ERD 기반: health_events 중심 통합 건강 기록 + 사진 AI 분석 + 복용/성분 주의 정보 + 리포트</text>
+<rect x="90" y="155" width="1750" height="38" rx="18" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<text x="118" y="181" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="700" fill="#374151" text-anchor="start">v1 범위: 직접 입력 · 사진/라벨 분석 · 복용 알림 · 일간/주간 리포트 · Health API 동기화 확장</text>
+<rect x="90" y="220" width="360" height="720" rx="34" fill="#F9FAFB" stroke="#111827" stroke-width="3" />
+<rect x="108" y="242" width="324" height="676" rx="24" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<rect x="228" y="232" width="84" height="7" rx="4" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="124" y="282" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="700" fill="#111827" text-anchor="start">9:41</text>
+<text x="382" y="282" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#111827" text-anchor="start">● ● ▬</text>
+<text x="124" y="324" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">홈 대시보드</text>
+<text x="124" y="350" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#6B7280" text-anchor="start">오늘의 건강 요약</text>
+<rect x="350" y="302" width="58" height="24" rx="12" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="379" y="319" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF" text-anchor="middle">one</text>
+<rect x="124" y="378" width="80" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="164.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">걸음 8,420</text>
+<rect x="212" y="378" width="88" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="256.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">수면 7h 40m</text>
+<rect x="308" y="378" width="88" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="352.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">칼로리 1,820</text>
+<rect x="118" y="435" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="136" y="463" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">AI 주의사항</text>
+<text x="142" y="489" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 카페인 섭취가 오후에 집중됨</text>
+<text x="142" y="511" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 비타민 D 복용 예정 21:00</text>
+<rect x="118" y="581" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="136" y="609" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">오늘 기록</text>
+<text x="142" y="635" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 활동량</text>
+<text x="142" y="657" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 식사</text>
+<text x="142" y="679" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 음용</text>
+<text x="142" y="701" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 복용</text>
+<rect x="118" y="727" width="304" height="116" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="136" y="755" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">빠른 입력</text>
+<text x="142" y="781" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 식사 사진</text>
+<text x="142" y="803" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 라벨 스캔</text>
+<text x="142" y="825" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 복용 체크</text>
+<rect x="118" y="862" width="304" height="48" rx="16" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="156" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#111827" text-anchor="middle">홈</text>
+<text x="228" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">기록</text>
+<text x="300" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">분석</text>
+<text x="372" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">알림</text>
+<rect x="520" y="220" width="360" height="720" rx="34" fill="#F9FAFB" stroke="#111827" stroke-width="3" />
+<rect x="538" y="242" width="324" height="676" rx="24" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<rect x="658" y="232" width="84" height="7" rx="4" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="554" y="282" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="700" fill="#111827" text-anchor="start">9:41</text>
+<text x="812" y="282" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#111827" text-anchor="start">● ● ▬</text>
+<text x="554" y="324" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">활동/수면 연동</text>
+<text x="554" y="350" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#6B7280" text-anchor="start">Apple/Samsung Health</text>
+<rect x="780" y="302" width="58" height="24" rx="12" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="809" y="319" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF" text-anchor="middle">one</text>
+<rect x="554" y="378" width="112" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="610.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">Apple Health</text>
+<rect x="674" y="378" width="128" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="738.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">Samsung Health</text>
+<rect x="548" y="435" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="566" y="463" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">동기화 상태</text>
+<text x="572" y="489" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 마지막 동기화 13:20</text>
+<text x="572" y="511" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 중복 0건 / 신규 12건</text>
+<rect x="548" y="581" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="566" y="609" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">걸음수 그래프</text>
+<line x1="568" y1="683" x2="826" y2="683" stroke="#D1D5DB" stroke-width="1"/>
+<rect x="578" y="653" width="18" height="30" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="612" y="638" width="18" height="45" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="646" y="647" width="18" height="36" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="680" y="625" width="18" height="58" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="714" y="641" width="18" height="42" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="748" y="633" width="18" height="50" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<text x="572" y="635" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 월 7k  화 8k  수 9k</text>
+<text x="572" y="657" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 목 6k  금 8k</text>
+<rect x="548" y="727" width="304" height="116" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="566" y="755" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">수면 패턴</text>
+<line x1="568" y1="829" x2="826" y2="829" stroke="#D1D5DB" stroke-width="1"/>
+<rect x="578" y="799" width="18" height="30" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="612" y="784" width="18" height="45" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="646" y="793" width="18" height="36" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="680" y="771" width="18" height="58" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="714" y="787" width="18" height="42" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="748" y="779" width="18" height="50" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<text x="572" y="781" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 평균 7h 12m</text>
+<text x="572" y="803" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 품질 점수 82</text>
+<rect x="548" y="862" width="304" height="48" rx="16" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="586" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">홈</text>
+<text x="658" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">기록</text>
+<text x="730" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">분석</text>
+<text x="802" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">알림</text>
+<rect x="950" y="220" width="360" height="720" rx="34" fill="#F9FAFB" stroke="#111827" stroke-width="3" />
+<rect x="968" y="242" width="324" height="676" rx="24" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<rect x="1088" y="232" width="84" height="7" rx="4" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="984" y="282" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="700" fill="#111827" text-anchor="start">9:41</text>
+<text x="1242" y="282" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#111827" text-anchor="start">● ● ▬</text>
+<text x="984" y="324" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">식사 사진 분석</text>
+<text x="984" y="350" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#6B7280" text-anchor="start">media_assets + ai_analysis</text>
+<rect x="1210" y="302" width="58" height="24" rx="12" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1239" y="319" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF" text-anchor="middle">one</text>
+<rect x="984" y="378" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1020.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">사진 업로드</text>
+<rect x="1064" y="378" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1100.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">AI 분석</text>
+<rect x="978" y="435" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="996" y="463" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">카메라 영역</text>
+<text x="1002" y="489" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 식사 사진을 촬영/업로드</text>
+<rect x="978" y="581" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="996" y="609" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">분석 결과</text>
+<text x="1002" y="635" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 현미밥 310kcal</text>
+<text x="1002" y="657" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 닭가슴살 180kcal</text>
+<text x="1002" y="679" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 샐러드 90kcal</text>
+<rect x="978" y="727" width="304" height="116" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="996" y="755" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">영양소</text>
+<text x="1002" y="781" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 탄수 68g  단백 38g  지방 12g</text>
+<rect x="978" y="862" width="304" height="48" rx="16" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1016" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">홈</text>
+<text x="1088" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#111827" text-anchor="middle">기록</text>
+<text x="1160" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">분석</text>
+<text x="1232" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">알림</text>
+<rect x="1380" y="220" width="360" height="720" rx="34" fill="#F9FAFB" stroke="#111827" stroke-width="3" />
+<rect x="1398" y="242" width="324" height="676" rx="24" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<rect x="1518" y="232" width="84" height="7" rx="4" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1414" y="282" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="700" fill="#111827" text-anchor="start">9:41</text>
+<text x="1672" y="282" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#111827" text-anchor="start">● ● ▬</text>
+<text x="1414" y="324" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">음료 라벨 스캔</text>
+<text x="1414" y="350" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#6B7280" text-anchor="start">물/커피/캔음료 기록</text>
+<rect x="1640" y="302" width="58" height="24" rx="12" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1669" y="319" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF" text-anchor="middle">one</text>
+<rect x="1414" y="378" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1450.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">물</text>
+<rect x="1494" y="378" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1530.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">커피</text>
+<rect x="1574" y="378" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1610.0" y="395" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">캔음료</text>
+<rect x="1408" y="435" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="1426" y="463" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">라벨 촬영</text>
+<text x="1432" y="489" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 제품 라벨 또는 영양정보 촬영</text>
+<rect x="1408" y="581" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="1426" y="609" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">추정값</text>
+<text x="1432" y="635" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 용량 240ml</text>
+<text x="1432" y="657" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 당류 18g</text>
+<text x="1432" y="679" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 카페인 90mg</text>
+<text x="1432" y="701" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 칼로리 120kcal</text>
+<rect x="1408" y="727" width="304" height="116" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="1426" y="755" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">저장 전 확인</text>
+<text x="1432" y="781" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 수정</text>
+<text x="1432" y="803" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 기록 저장</text>
+<rect x="1408" y="862" width="304" height="48" rx="16" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1446" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">홈</text>
+<text x="1518" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#111827" text-anchor="middle">기록</text>
+<text x="1590" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">분석</text>
+<text x="1662" y="892" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">알림</text>
+<rect x="90" y="1050" width="360" height="720" rx="34" fill="#F9FAFB" stroke="#111827" stroke-width="3" />
+<rect x="108" y="1072" width="324" height="676" rx="24" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<rect x="228" y="1062" width="84" height="7" rx="4" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="124" y="1112" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="700" fill="#111827" text-anchor="start">9:41</text>
+<text x="382" y="1112" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#111827" text-anchor="start">● ● ▬</text>
+<text x="124" y="1154" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">약/영양제 등록</text>
+<text x="124" y="1180" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#6B7280" text-anchor="start">복용 스케줄 관리</text>
+<rect x="350" y="1132" width="58" height="24" rx="12" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="379" y="1149" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF" text-anchor="middle">one</text>
+<rect x="124" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="160.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">약</text>
+<rect x="204" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="240.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">영양제</text>
+<rect x="118" y="1265" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="136" y="1293" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">품목 입력</text>
+<text x="142" y="1319" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 이름</text>
+<text x="142" y="1341" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 용량</text>
+<text x="142" y="1363" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 성분</text>
+<text x="142" y="1385" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 메모</text>
+<rect x="118" y="1411" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="136" y="1439" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">복용 시간</text>
+<text x="142" y="1465" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 아침 식후 09:00</text>
+<text x="142" y="1487" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 저녁 식후 21:00</text>
+<rect x="118" y="1557" width="304" height="116" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="136" y="1585" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">알림 설정</text>
+<text x="142" y="1611" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 매일 반복</text>
+<text x="142" y="1633" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 복용 완료 체크</text>
+<rect x="118" y="1692" width="304" height="48" rx="16" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="156" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">홈</text>
+<text x="228" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#111827" text-anchor="middle">기록</text>
+<text x="300" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">분석</text>
+<text x="372" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">알림</text>
+<rect x="520" y="1050" width="360" height="720" rx="34" fill="#F9FAFB" stroke="#111827" stroke-width="3" />
+<rect x="538" y="1072" width="324" height="676" rx="24" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<rect x="658" y="1062" width="84" height="7" rx="4" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="554" y="1112" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="700" fill="#111827" text-anchor="start">9:41</text>
+<text x="812" y="1112" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#111827" text-anchor="start">● ● ▬</text>
+<text x="554" y="1154" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">상호작용 체크</text>
+<text x="554" y="1180" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#6B7280" text-anchor="start">진단이 아닌 주의 정보</text>
+<rect x="780" y="1132" width="58" height="24" rx="12" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="809" y="1149" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF" text-anchor="middle">one</text>
+<rect x="554" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="590.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">낮음</text>
+<rect x="634" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="670.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">주의</text>
+<rect x="714" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="750.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">높음</text>
+<rect x="548" y="1265" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="566" y="1293" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">선택 조합</text>
+<text x="572" y="1319" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 이부프로펜</text>
+<text x="572" y="1341" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 오메가3</text>
+<text x="572" y="1363" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 비타민 D</text>
+<rect x="548" y="1411" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="566" y="1439" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">위험도</text>
+<text x="572" y="1465" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 주의: 일부 성분 함께 복용 시 확인 필요</text>
+<rect x="548" y="1557" width="304" height="116" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="566" y="1585" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">권고</text>
+<text x="572" y="1611" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 복용 간격을 두고 전문가와 상담</text>
+<rect x="548" y="1692" width="304" height="48" rx="16" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="586" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">홈</text>
+<text x="658" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">기록</text>
+<text x="730" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#111827" text-anchor="middle">분석</text>
+<text x="802" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">알림</text>
+<rect x="950" y="1050" width="360" height="720" rx="34" fill="#F9FAFB" stroke="#111827" stroke-width="3" />
+<rect x="968" y="1072" width="324" height="676" rx="24" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<rect x="1088" y="1062" width="84" height="7" rx="4" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="984" y="1112" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="700" fill="#111827" text-anchor="start">9:41</text>
+<text x="1242" y="1112" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#111827" text-anchor="start">● ● ▬</text>
+<text x="984" y="1154" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">화장품 성분 분석</text>
+<text x="984" y="1180" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#6B7280" text-anchor="start">성분표 촬영/입력</text>
+<rect x="1210" y="1132" width="58" height="24" rx="12" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1239" y="1149" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF" text-anchor="middle">one</text>
+<rect x="984" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1020.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">성분표</text>
+<rect x="1064" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1100.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">피부타입</text>
+<rect x="978" y="1265" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="996" y="1293" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">제품 정보</text>
+<text x="1002" y="1319" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 제품명</text>
+<text x="1002" y="1341" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 사용 부위</text>
+<text x="1002" y="1363" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 피부 타입</text>
+<rect x="978" y="1411" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="996" y="1439" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">성분 결과</text>
+<text x="1002" y="1465" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 글리세린: 양호</text>
+<text x="1002" y="1487" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 향료: 주의</text>
+<text x="1002" y="1509" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 나이아신아마이드: 양호</text>
+<rect x="978" y="1557" width="304" height="116" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="996" y="1585" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">사용 반응</text>
+<text x="1002" y="1611" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 따가움 없음</text>
+<text x="1002" y="1633" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 붉어짐 메모</text>
+<rect x="978" y="1692" width="304" height="48" rx="16" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1016" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">홈</text>
+<text x="1088" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#111827" text-anchor="middle">기록</text>
+<text x="1160" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">분석</text>
+<text x="1232" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">알림</text>
+<rect x="1380" y="1050" width="360" height="720" rx="34" fill="#F9FAFB" stroke="#111827" stroke-width="3" />
+<rect x="1398" y="1072" width="324" height="676" rx="24" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
+<rect x="1518" y="1062" width="84" height="7" rx="4" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1414" y="1112" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="700" fill="#111827" text-anchor="start">9:41</text>
+<text x="1672" y="1112" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#111827" text-anchor="start">● ● ▬</text>
+<text x="1414" y="1154" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="22" font-weight="800" fill="#111827" text-anchor="start">주간 리포트</text>
+<text x="1414" y="1180" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#6B7280" text-anchor="start">건강 이벤트 타임라인</text>
+<rect x="1640" y="1132" width="58" height="24" rx="12" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1669" y="1149" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF" text-anchor="middle">one</text>
+<rect x="1414" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1450.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">활동</text>
+<rect x="1494" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1530.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">수면</text>
+<rect x="1574" y="1208" width="72" height="25" rx="13" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1" />
+<text x="1610.0" y="1225" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="10" font-weight="600" fill="#374151" text-anchor="middle">식사</text>
+<rect x="1408" y="1265" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="1426" y="1293" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">이번 주 요약</text>
+<line x1="1428" y1="1367" x2="1686" y2="1367" stroke="#D1D5DB" stroke-width="1"/>
+<rect x="1438" y="1337" width="18" height="30" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="1472" y="1322" width="18" height="45" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="1506" y="1331" width="18" height="36" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="1540" y="1309" width="18" height="58" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="1574" y="1325" width="18" height="42" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<rect x="1608" y="1317" width="18" height="50" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1" />
+<text x="1432" y="1319" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 걸음 평균 8,100</text>
+<text x="1432" y="1341" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 수면 평균 7h 05m</text>
+<text x="1432" y="1363" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 카페인 4일 초과</text>
+<rect x="1408" y="1411" width="304" height="128" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="1426" y="1439" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">타임라인</text>
+<text x="1432" y="1465" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 월 활동↑</text>
+<text x="1432" y="1487" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 수 수면↓</text>
+<text x="1432" y="1509" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 금 당류↑</text>
+<rect x="1408" y="1557" width="304" height="116" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" />
+<text x="1426" y="1585" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">개선 제안</text>
+<text x="1432" y="1611" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 오후 카페인 줄이기</text>
+<text x="1432" y="1633" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="12" font-weight="500" fill="#374151" text-anchor="start">• 수분 500ml 추가</text>
+<rect x="1408" y="1692" width="304" height="48" rx="16" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1446" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">홈</text>
+<text x="1518" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">기록</text>
+<text x="1590" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#111827" text-anchor="middle">분석</text>
+<text x="1662" y="1722" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="11" font-weight="700" fill="#9CA3AF" text-anchor="middle">알림</text>
+<rect x="1900" y="220" width="1320" height="600" rx="24" fill="#FFFFFF" stroke="#111827" stroke-width="2" />
+<text x="1936" y="278" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="30" font-weight="900" fill="#111827" text-anchor="start">ERD → 화면 매핑</text>
+<text x="1936" y="312" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="500" fill="#4B5563" text-anchor="start">DB 테이블을 그대로 노출하지 않고 사용자 행동 기준 화면/API로 묶음</text>
+<rect x="1936" y="331" width="22" height="22" rx="6" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1974" y="348" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="800" fill="#111827" text-anchor="start">공통 기록</text>
+<text x="2155" y="348" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">health_events</text>
+<rect x="1936" y="397" width="22" height="22" rx="6" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1974" y="414" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="800" fill="#111827" text-anchor="start">사진/AI</text>
+<text x="2155" y="414" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">media_assets + ai_analysis_results</text>
+<rect x="1936" y="463" width="22" height="22" rx="6" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1974" y="480" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="800" fill="#111827" text-anchor="start">알림</text>
+<text x="2155" y="480" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">reminder_rules + notification_logs</text>
+<rect x="1936" y="529" width="22" height="22" rx="6" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1974" y="546" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="800" fill="#111827" text-anchor="start">복용</text>
+<text x="2155" y="546" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">intake_logs + interaction_checks</text>
+<rect x="1936" y="595" width="22" height="22" rx="6" fill="#111827" stroke="#111827" stroke-width="1" />
+<text x="1974" y="612" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="800" fill="#111827" text-anchor="start">화장품</text>
+<text x="2155" y="612" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">cosmetic_products + cosmetic_ingredients</text>
+<line x1="1936" y1="667" x2="3184" y2="667" stroke="#D1D5DB" stroke-width="2"/>
+<text x="1936" y="711" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="24" font-weight="900" fill="#111827" text-anchor="start">핵심 사용자 흐름</text>
+<rect x="1942" y="723" width="36" height="36" rx="18" fill="#F3F4F6" stroke="#111827" stroke-width="1.5" />
+<text x="1960" y="747" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="middle">1</text>
+<text x="1996" y="747" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">건강 API/직접 입력으로 이벤트 생성</text>
+<rect x="1942" y="777" width="36" height="36" rx="18" fill="#F3F4F6" stroke="#111827" stroke-width="1.5" />
+<text x="1960" y="801" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="middle">2</text>
+<text x="1996" y="801" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">사진/라벨/성분표는 media_assets 저장</text>
+<rect x="1942" y="831" width="36" height="36" rx="18" fill="#F3F4F6" stroke="#111827" stroke-width="1.5" />
+<text x="1960" y="855" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="middle">3</text>
+<text x="1996" y="855" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">AI 분석 결과를 ai_analysis_results에 연결</text>
+<rect x="1942" y="885" width="36" height="36" rx="18" fill="#F3F4F6" stroke="#111827" stroke-width="1.5" />
+<text x="1960" y="909" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="middle">4</text>
+<text x="1996" y="909" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">복용/성분 위험도는 주의 정보로 제공</text>
+<rect x="1942" y="939" width="36" height="36" rx="18" fill="#F3F4F6" stroke="#111827" stroke-width="1.5" />
+<text x="1960" y="963" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="middle">5</text>
+<text x="1996" y="963" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">daily/weekly report에서 통합 요약</text>
+<rect x="1900" y="900" width="1320" height="530" rx="24" fill="#FFFFFF" stroke="#111827" stroke-width="2" />
+<text x="1936" y="958" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="30" font-weight="900" fill="#111827" text-anchor="start">주요 API 기준</text>
+<rect x="1936" y="980" width="560" height="42" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1954" y="1006" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">POST /meals/analyze-image</text>
+<text x="2530" y="1006" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">식사 사진 AI 분석</text>
+<rect x="1936" y="1036" width="560" height="42" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1954" y="1062" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">POST /beverages/analyze-label</text>
+<text x="2530" y="1062" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">음료 라벨 분석</text>
+<rect x="1936" y="1092" width="560" height="42" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1954" y="1118" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">POST /intakes/items</text>
+<text x="2530" y="1118" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">약/영양제 등록</text>
+<rect x="1936" y="1148" width="560" height="42" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1954" y="1174" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">POST /interaction-checks</text>
+<text x="2530" y="1174" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">상호작용 주의 정보</text>
+<rect x="1936" y="1204" width="560" height="42" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1954" y="1230" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">POST /cosmetics/analyze-ingredients</text>
+<text x="2530" y="1230" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">화장품 성분 분석</text>
+<rect x="1936" y="1260" width="560" height="42" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1954" y="1286" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">GET /reports/weekly</text>
+<text x="2530" y="1286" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">주간 통합 리포트</text>
+<rect x="1936" y="1316" width="560" height="42" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+<text x="1954" y="1342" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="15" font-weight="800" fill="#111827" text-anchor="start">POST /integrations/health-sync</text>
+<text x="2530" y="1342" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="16" font-weight="600" fill="#4B5563" text-anchor="start">Apple/Samsung Health 동기화</text>
+<rect x="1900" y="1510" width="1320" height="310" rx="24" fill="#FFFFFF" stroke="#111827" stroke-width="2" />
+<text x="1936" y="1568" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="30" font-weight="900" fill="#111827" text-anchor="start">안전선</text>
+<text x="1936" y="1614" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="20" font-weight="800" fill="#111827" text-anchor="start">약/영양제/화장품 분석은 진단이 아니라 주의 정보 제공으로 제한</text>
+<text x="1936" y="1656" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">• 위험도: low / medium / high / unknown</text>
+<text x="1936" y="1694" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">• 불확실하거나 고위험 조합은 전문가 상담 권고 표시</text>
+<text x="1936" y="1732" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">• AI 분석 결과는 추정치이며 사용자가 수정 후 저장</text>
+<text x="1936" y="1770" font-family="Inter, Apple SD Gothic Neo, Arial, sans-serif" font-size="17" font-weight="600" fill="#374151" text-anchor="start">• 외부 데이터는 source_id + external_record_id로 중복 방지</text>
+</svg>

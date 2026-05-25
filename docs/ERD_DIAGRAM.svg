@@ -1,0 +1,273 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1180" viewBox="0 0 1800 1180" role="img" aria-labelledby="title desc">
+  <title id="title">건강 one app ERD 다이어그램</title>
+  <desc id="desc">건강 one app 앱의 데이터베이스 엔티티 관계를 health_events 중심으로 시각화한 ERD</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8f5; }
+      .title { font: 700 34px -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; fill: #20251f; }
+      .subtitle { font: 400 18px -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; fill: #5f695d; }
+      .group-title { font: 700 18px -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; fill: #3a4038; }
+      .table-title { font: 700 18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #20251f; }
+      .table-ko { font: 600 14px -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; fill: #4f584d; }
+      .field { font: 400 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #3e463c; }
+      .note { font: 500 14px -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; fill: #5f695d; }
+      .relationship { stroke: #687466; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .relationship-soft { stroke: #9aa596; stroke-width: 1.7; fill: none; marker-end: url(#arrow-soft); }
+      .relationship-care { stroke: #a64c54; stroke-width: 2.1; fill: none; marker-end: url(#arrow-care); }
+      .card { stroke-width: 2; rx: 10; ry: 10; }
+      .core { fill: #e2f4eb; stroke: #1f7a5a; }
+      .user { fill: #e6eef9; stroke: #315f9f; }
+      .domain { fill: #ededf3; stroke: #696b7a; }
+      .ai { fill: #fff1d9; stroke: #8a5a20; }
+      .care { fill: #fae7e9; stroke: #a23f46; }
+      .alert { fill: #fff; stroke: #d0d7cc; stroke-dasharray: 8 6; }
+      .divider { stroke: rgba(32, 37, 31, 0.16); stroke-width: 1; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#687466"/>
+    </marker>
+    <marker id="arrow-soft" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa596"/>
+    </marker>
+    <marker id="arrow-care" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a64c54"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1800" height="1180"/>
+
+  <text class="title" x="70" y="70">건강 one app ERD 다이어그램</text>
+  <text class="subtitle" x="70" y="103">모든 건강 기록은 health_events에 모이고, 세부 정보는 도메인별 테이블에 연결됩니다.</text>
+
+  <rect class="alert" x="1240" y="42" width="490" height="72" rx="10"/>
+  <text class="note" x="1262" y="72">핵심 규칙: 외부 Health API 중복 방지</text>
+  <text class="field" x="1262" y="96">UNIQUE(source_id, external_record_id)</text>
+
+  <!-- Relationship lines behind cards -->
+  <path class="relationship" d="M 310 205 C 455 205 475 335 620 335"/>
+  <path class="relationship-soft" d="M 310 365 C 455 365 475 395 620 395"/>
+  <path class="relationship-soft" d="M 310 525 C 455 525 475 450 620 450"/>
+
+  <path class="relationship" d="M 1010 395 C 1110 395 1110 205 1210 205"/>
+  <path class="relationship" d="M 1010 395 C 1110 395 1110 335 1210 335"/>
+  <path class="relationship" d="M 1010 395 C 1110 395 1110 465 1210 465"/>
+  <path class="relationship" d="M 1010 395 C 1110 395 1110 595 1210 595"/>
+  <path class="relationship" d="M 1010 395 C 1110 395 1110 730 1210 730"/>
+  <path class="relationship" d="M 1010 395 C 1110 395 1110 875 1210 875"/>
+
+  <path class="relationship-soft" d="M 1010 430 C 1038 430 1042 998 620 998"/>
+  <path class="relationship-soft" d="M 790 630 C 790 705 790 715 790 790"/>
+
+  <path class="relationship" d="M 1210 465 C 1160 465 1135 530 1080 530 C 1020 530 1010 520 980 520"/>
+  <path class="relationship-soft" d="M 1470 465 C 1515 465 1515 535 1470 535"/>
+
+  <path class="relationship-care" d="M 310 720 C 455 720 475 790 620 790"/>
+  <path class="relationship-care" d="M 310 855 C 455 855 475 840 620 840"/>
+  <path class="relationship-care" d="M 310 720 C 510 720 515 945 620 945"/>
+  <path class="relationship-care" d="M 310 855 C 510 855 515 985 620 985"/>
+
+  <path class="relationship-soft" d="M 310 1010 C 455 1010 475 875 620 875"/>
+  <path class="relationship-soft" d="M 310 1010 C 455 1010 465 1090 620 1090"/>
+
+  <path class="relationship-soft" d="M 1470 875 C 1540 875 1540 1020 1470 1020"/>
+  <path class="relationship-soft" d="M 930 1060 C 1065 1060 1075 1020 1210 1020"/>
+
+  <path class="relationship-soft" d="M 790 630 C 655 650 530 650 310 650"/>
+  <path class="relationship-soft" d="M 310 650 C 380 640 540 625 620 610"/>
+
+  <!-- Left column -->
+  <text class="group-title" x="70" y="154">사용자 / 출처</text>
+
+  <g transform="translate(70 175)">
+    <rect class="card user" width="240" height="92"/>
+    <text class="table-title" x="18" y="30">users</text>
+    <text class="table-ko" x="18" y="52">회원 계정</text>
+    <line class="divider" x1="16" y1="62" x2="224" y2="62"/>
+    <text class="field" x="18" y="80">PK id, email, display_name</text>
+  </g>
+
+  <g transform="translate(70 318)">
+    <rect class="card user" width="240" height="112"/>
+    <text class="table-title" x="18" y="30">user_profiles</text>
+    <text class="table-ko" x="18" y="52">건강 프로필</text>
+    <line class="divider" x1="16" y1="62" x2="224" y2="62"/>
+    <text class="field" x="18" y="80">PK/FK user_id</text>
+    <text class="field" x="18" y="99">height, weight, allergies</text>
+  </g>
+
+  <g transform="translate(70 478)">
+    <rect class="card user" width="240" height="118"/>
+    <text class="table-title" x="18" y="30">data_sources</text>
+    <text class="table-ko" x="18" y="52">입력 출처</text>
+    <line class="divider" x1="16" y1="62" x2="224" y2="62"/>
+    <text class="field" x="18" y="80">manual / vision_ai</text>
+    <text class="field" x="18" y="99">apple_health / samsung</text>
+  </g>
+
+  <text class="group-title" x="70" y="684">약 / 영양제</text>
+
+  <g transform="translate(70 700)">
+    <rect class="card care" width="240" height="96"/>
+    <text class="table-title" x="18" y="30">medication_items</text>
+    <text class="table-ko" x="18" y="52">약 품목</text>
+    <line class="divider" x1="16" y1="62" x2="224" y2="62"/>
+    <text class="field" x="18" y="80">name, ingredient, dose</text>
+  </g>
+
+  <g transform="translate(70 835)">
+    <rect class="card care" width="240" height="96"/>
+    <text class="table-title" x="18" y="30">supplement_items</text>
+    <text class="table-ko" x="18" y="52">영양제 품목</text>
+    <line class="divider" x1="16" y1="62" x2="224" y2="62"/>
+    <text class="field" x="18" y="80">name, ingredient, dose</text>
+  </g>
+
+  <g transform="translate(70 985)">
+    <rect class="card ai" width="240" height="96"/>
+    <text class="table-title" x="18" y="30">media_assets</text>
+    <text class="table-ko" x="18" y="52">사진 / 라벨 / 성분표</text>
+    <line class="divider" x1="16" y1="62" x2="224" y2="62"/>
+    <text class="field" x="18" y="80">storage_url, purpose</text>
+  </g>
+
+  <!-- Center column -->
+  <g transform="translate(620 300)">
+    <rect class="card core" width="390" height="330"/>
+    <text class="table-title" x="24" y="40">health_events</text>
+    <text class="table-ko" x="24" y="65">모든 건강 기록의 중심 타임라인</text>
+    <line class="divider" x1="22" y1="78" x2="368" y2="78"/>
+    <text class="field" x="24" y="104">PK id</text>
+    <text class="field" x="24" y="128">FK user_id</text>
+    <text class="field" x="24" y="152">FK source_id</text>
+    <text class="field" x="24" y="176">event_type</text>
+    <text class="field" x="24" y="200">external_record_id</text>
+    <text class="field" x="24" y="224">started_at, ended_at</text>
+    <text class="field" x="24" y="248">timezone</text>
+    <text class="field" x="24" y="272">confidence_score</text>
+    <text class="field" x="24" y="296">raw_payload</text>
+  </g>
+
+  <g transform="translate(620 790)">
+    <rect class="card care" width="310" height="112"/>
+    <text class="table-title" x="18" y="30">intake_logs</text>
+    <text class="table-ko" x="18" y="52">실제 복용 기록</text>
+    <line class="divider" x1="16" y1="62" x2="294" y2="62"/>
+    <text class="field" x="18" y="80">FK medication_item_id?</text>
+    <text class="field" x="18" y="99">FK supplement_item_id?</text>
+  </g>
+
+  <g transform="translate(620 945)">
+    <rect class="card care" width="310" height="112"/>
+    <text class="table-title" x="18" y="30">interaction_checks</text>
+    <text class="table-ko" x="18" y="52">상호작용 주의정보</text>
+    <line class="divider" x1="16" y1="62" x2="294" y2="62"/>
+    <text class="field" x="18" y="80">risk_level, summary</text>
+    <text class="field" x="18" y="99">recommendation</text>
+  </g>
+
+  <g transform="translate(620 1075)">
+    <rect class="card care" width="310" height="72"/>
+    <text class="table-title" x="18" y="30">interaction_check_items</text>
+    <text class="table-ko" x="18" y="52">검사 대상 목록</text>
+  </g>
+
+  <g transform="translate(620 660)">
+    <rect class="card ai" width="310" height="92"/>
+    <text class="table-title" x="18" y="30">ai_analysis_results</text>
+    <text class="table-ko" x="18" y="52">AI 분석 결과</text>
+    <line class="divider" x1="16" y1="62" x2="294" y2="62"/>
+    <text class="field" x="18" y="80">model, confidence, payload</text>
+  </g>
+
+  <!-- Right column -->
+  <text class="group-title" x="1210" y="154">건강 기록 상세</text>
+
+  <g transform="translate(1210 175)">
+    <rect class="card domain" width="260" height="96"/>
+    <text class="table-title" x="18" y="30">activity_records</text>
+    <text class="table-ko" x="18" y="52">활동 / 운동</text>
+    <line class="divider" x1="16" y1="62" x2="244" y2="62"/>
+    <text class="field" x="18" y="80">steps, kcal, workout</text>
+  </g>
+
+  <g transform="translate(1210 315)">
+    <rect class="card domain" width="260" height="96"/>
+    <text class="table-title" x="18" y="30">sleep_records</text>
+    <text class="table-ko" x="18" y="52">수면</text>
+    <line class="divider" x1="16" y1="62" x2="244" y2="62"/>
+    <text class="field" x="18" y="80">minutes, score, quality</text>
+  </g>
+
+  <g transform="translate(1210 445)">
+    <rect class="card domain" width="260" height="96"/>
+    <text class="table-title" x="18" y="30">meal_logs</text>
+    <text class="table-ko" x="18" y="52">식사</text>
+    <line class="divider" x1="16" y1="62" x2="244" y2="62"/>
+    <text class="field" x="18" y="80">kcal, carbs, protein, fat</text>
+  </g>
+
+  <g transform="translate(1510 505)">
+    <rect class="card domain" width="220" height="88"/>
+    <text class="table-title" x="18" y="30">food_items</text>
+    <text class="table-ko" x="18" y="52">음식 항목</text>
+    <line class="divider" x1="16" y1="62" x2="204" y2="62"/>
+    <text class="field" x="18" y="80">name, serving, kcal</text>
+  </g>
+
+  <g transform="translate(1210 575)">
+    <rect class="card domain" width="260" height="112"/>
+    <text class="table-title" x="18" y="30">beverage_logs</text>
+    <text class="table-ko" x="18" y="52">음용 / 카페인 / 당류</text>
+    <line class="divider" x1="16" y1="62" x2="244" y2="62"/>
+    <text class="field" x="18" y="80">volume_ml, caffeine_mg</text>
+    <text class="field" x="18" y="99">sugar_g, kcal</text>
+  </g>
+
+  <g transform="translate(1210 720)">
+    <rect class="card domain" width="260" height="112"/>
+    <text class="table-title" x="18" y="30">cosmetic_usage_logs</text>
+    <text class="table-ko" x="18" y="52">화장품 사용 기록</text>
+    <line class="divider" x1="16" y1="62" x2="244" y2="62"/>
+    <text class="field" x="18" y="80">product_id, body_area</text>
+    <text class="field" x="18" y="99">reaction_note</text>
+  </g>
+
+  <g transform="translate(1210 855)">
+    <rect class="card domain" width="260" height="96"/>
+    <text class="table-title" x="18" y="30">cosmetic_products</text>
+    <text class="table-ko" x="18" y="52">화장품 제품</text>
+    <line class="divider" x1="16" y1="62" x2="244" y2="62"/>
+    <text class="field" x="18" y="80">brand, type, skin target</text>
+  </g>
+
+  <g transform="translate(1210 1000)">
+    <rect class="card domain" width="260" height="96"/>
+    <text class="table-title" x="18" y="30">cosmetic_ingredients</text>
+    <text class="table-ko" x="18" y="52">화장품 성분</text>
+    <line class="divider" x1="16" y1="62" x2="244" y2="62"/>
+    <text class="field" x="18" y="80">safety, effect, caution</text>
+  </g>
+
+  <g transform="translate(1510 720)">
+    <rect class="card ai" width="220" height="112"/>
+    <text class="table-title" x="18" y="30">reminder_rules</text>
+    <text class="table-ko" x="18" y="52">알림 규칙</text>
+    <line class="divider" x1="16" y1="62" x2="204" y2="62"/>
+    <text class="field" x="18" y="80">target, rrule</text>
+    <text class="field" x="18" y="99">is_active</text>
+  </g>
+
+  <g transform="translate(1510 875)">
+    <rect class="card ai" width="220" height="96"/>
+    <text class="table-title" x="18" y="30">notification_logs</text>
+    <text class="table-ko" x="18" y="52">알림 발송 기록</text>
+    <line class="divider" x1="16" y1="62" x2="204" y2="62"/>
+    <text class="field" x="18" y="80">scheduled_at, status</text>
+  </g>
+
+  <path class="relationship-soft" d="M 1620 832 C 1620 850 1620 857 1620 875"/>
+
+  <!-- Footer legend -->
+  <rect x="70" y="1128" width="1660" height="1" fill="#d2d8cf"/>
+  <text class="note" x="70" y="1158">발표 설명: users가 건강 데이터를 만들고, data_sources가 출처를 표시하며, health_events가 모든 기록을 시간순으로 묶습니다.</text>
+</svg>
