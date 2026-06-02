@@ -3,6 +3,10 @@
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+-- ========== [FROZEN] ENUMS & CORE (L1 only) ==========
+-- L1 owns and freezes the shared enums, core identity/profile/source/event
+-- tables, shared media/AI analysis tables, and health_events indexes.
+
 CREATE TYPE data_source_type AS ENUM (
   'manual',
   'vision_ai',
@@ -110,6 +114,8 @@ CREATE TABLE ai_analysis_results (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- ========== [L4] REMINDERS / REPORTS ==========
+
 CREATE TABLE reminder_rules (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -131,6 +137,8 @@ CREATE TABLE notification_logs (
   status text NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now()
 );
+
+-- ========== [L2] ACTIVITY / SLEEP / NUTRITION ==========
 
 CREATE TABLE activity_records (
   health_event_id uuid PRIMARY KEY REFERENCES health_events(id) ON DELETE CASCADE,
@@ -184,6 +192,8 @@ CREATE TABLE beverage_logs (
   caffeine_mg numeric(8,2) CHECK (caffeine_mg IS NULL OR caffeine_mg >= 0),
   analysis_status text NOT NULL DEFAULT 'manual'
 );
+
+-- ========== [L3] MEDS / INTERACTION / COSMETICS ==========
 
 CREATE TABLE medication_items (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),

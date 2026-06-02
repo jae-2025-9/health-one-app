@@ -145,6 +145,7 @@ https://api.health-one.example/v1
 
 응답은 단정적 진단 대신 위험도, 근거 요약, 권고 문구를 포함합니다.
 이 기능은 진단이 아니라 건강 관리용 주의정보 제공이며, 고위험 또는 불확실한 조합에는 전문가 상담 권고를 포함합니다.
+`riskLevel`은 L1이 동결한 `InteractionRiskLevel` 값(`low`, `medium`, `high`, `unknown`)만 사용합니다.
 
 ```json
 {

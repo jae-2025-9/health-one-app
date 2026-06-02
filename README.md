@@ -18,6 +18,8 @@
 - [브라우저용 ERD 보드](docs/ERD_VISUAL.html)
 - [ERD 설계](docs/ERD.md)
 - [API 명세서](docs/API_SPEC.md)
+- [L1 동결 계약](docs/FROZEN_CONTRACTS.md)
+- [L1 API 슬라이스](docs/api/l1-core-auth.md)
 - [API 명세서 Excel](docs/건강_one_app_API_명세서.xlsx)
 - [OpenAPI 3.1 JSON](docs/openapi.json)
 - [PostgreSQL DDL](db/schema.sql)

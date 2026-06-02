@@ -21,12 +21,12 @@
 **엔드포인트**: `/auth/signup`, `/auth/login`, `/me/profile` (GET·PATCH), `/health-events` (POST·GET)
 
 **커스터디언 추가 책임** (L1만 수행):
-- **공유 자산을 가장 먼저 확정·동결** → 아래 [동결 목록](#동결-목록-frozen) 참고
+- **공유 자산을 가장 먼저 확정·동결** → 아래 [동결 목록](#동결-목록-frozen) 및 [`FROZEN_CONTRACTS.md`](./FROZEN_CONTRACTS.md) 참고
 - `docs/openapi.json` 최종 조립 (각 레인의 `docs/api/<레인>.md` 슬라이스를 통합)
 - `scripts/validate_contracts.py` 머지 게이트 운영
 - 공유 자산 변경 요청을 단독 PR로 반영 후 팀 공지
 
-**처음 할 일**: enum 3종 + 코어 6테이블 + 응답 봉투(`ApiMeta`/`ApiErrorResponse`)를 확정하고 팀에 "동결" 공지 → 그래야 L2·L3·L4가 그 위에서 설계 시작 가능.
+**처음 할 일**: enum 3종 + 코어 6테이블 + 응답 봉투(`ApiMeta`/`ApiErrorResponse`)를 확정하고 [`docs/api/l1-core-auth.md`](./api/l1-core-auth.md)에 L1 슬라이스를 남긴 뒤 팀에 "동결" 공지 → 그래야 L2·L3·L4가 그 위에서 설계 시작 가능.
 
 ---
 
@@ -78,6 +78,8 @@
 - **코어 테이블 6종**: `users`, `user_profiles`, `data_sources`, `health_events`(+인덱스), `media_assets`, `ai_analysis_results`
 - **응답 봉투**: `ApiMeta`, `ApiErrorResponse` (`data`/`meta`/`error` 구조)
 - **공통 FK 규약**: `user_id`, `health_event_id` (모든 도메인 테이블이 이 이름으로 참조)
+
+동결 상세와 공지 문구는 [`FROZEN_CONTRACTS.md`](./FROZEN_CONTRACTS.md)에 둔다.
 
 ---
 

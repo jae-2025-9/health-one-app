@@ -916,7 +916,7 @@
           "health_sync"
         ]
       },
-      "RiskLevel": {
+      "InteractionRiskLevel": {
         "type": "string",
         "enum": ["low", "medium", "high", "unknown"]
       },
@@ -1465,7 +1465,7 @@
             "format": "uuid"
           },
           "riskLevel": {
-            "$ref": "#/components/schemas/RiskLevel"
+            "$ref": "#/components/schemas/InteractionRiskLevel"
           },
           "summary": {
             "type": "string"

@@ -95,7 +95,7 @@ text 상태값 어휘(자유 컬럼이지만 값은 아래로 고정):
 
 - **JSON 필드 = `camelCase`.**
 - **DB `snake_case` → JSON `camelCase` 변환 = "밑줄 제거 + 다음 글자 대문자"** (단위 접미사 포함 기계적으로 일관 적용).
-- 스키마/타입명 = `PascalCase`: `HealthEvent`, `ApiMeta`, `ApiErrorResponse`, `InteractionCheck`, `MealDraft`.
+- 스키마/타입명 = `PascalCase`: `HealthEvent`, `ApiMeta`, `ApiErrorResponse`, `InteractionRiskLevel`, `InteractionCheck`, `MealDraft`.
 - 타임스탬프 = **ISO 8601 + 오프셋** (`2026-05-25T08:30:00+09:00`), 필드명은 `At`로 끝.
 - 엔티티 ID = **UUID 문자열**(DB와 동일). `requestId`만 `req_YYYYMMDD_NNNN` 트레이스 형식.
 
@@ -176,3 +176,5 @@ python scripts/validate_contracts.py
 # docs 안의 JSON 예시에서 camelCase여야 할 자리에 _id" / _at" 등이 남아있으면 위반 의심
 grep -rnE '"[a-z]+_[a-z_]+"\s*:' docs/api/ docs/*.md
 ```
+
+L1 동결 기준은 [`FROZEN_CONTRACTS.md`](./FROZEN_CONTRACTS.md)와 [`docs/api/l1-core-auth.md`](./api/l1-core-auth.md)를 먼저 확인한다.
