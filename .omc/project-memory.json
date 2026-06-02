@@ -1,0 +1,373 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1780399904541,
+  "projectRoot": "C:\\Users\\seonw\\Documents\\GitHub\\health-one-app",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "cd C:/Users/seonw/Documents/GitHub/health-one-app/backend && npx tsc --noEmit 2>&1 | head -40; echo \"EXIT: $?\"",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "scripts"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "db": {
+      "path": "db",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1780399904301,
+      "keyFiles": [
+        "schema.sql"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 14,
+      "lastAccessed": 1780399904303,
+      "keyFiles": [
+        "API_SPEC.md",
+        "ERD.md",
+        "ERD_DIAGRAM.png",
+        "ERD_DIAGRAM.svg",
+        "ERD_VISUAL.html"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 1,
+      "lastAccessed": 1780399904314,
+      "keyFiles": [
+        "validate_contracts.py"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "docs\\openapi.json",
+      "accessCount": 7,
+      "lastAccessed": 1780402640918,
+      "type": "file"
+    },
+    {
+      "path": "db\\schema.sql",
+      "accessCount": 4,
+      "lastAccessed": 1780403756746,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\health-events\\health-event.mapper.ts",
+      "accessCount": 4,
+      "lastAccessed": 1780404049114,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\cosmetics\\ingredient-analyzer.ts",
+      "accessCount": 4,
+      "lastAccessed": 1780404074073,
+      "type": "file"
+    },
+    {
+      "path": "docs\\TEAM_CONVENTIONS.md",
+      "accessCount": 3,
+      "lastAccessed": 1780403755387,
+      "type": "file"
+    },
+    {
+      "path": "docs\\API_SPEC.md",
+      "accessCount": 3,
+      "lastAccessed": 1780403757135,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\health-events\\health-event.factory.ts",
+      "accessCount": 3,
+      "lastAccessed": 1780404038233,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\enums.ts",
+      "accessCount": 3,
+      "lastAccessed": 1780404059317,
+      "type": "file"
+    },
+    {
+      "path": "docs\\ROLE_ASSIGNMENT.md",
+      "accessCount": 2,
+      "lastAccessed": 1780400610282,
+      "type": "file"
+    },
+    {
+      "path": "backend\\package.json",
+      "accessCount": 2,
+      "lastAccessed": 1780403022462,
+      "type": "file"
+    },
+    {
+      "path": "AGENTS.md",
+      "accessCount": 2,
+      "lastAccessed": 1780403166218,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\safety\\safety-notice.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403766437,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\http\\response-envelope.interceptor.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403767658,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\http\\all-exceptions.filter.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403768388,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\intakes\\intakes.service.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403774726,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\intakes\\intakes.controller.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403775675,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\interaction-checks\\interaction-checks.service.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403776357,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\interaction-checks\\interaction-checks.controller.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403777808,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\interaction-checks\\interaction-analyzer.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403778028,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\cosmetics\\cosmetics.service.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403779225,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\cosmetics\\cosmetics.controller.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403779667,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\dto\\health-event-create.dto.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403785071,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\intakes\\dto\\create-intake-item.dto.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403786436,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\intakes\\dto\\create-intake-log.dto.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403786970,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\interaction-checks\\dto\\create-interaction-check.dto.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403788116,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\cosmetics\\dto\\analyze-ingredients.dto.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403788838,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\cosmetics\\dto\\create-cosmetic-usage.dto.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403790067,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\auth\\current-user.decorator.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403790496,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\main.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403790874,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\http\\request-id.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403801404,
+      "type": "file"
+    },
+    {
+      "path": "backend\\prisma\\schema.prisma",
+      "accessCount": 2,
+      "lastAccessed": 1780403871012,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\app.module.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780403877216,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1780400334986,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\validate_contracts.py",
+      "accessCount": 1,
+      "lastAccessed": 1780400353772,
+      "type": "file"
+    },
+    {
+      "path": "docs\\PRODUCT_BRIEF.md",
+      "accessCount": 1,
+      "lastAccessed": 1780400353863,
+      "type": "file"
+    },
+    {
+      "path": "docs\\ERD.md",
+      "accessCount": 1,
+      "lastAccessed": 1780400362940,
+      "type": "file"
+    },
+    {
+      "path": "docs\\TEAM_SESSION_HANDOFF.md",
+      "accessCount": 1,
+      "lastAccessed": 1780400366608,
+      "type": "file"
+    },
+    {
+      "path": "db\\AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1780400453064,
+      "type": "file"
+    },
+    {
+      "path": "docs\\AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1780400454102,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1780400455053,
+      "type": "file"
+    },
+    {
+      "path": "backend\\tsconfig.json",
+      "accessCount": 1,
+      "lastAccessed": 1780402682375,
+      "type": "file"
+    },
+    {
+      "path": "backend\\nest-cli.json",
+      "accessCount": 1,
+      "lastAccessed": 1780402686882,
+      "type": "file"
+    },
+    {
+      "path": "backend\\.env.example",
+      "accessCount": 1,
+      "lastAccessed": 1780402690243,
+      "type": "file"
+    },
+    {
+      "path": "backend\\docker-compose.yml",
+      "accessCount": 1,
+      "lastAccessed": 1780402692626,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\prisma\\prisma.service.ts",
+      "accessCount": 1,
+      "lastAccessed": 1780402739524,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\common\\prisma\\prisma.module.ts",
+      "accessCount": 1,
+      "lastAccessed": 1780402741167,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\intakes\\intakes.module.ts",
+      "accessCount": 1,
+      "lastAccessed": 1780402870145,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\interaction-checks\\interaction-checks.module.ts",
+      "accessCount": 1,
+      "lastAccessed": 1780402924238,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\cosmetics\\cosmetics.module.ts",
+      "accessCount": 1,
+      "lastAccessed": 1780402969684,
+      "type": "file"
+    },
+    {
+      "path": "backend\\src\\health.controller.ts",
+      "accessCount": 1,
+      "lastAccessed": 1780402981273,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

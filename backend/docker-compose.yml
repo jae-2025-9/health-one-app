@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: health-one-l3-db
+    environment:
+      POSTGRES_USER: health
+      POSTGRES_PASSWORD: health
+      POSTGRES_DB: health_one
+    ports:
+      - "5432:5432"
+    volumes:
+      - health_one_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U health -d health_one"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  health_one_pgdata:

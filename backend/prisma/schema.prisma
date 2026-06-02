@@ -1,0 +1,227 @@
+// L3 (meds / interaction / cosmetics) Prisma schema for 건강 one app.
+//
+// Field/table names are @map'd to the canonical snake_case names in
+// db/schema.sql so this layer reads/writes the team's frozen schema.
+// Only the L3-owned tables plus the minimal core tables L3 references
+// (users, data_sources, health_events) are modeled here. L1 owns the
+// full canonical migration; this is the standalone L3 slice.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== FROZEN enums (L1-owned, referenced only) =====
+enum DataSourceType {
+  manual
+  vision_ai
+  label_scan
+  apple_health
+  samsung_health
+  wearable
+
+  @@map("data_source_type")
+}
+
+enum HealthEventType {
+  activity
+  sleep
+  meal
+  beverage
+  intake
+  cosmetic_usage
+  health_sync
+
+  @@map("health_event_type")
+}
+
+enum InteractionRiskLevel {
+  low
+  medium
+  high
+  unknown
+
+  @@map("interaction_risk_level")
+}
+
+// ===== Core slice (L1-owned, modeled minimally so L3 can run/reference) =====
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  displayName  String   @map("display_name")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  dataSources       DataSource[]
+  healthEvents      HealthEvent[]
+  medicationItems   MedicationItem[]
+  supplementItems   SupplementItem[]
+  interactionChecks InteractionCheck[]
+  cosmeticProducts  CosmeticProduct[]
+
+  @@map("users")
+}
+
+model DataSource {
+  id               String         @id @default(uuid()) @db.Uuid
+  userId           String         @map("user_id") @db.Uuid
+  sourceType       DataSourceType @map("source_type")
+  displayName      String         @map("display_name")
+  externalAccountId String?       @map("external_account_id")
+  authorizedAt     DateTime?      @map("authorized_at") @db.Timestamptz(6)
+  revokedAt        DateTime?      @map("revoked_at") @db.Timestamptz(6)
+  createdAt        DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  healthEvents HealthEvent[]
+
+  @@map("data_sources")
+}
+
+model HealthEvent {
+  id               String          @id @default(uuid()) @db.Uuid
+  userId           String          @map("user_id") @db.Uuid
+  eventType        HealthEventType @map("event_type")
+  sourceId         String?         @map("source_id") @db.Uuid
+  externalRecordId String?         @map("external_record_id")
+  startedAt        DateTime        @map("started_at") @db.Timestamptz(6)
+  endedAt          DateTime?       @map("ended_at") @db.Timestamptz(6)
+  timezone         String          @default("Asia/Seoul")
+  confidenceScore  Decimal         @default(1) @map("confidence_score") @db.Decimal(4, 3)
+  rawPayload       Json            @default("{}") @map("raw_payload")
+  createdAt        DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  source          DataSource?      @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  intakeLog       IntakeLog?
+  cosmeticUsageLog CosmeticUsageLog?
+
+  @@index([userId, startedAt(sort: Desc)], map: "health_events_user_time_idx")
+  @@index([userId, eventType, startedAt(sort: Desc)], map: "health_events_user_type_time_idx")
+  @@map("health_events")
+}
+
+// ===== [L3] MEDS / INTERACTION =====
+model MedicationItem {
+  id             String   @id @default(uuid()) @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  name           String
+  ingredientName String?  @map("ingredient_name")
+  doseAmount     String?  @map("dose_amount")
+  instructions   String?
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user                User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  intakeLogs          IntakeLog[]
+  interactionCheckItems InteractionCheckItem[]
+
+  @@map("medication_items")
+}
+
+model SupplementItem {
+  id             String   @id @default(uuid()) @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  name           String
+  ingredientName String?  @map("ingredient_name")
+  doseAmount     String?  @map("dose_amount")
+  instructions   String?
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user                User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  intakeLogs          IntakeLog[]
+  interactionCheckItems InteractionCheckItem[]
+
+  @@map("supplement_items")
+}
+
+model IntakeLog {
+  healthEventId    String   @id @map("health_event_id") @db.Uuid
+  medicationItemId String?  @map("medication_item_id") @db.Uuid
+  supplementItemId String?  @map("supplement_item_id") @db.Uuid
+  takenAt          DateTime @map("taken_at") @db.Timestamptz(6)
+  status           String   @default("taken")
+  note             String?
+
+  healthEvent    HealthEvent     @relation(fields: [healthEventId], references: [id], onDelete: Cascade)
+  medicationItem MedicationItem? @relation(fields: [medicationItemId], references: [id], onDelete: SetNull)
+  supplementItem SupplementItem? @relation(fields: [supplementItemId], references: [id], onDelete: SetNull)
+
+  @@map("intake_logs")
+}
+
+model InteractionCheck {
+  id             String               @id @default(uuid()) @db.Uuid
+  userId         String               @map("user_id") @db.Uuid
+  riskLevel      InteractionRiskLevel @default(unknown) @map("risk_level")
+  summary        String
+  recommendation String
+  evidencePayload Json                @default("[]") @map("evidence_payload")
+  createdAt      DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items InteractionCheckItem[]
+
+  @@map("interaction_checks")
+}
+
+model InteractionCheckItem {
+  id                 String  @id @default(uuid()) @db.Uuid
+  interactionCheckId String  @map("interaction_check_id") @db.Uuid
+  medicationItemId   String? @map("medication_item_id") @db.Uuid
+  supplementItemId   String? @map("supplement_item_id") @db.Uuid
+  itemType           String  @map("item_type")
+
+  interactionCheck InteractionCheck @relation(fields: [interactionCheckId], references: [id], onDelete: Cascade)
+  medicationItem   MedicationItem?  @relation(fields: [medicationItemId], references: [id], onDelete: Cascade)
+  supplementItem   SupplementItem?  @relation(fields: [supplementItemId], references: [id], onDelete: Cascade)
+
+  @@map("interaction_check_items")
+}
+
+// ===== [L3] COSMETICS =====
+model CosmeticProduct {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  name          String
+  brand         String?
+  productType   String?  @map("product_type")
+  skinTypeTarget String? @map("skin_type_target")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredients CosmeticIngredient[]
+  usageLogs   CosmeticUsageLog[]
+
+  @@map("cosmetic_products")
+}
+
+model CosmeticIngredient {
+  id               String  @id @default(uuid()) @db.Uuid
+  cosmeticProductId String @map("cosmetic_product_id") @db.Uuid
+  ingredientName   String  @map("ingredient_name")
+  safetyLevel      String  @default("unknown") @map("safety_level")
+  effectSummary    String? @map("effect_summary")
+  cautionSummary   String? @map("caution_summary")
+
+  cosmeticProduct CosmeticProduct @relation(fields: [cosmeticProductId], references: [id], onDelete: Cascade)
+
+  @@map("cosmetic_ingredients")
+}
+
+model CosmeticUsageLog {
+  healthEventId    String  @id @map("health_event_id") @db.Uuid
+  cosmeticProductId String @map("cosmetic_product_id") @db.Uuid
+  bodyArea         String? @map("body_area")
+  reactionNote     String? @map("reaction_note")
+
+  healthEvent     HealthEvent     @relation(fields: [healthEventId], references: [id], onDelete: Cascade)
+  cosmeticProduct CosmeticProduct @relation(fields: [cosmeticProductId], references: [id], onDelete: Cascade)
+
+  @@map("cosmetic_usage_logs")
+}

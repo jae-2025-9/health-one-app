@@ -1,0 +1,7 @@
+{
+  "tool_name": "mcp__plugin_oh-my-claudecode_t__lsp_diagnostics",
+  "tool_input_preview": "{\"file\":\"C:/Users/seonw/Documents/GitHub/health-one-app/backend/src/common/health-events/health-event.factory.ts\"}",
+  "error": "Language server 'typescript-language-server' not found.\nInstall with: npm install -g typescript-language-server typescript",
+  "timestamp": "2026-06-02T12:38:12.145Z",
+  "retry_count": 4
+}
