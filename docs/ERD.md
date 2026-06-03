@@ -260,3 +260,80 @@ erDiagram
 - `health_events`는 `source_id + external_record_id` 조합으로 외부 데이터 중복 업로드를 막습니다.
 - `confidence_score`는 0 이상 1 이하로 저장합니다.
 - `intake_logs`는 약 또는 영양제 중 최소 하나를 참조해야 합니다.
+
+---
+
+## 레인별 테이블 구획
+
+> `db/schema.sql`과 동일한 구획 기준. 해당 레인만 자기 구획을 편집.
+
+<!-- [FROZEN] ENUMS & CORE (L1 only) -->
+### [FROZEN] ENUMS & CORE — L1 담당 (수정 금지)
+
+| 테이블 / 타입 | 설명 |
+|---|---|
+| `data_source_type` (enum) | manual, vision_ai, label_scan, apple_health, samsung_health, wearable |
+| `health_event_type` (enum) | activity, sleep, meal, beverage, intake, cosmetic_usage, health_sync |
+| `interaction_risk_level` (enum) | low, medium, high, unknown |
+| `users` | 계정 |
+| `user_profiles` | 건강 프로필 |
+| `data_sources` | 데이터 출처 등록 |
+| `health_events` | 통합 이벤트 허브 (+ dedup 인덱스) |
+| `media_assets` | 사진·라벨 파일 참조 |
+| `ai_analysis_results` | AI 분석 결과 |
+
+<!-- [L2] ACTIVITY / SLEEP / NUTRITION -->
+### [L2] ACTIVITY / SLEEP / NUTRITION — L2 담당
+
+| 테이블 | 설명 |
+|---|---|
+| `activity_records` | 활동 세부 (steps, active_minutes 등) |
+| `sleep_records` | 수면 세부 (total_minutes, sleep_score 등) |
+| `meal_logs` | 식사 요약 (total_kcal, 매크로) |
+| `food_items` | 식사별 음식 항목 |
+| `beverage_logs` | 음용 기록 (volume_ml, caffeine_mg 등) |
+
+<!-- [L3] MEDS / INTERACTION / COSMETICS -->
+### [L3] MEDS / INTERACTION / COSMETICS — L3 담당
+
+| 테이블 | 설명 |
+|---|---|
+| `medication_items` | 약 카탈로그 |
+| `supplement_items` | 영양제 카탈로그 |
+| `intake_logs` | 복용 기록 |
+| `interaction_checks` | 상호작용 분석 결과 |
+| `interaction_check_items` | 분석 대상 항목 |
+| `cosmetic_products` | 화장품 카탈로그 |
+| `cosmetic_ingredients` | 화장품 성분 |
+| `cosmetic_usage_logs` | 화장품 사용 기록 |
+
+<!-- [L4] REMINDERS / REPORTS -->
+### [L4] REMINDERS / REPORTS — L4 담당
+
+| 테이블 | 설명 |
+|---|---|
+| `reminder_rules` | 사용자 정의 반복 알림 규칙 (iCalendar RRULE) |
+| `notification_logs` | 알림 발송 이력 (scheduled_at, sent_at, status) |
+
+**L4 추가 제약**
+
+- `reminder_rules.target_type`: `CHECK (target_type IN ('intake', 'hydration', 'sleep', 'activity', 'custom'))`
+- `notification_logs.status`: `CHECK (status IN ('scheduled', 'sent', 'failed'))`
+
+**L4 인덱스**
+
+- `reminder_rules_user_active_idx` ON `reminder_rules(user_id, is_active)` — 사용자 규칙 목록 필터링
+- `notification_logs_user_scheduled_idx` ON `notification_logs(user_id, scheduled_at DESC)` — 이력 시간순 조회
+- `notification_logs_rule_idx` ON `notification_logs(reminder_rule_id)` — FK 역방향 조회
+
+**집계 엔드포인트 의존성** (`/reports/*`)
+
+리포트는 모든 레인 데이터를 집계합니다. 필드명 최종 확정은 L1~L3 동결 후 진행:
+
+```
+/reports/daily  → health_events + activity_records, sleep_records,
+                  meal_logs, beverage_logs, intake_logs, notification_logs
+/reports/weekly → 위와 동일, 7일 집계
+```
+
+상세 스키마 및 응답 예시는 [docs/api/l4.md](api/l4.md) 참조.

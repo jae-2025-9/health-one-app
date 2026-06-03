@@ -119,7 +119,7 @@ CREATE TABLE ai_analysis_results (
 CREATE TABLE reminder_rules (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  target_type text NOT NULL,
+  target_type text NOT NULL CHECK (target_type IN ('intake', 'hydration', 'sleep', 'activity', 'custom')),
   target_id uuid,
   title text NOT NULL,
   rrule text NOT NULL,
@@ -128,15 +128,24 @@ CREATE TABLE reminder_rules (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
+CREATE INDEX reminder_rules_user_active_idx
+  ON reminder_rules(user_id, is_active);
+
 CREATE TABLE notification_logs (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   reminder_rule_id uuid REFERENCES reminder_rules(id) ON DELETE SET NULL,
   scheduled_at timestamptz NOT NULL,
   sent_at timestamptz,
-  status text NOT NULL,
+  status text NOT NULL CHECK (status IN ('scheduled', 'sent', 'failed')),
   created_at timestamptz NOT NULL DEFAULT now()
 );
+
+CREATE INDEX notification_logs_user_scheduled_idx
+  ON notification_logs(user_id, scheduled_at DESC);
+
+CREATE INDEX notification_logs_rule_idx
+  ON notification_logs(reminder_rule_id);
 
 -- ========== [L2] ACTIVITY / SLEEP / NUTRITION ==========
 
