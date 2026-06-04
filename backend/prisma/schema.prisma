@@ -64,6 +64,9 @@ model User {
   supplementItems   SupplementItem[]
   interactionChecks InteractionCheck[]
   cosmeticProducts  CosmeticProduct[]
+  profile           UserProfile?
+  reminderRules     ReminderRule[]
+  notificationLogs  NotificationLog[]
 
   @@map("users")
 }
@@ -300,6 +303,52 @@ model InteractionCheckItem {
   supplementItem   SupplementItem?  @relation(fields: [supplementItemId], references: [id], onDelete: Cascade)
 
   @@map("interaction_check_items")
+}
+
+// ===== [L4] CORE SLICE (minimally referenced) =====
+model UserProfile {
+  userId   String @id @map("user_id") @db.Uuid
+  timezone String @default("Asia/Seoul")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+// ===== [L4] REMINDERS =====
+model ReminderRule {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  targetType String   @map("target_type")
+  targetId   String?  @map("target_id") @db.Uuid
+  title      String
+  rrule      String
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notificationLogs NotificationLog[]
+
+  @@index([userId, isActive], map: "reminder_rules_user_active_idx")
+  @@map("reminder_rules")
+}
+
+model NotificationLog {
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @map("user_id") @db.Uuid
+  reminderRuleId String?   @map("reminder_rule_id") @db.Uuid
+  scheduledAt    DateTime  @map("scheduled_at") @db.Timestamptz(6)
+  sentAt         DateTime? @map("sent_at") @db.Timestamptz(6)
+  status         String
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reminderRule ReminderRule? @relation(fields: [reminderRuleId], references: [id], onDelete: SetNull)
+
+  @@index([userId, scheduledAt(sort: Desc)], map: "notification_logs_user_scheduled_idx")
+  @@index([reminderRuleId], map: "notification_logs_rule_idx")
+  @@map("notification_logs")
 }
 
 // ===== [L3] COSMETICS =====

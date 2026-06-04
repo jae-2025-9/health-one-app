@@ -49,3 +49,17 @@ export enum CosmeticSafetyLevel {
   caution = 'caution',
   ok = 'ok',
 }
+
+export enum ReminderTargetType {
+  intake = 'intake',
+  hydration = 'hydration',
+  sleep = 'sleep',
+  activity = 'activity',
+  custom = 'custom',
+}
+
+export enum NotificationStatus {
+  scheduled = 'scheduled',
+  sent = 'sent',
+  failed = 'failed',
+}
