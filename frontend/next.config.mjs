@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? '',
-  trailingSlash: true,
+  ...(process.env.GITHUB_PAGES === 'true' && {
+    output: 'export',
+    basePath: '/health-one-app',
+    trailingSlash: true,
+  }),
   images: { unoptimized: true },
 };
 
