@@ -108,6 +108,7 @@ model HealthEvent {
   intakeLog       IntakeLog?
   cosmeticUsageLog CosmeticUsageLog?
 
+  @@unique([sourceId, externalRecordId], map: "health_events_source_external_uidx")
   @@index([userId, startedAt(sort: Desc)], map: "health_events_user_time_idx")
   @@index([userId, eventType, startedAt(sort: Desc)], map: "health_events_user_type_time_idx")
   @@map("health_events")
