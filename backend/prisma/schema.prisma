@@ -59,6 +59,7 @@ model User {
 
   dataSources       DataSource[]
   healthEvents      HealthEvent[]
+  mediaAssets       MediaAsset[]
   medicationItems   MedicationItem[]
   supplementItems   SupplementItem[]
   interactionChecks InteractionCheck[]
@@ -98,12 +99,127 @@ model HealthEvent {
 
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   source          DataSource?      @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  mediaAssets     MediaAsset[]
+  aiAnalysisResults AiAnalysisResult[]
+  activityRecord  ActivityRecord?
+  sleepRecord     SleepRecord?
+  mealLog         MealLog?
+  beverageLog     BeverageLog?
   intakeLog       IntakeLog?
   cosmeticUsageLog CosmeticUsageLog?
 
   @@index([userId, startedAt(sort: Desc)], map: "health_events_user_time_idx")
   @@index([userId, eventType, startedAt(sort: Desc)], map: "health_events_user_type_time_idx")
   @@map("health_events")
+}
+
+model MediaAsset {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  healthEventId String?  @map("health_event_id") @db.Uuid
+  mediaType     String   @map("media_type")
+  purpose       String
+  storageUrl    String   @map("storage_url")
+  contentHash   String?  @map("content_hash")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  healthEvent       HealthEvent?       @relation(fields: [healthEventId], references: [id], onDelete: SetNull)
+  aiAnalysisResults AiAnalysisResult[]
+
+  @@map("media_assets")
+}
+
+model AiAnalysisResult {
+  id              String   @id @default(uuid()) @db.Uuid
+  healthEventId   String?  @map("health_event_id") @db.Uuid
+  mediaAssetId    String?  @map("media_asset_id") @db.Uuid
+  analysisType    String   @map("analysis_type")
+  modelName       String   @map("model_name")
+  confidenceScore Decimal? @map("confidence_score") @db.Decimal(4, 3)
+  resultPayload   Json     @default("{}") @map("result_payload")
+  safetyNotice    String   @map("safety_notice")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  healthEvent HealthEvent? @relation(fields: [healthEventId], references: [id], onDelete: Cascade)
+  mediaAsset  MediaAsset?  @relation(fields: [mediaAssetId], references: [id], onDelete: SetNull)
+
+  @@map("ai_analysis_results")
+}
+
+// ===== [L2] ACTIVITY / SLEEP / NUTRITION =====
+model ActivityRecord {
+  healthEventId  String   @id @map("health_event_id") @db.Uuid
+  steps          Int?
+  activeMinutes  Int?     @map("active_minutes")
+  activeKcal     Decimal? @map("active_kcal") @db.Decimal(8, 2)
+  workoutType    String?  @map("workout_type")
+  distanceMeters Decimal? @map("distance_meters") @db.Decimal(10, 2)
+
+  healthEvent HealthEvent @relation(fields: [healthEventId], references: [id], onDelete: Cascade)
+
+  @@map("activity_records")
+}
+
+model SleepRecord {
+  healthEventId    String   @id @map("health_event_id") @db.Uuid
+  totalMinutes     Int      @map("total_minutes")
+  awakeMinutes     Int?     @map("awake_minutes")
+  deepSleepMinutes Int?     @map("deep_sleep_minutes")
+  remSleepMinutes  Int?     @map("rem_sleep_minutes")
+  sleepScore       Decimal? @map("sleep_score") @db.Decimal(5, 2)
+  qualityNote      String?  @map("quality_note")
+
+  healthEvent HealthEvent @relation(fields: [healthEventId], references: [id], onDelete: Cascade)
+
+  @@map("sleep_records")
+}
+
+model MealLog {
+  healthEventId  String   @id @map("health_event_id") @db.Uuid
+  mealType       String   @map("meal_type")
+  totalKcal      Decimal? @map("total_kcal") @db.Decimal(8, 2)
+  carbsG         Decimal? @map("carbs_g") @db.Decimal(8, 2)
+  proteinG       Decimal? @map("protein_g") @db.Decimal(8, 2)
+  fatG           Decimal? @map("fat_g") @db.Decimal(8, 2)
+  analysisStatus String   @default("manual") @map("analysis_status")
+
+  healthEvent HealthEvent @relation(fields: [healthEventId], references: [id], onDelete: Cascade)
+  foodItems   FoodItem[]
+
+  @@map("meal_logs")
+}
+
+model FoodItem {
+  id              String   @id @default(uuid()) @db.Uuid
+  mealLogId       String   @map("meal_log_id") @db.Uuid
+  name            String
+  servingAmount   Decimal? @map("serving_amount") @db.Decimal(8, 2)
+  servingUnit     String?  @map("serving_unit")
+  kcal            Decimal? @db.Decimal(8, 2)
+  carbsG          Decimal? @map("carbs_g") @db.Decimal(8, 2)
+  proteinG        Decimal? @map("protein_g") @db.Decimal(8, 2)
+  fatG            Decimal? @map("fat_g") @db.Decimal(8, 2)
+  confidenceScore Decimal? @map("confidence_score") @db.Decimal(4, 3)
+
+  mealLog MealLog @relation(fields: [mealLogId], references: [healthEventId], onDelete: Cascade)
+
+  @@map("food_items")
+}
+
+model BeverageLog {
+  healthEventId  String   @id @map("health_event_id") @db.Uuid
+  beverageType   String   @map("beverage_type")
+  name           String?
+  volumeMl       Decimal? @map("volume_ml") @db.Decimal(8, 2)
+  kcal           Decimal? @db.Decimal(8, 2)
+  sugarG         Decimal? @map("sugar_g") @db.Decimal(8, 2)
+  caffeineMg     Decimal? @map("caffeine_mg") @db.Decimal(8, 2)
+  analysisStatus String   @default("manual") @map("analysis_status")
+
+  healthEvent HealthEvent @relation(fields: [healthEventId], references: [id], onDelete: Cascade)
+
+  @@map("beverage_logs")
 }
 
 // ===== [L3] MEDS / INTERACTION =====
