@@ -108,7 +108,9 @@ model HealthEvent {
   intakeLog       IntakeLog?
   cosmeticUsageLog CosmeticUsageLog?
 
-  @@unique([sourceId, externalRecordId], map: "health_events_source_external_uidx")
+  // The frozen L1 dedupe index is a partial unique index:
+  // source_id + external_record_id only when both are non-null. Prisma cannot
+  // model partial indexes, so migrations keep that contract in raw SQL.
   @@index([userId, startedAt(sort: Desc)], map: "health_events_user_time_idx")
   @@index([userId, eventType, startedAt(sort: Desc)], map: "health_events_user_type_time_idx")
   @@map("health_events")

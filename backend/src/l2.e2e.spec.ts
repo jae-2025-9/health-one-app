@@ -30,9 +30,7 @@ function buildPrismaMock() {
     },
     healthEvent: {
       findFirst: jest.fn(),
-      create: jest.fn(async ({ data }: any) =>
-        eventRow(data.eventType, data.eventType === 'beverage' ? 'label_scan' : data.eventType === 'meal' ? 'vision_ai' : 'manual'),
-      ),
+      create: jest.fn(async ({ data }: any) => eventRow(data.eventType, 'manual')),
     },
     activityRecord: { create: jest.fn() },
     sleepRecord: { create: jest.fn() },
@@ -44,7 +42,7 @@ function buildPrismaMock() {
     },
   };
 
-  return {
+  const prisma = {
     $transaction: jest.fn(async (cb: any) => cb(tx)),
     activityRecord: {
       findMany: jest.fn(async () => [
@@ -63,22 +61,51 @@ function buildPrismaMock() {
         },
       ]),
     },
-    mealLog: { findMany: jest.fn(async () => []) },
+    mealLog: {
+      findMany: jest.fn(async () => [
+        {
+          mealType: 'lunch',
+          totalKcal: 650,
+          carbsG: 80,
+          proteinG: 30,
+          fatG: 18,
+          analysisStatus: 'manual',
+          healthEvent: eventRow('meal', 'manual'),
+          foodItems: [
+            {
+              id: 'food-1',
+              name: '닭가슴살 샐러드',
+              servingAmount: 1,
+              servingUnit: 'plate',
+              kcal: 650,
+              carbsG: 80,
+              proteinG: 30,
+              fatG: 18,
+              confidenceScore: 0.9,
+            },
+          ],
+        },
+      ]),
+    },
     beverageLog: {
       findMany: jest.fn(async () => [
         { volumeMl: 355, kcal: 140, sugarG: 32, caffeineMg: 0 },
       ]),
     },
   };
+
+  return { prisma, tx };
 }
 
 describe('L2 API routes (e2e, mocked Prisma)', () => {
   let app: INestApplication;
+  let prismaMock: ReturnType<typeof buildPrismaMock>;
 
   beforeAll(async () => {
+    prismaMock = buildPrismaMock();
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(PrismaService)
-      .useValue(buildPrismaMock())
+      .useValue(prismaMock.prisma)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -145,6 +172,16 @@ describe('L2 API routes (e2e, mocked Prisma)', () => {
     expect(res.body.data.sourceType).toBe('manual');
   });
 
+  it('GET /v1/sleep-records/summary returns sleep rollups', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/v1/sleep-records/summary')
+      .expect(200);
+
+    expect(res.body.data.recordCount).toBe(1);
+    expect(res.body.data.totalMinutes).toBe(420);
+    expect(res.body.data.averageSleepScore).toBe(82);
+  });
+
   it('POST /v1/meals/analyze-image returns analysisId, draft, and safetyNotice', async () => {
     const res = await request(app.getHttpServer())
       .post('/v1/meals/analyze-image')
@@ -157,6 +194,32 @@ describe('L2 API routes (e2e, mocked Prisma)', () => {
     expect(res.body.data.safetyNotice).toContain('의료 진단이 아닙니다');
   });
 
+  it('POST /v1/meals creates a meal event', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/v1/meals')
+      .send({
+        eventType: 'meal',
+        sourceType: 'manual',
+        startedAt: '2026-05-25T12:10:00+09:00',
+        timezone: 'Asia/Seoul',
+        mealType: 'lunch',
+        totalKcal: 650,
+        items: [{ name: '닭가슴살 샐러드', kcal: 650 }],
+      })
+      .expect(201);
+
+    expect(res.body.data.eventType).toBe('meal');
+    expect(res.body.data.sourceType).toBe('manual');
+  });
+
+  it('GET /v1/meals lists meal logs with food items', async () => {
+    const res = await request(app.getHttpServer()).get('/v1/meals').expect(200);
+
+    expect(res.body.data).toHaveLength(1);
+    expect(res.body.data[0].mealType).toBe('lunch');
+    expect(res.body.data[0].items[0].name).toBe('닭가슴살 샐러드');
+  });
+
   it('POST /v1/beverages/analyze-label returns a label-scan beverage draft', async () => {
     const res = await request(app.getHttpServer())
       .post('/v1/beverages/analyze-label')
@@ -167,5 +230,56 @@ describe('L2 API routes (e2e, mocked Prisma)', () => {
     expect(res.body.data.beverageDraft.eventType).toBe('beverage');
     expect(res.body.data.beverageDraft.sourceType).toBe('label_scan');
     expect(res.body.data.safetyNotice).toContain('전문가');
+  });
+
+  it('POST /v1/beverages creates a beverage event', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/v1/beverages')
+      .send({
+        eventType: 'beverage',
+        sourceType: 'manual',
+        startedAt: '2026-05-25T15:20:00+09:00',
+        timezone: 'Asia/Seoul',
+        beverageType: 'coffee',
+        name: '아메리카노',
+        volumeMl: 355,
+        caffeineMg: 120,
+      })
+      .expect(201);
+
+    expect(res.body.data.eventType).toBe('beverage');
+    expect(res.body.data.sourceType).toBe('manual');
+  });
+
+  it('GET /v1/beverages/summary returns beverage rollups', async () => {
+    const res = await request(app.getHttpServer())
+      .get('/v1/beverages/summary')
+      .expect(200);
+
+    expect(res.body.data.recordCount).toBe(1);
+    expect(res.body.data.totalVolumeMl).toBe(355);
+    expect(res.body.data.totalSugarG).toBe(32);
+  });
+
+  it('POST /v1/activities returns 409 for duplicate external records', async () => {
+    const createCallCount = prismaMock.tx.healthEvent.create.mock.calls.length;
+    prismaMock.tx.healthEvent.findFirst.mockResolvedValueOnce({
+      id: 'existing-event',
+    });
+
+    const res = await request(app.getHttpServer())
+      .post('/v1/activities')
+      .send({
+        eventType: 'activity',
+        sourceType: 'apple_health',
+        externalRecordId: 'apple-activity-1',
+        startedAt: '2026-05-25T08:00:00+09:00',
+        timezone: 'Asia/Seoul',
+        steps: 3000,
+      })
+      .expect(409);
+
+    expect(res.body.error.code).toBe('CONFLICT');
+    expect(prismaMock.tx.healthEvent.create).toHaveBeenCalledTimes(createCallCount);
   });
 });
