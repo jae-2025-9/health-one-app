@@ -7,7 +7,7 @@ services:
     plan: free
     buildCommand: npm ci --include=dev && npm run prisma:generate && npm run build
     startCommand: npm run start:prod
-    healthCheckPath: /v1/health
+    healthCheckPath: /v1/healthz
     envVars:
       - key: NODE_ENV
         value: production
