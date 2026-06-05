@@ -57,7 +57,7 @@ export default function HomePage() {
         <div className="flex items-center justify-between gap-3">
           <div>
             <h1 className="text-[15px] font-semibold text-[#111111]">오늘의 건강 요약</h1>
-            <p className="text-[12px] text-[#666666]">{date || todayStr()}</p>
+            <p className="text-[12px] text-[#666666]">{date || '날짜 선택'}</p>
           </div>
           <div className="flex items-center gap-2">
           <input
