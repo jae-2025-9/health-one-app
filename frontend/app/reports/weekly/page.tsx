@@ -16,7 +16,7 @@ function StatCard({ label, value }: { label: string; value: string | number | nu
 function Section({ title, children, isEmpty }: { title: string; children: React.ReactNode; isEmpty: boolean }) {
   return (
     <div className="card">
-      <h2 className="font-semibold text-gray-700 mb-3">{title}</h2>
+      <h2 className="section-title mb-3">{title}</h2>
       {isEmpty ? <p className="empty-state">이번 주 기록 없음</p> : children}
     </div>
   );
@@ -64,10 +64,10 @@ export default function WeeklyReportPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-900">주간 리포트</h1>
+        <h1 className="text-[15px] font-semibold text-[#111111]">주간 리포트</h1>
         <div className="flex items-center gap-2">
           <div className="flex flex-col items-end">
-            <label className="text-xs text-gray-500 mb-0.5">주 시작일 (월요일)</label>
+            <label className="text-xs text-[#666666] mb-0.5">주 시작일</label>
             <input
               type="date"
               value={weekStart}
@@ -85,11 +85,39 @@ export default function WeeklyReportPage() {
 
       {report && (
         <>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[#666666]">
             {report.weekStart} ~ {report.weekEnd} · {report.timezone}
           </p>
 
-          <Section title="🏃 활동" isEmpty={!report.activity}>
+          <div className="summary-grid">
+            <div className="summary-tile">
+              <p className="stat-label">활동</p>
+              <p className="stat-value">{report.activity?.activeDays ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">기록한 날</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">수면</p>
+              <p className="stat-value">{report.sleep?.avgSleepScore?.toFixed(0) ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">평균 점수</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">식사</p>
+              <p className="stat-value">{report.nutrition?.avgTotalKcal?.toFixed(0) ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">평균 kcal</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">음용</p>
+              <p className="stat-value">{report.hydration?.avgVolumeMl ? `${(report.hydration.avgVolumeMl / 1000).toFixed(1)}L` : '-'}</p>
+              <p className="text-[10px] text-[#777777]">평균 섭취</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">복약</p>
+              <p className="stat-value">{adherenceDisplay(report.intakes?.adherenceRate ?? null)}</p>
+              <p className="text-[10px] text-[#777777]">준수율</p>
+            </div>
+          </div>
+
+          <Section title="활동" isEmpty={!report.activity}>
             <div className="grid grid-cols-2 gap-4">
               <StatCard label="총 걸음 수" value={report.activity?.totalSteps?.toLocaleString() ?? null} />
               <StatCard label="평균 활동 시간(분)" value={report.activity?.avgActiveMinutes?.toFixed(1) ?? null} />
@@ -98,7 +126,7 @@ export default function WeeklyReportPage() {
             </div>
           </Section>
 
-          <Section title="😴 수면" isEmpty={!report.sleep}>
+          <Section title="수면" isEmpty={!report.sleep}>
             <div className="grid grid-cols-3 gap-4">
               <StatCard label="평균 수면(분)" value={report.sleep?.avgTotalMinutes?.toFixed(0) ?? null} />
               <StatCard label="평균 수면 점수" value={report.sleep?.avgSleepScore?.toFixed(1) ?? null} />
@@ -106,32 +134,32 @@ export default function WeeklyReportPage() {
             </div>
           </Section>
 
-          <Section title="🥗 영양" isEmpty={!report.nutrition}>
+          <Section title="식사" isEmpty={!report.nutrition}>
             <div className="grid grid-cols-2 gap-4">
               <StatCard label="평균 칼로리(kcal)" value={report.nutrition?.avgTotalKcal?.toFixed(0) ?? null} />
               <StatCard label="기록한 날" value={report.nutrition ? `${report.nutrition.recordedDays}일` : null} />
             </div>
           </Section>
 
-          <Section title="💧 수분" isEmpty={!report.hydration}>
+          <Section title="음용" isEmpty={!report.hydration}>
             <div className="grid grid-cols-2 gap-4">
               <StatCard label="평균 섭취량(ml)" value={report.hydration?.avgVolumeMl?.toFixed(0) ?? null} />
               <StatCard label="평균 카페인(mg)" value={report.hydration?.avgCaffeineMg?.toFixed(1) ?? null} />
             </div>
           </Section>
 
-          <Section title="💊 복약" isEmpty={!report.intakes}>
+          <Section title="복약" isEmpty={!report.intakes}>
             <div className="grid grid-cols-3 gap-4">
               <StatCard label="총 예정" value={report.intakes?.totalScheduled ?? null} />
               <StatCard label="총 복용 완료" value={report.intakes?.totalTaken ?? null} />
               <div>
                 <p className="stat-label">복약 준수율</p>
                 <p className={`text-lg font-semibold ${
-                  report.intakes?.adherenceRate === null
-                    ? 'text-gray-400'
-                    : report.intakes!.adherenceRate >= 0.8
-                    ? 'text-green-600'
-                    : 'text-orange-500'
+                  report.intakes?.adherenceRate == null
+                    ? 'text-[#777777]'
+                    : report.intakes.adherenceRate >= 0.8
+                    ? 'text-[#111111]'
+                    : 'text-[#555555]'
                 }`}>
                   {adherenceDisplay(report.intakes?.adherenceRate ?? null)}
                 </p>
@@ -139,7 +167,7 @@ export default function WeeklyReportPage() {
             </div>
           </Section>
 
-          <p className="text-xs text-gray-400 text-center pt-2">
+          <p className="text-xs text-[#777777] text-center pt-2">
             이 리포트는 건강 관리 참고용이며 진단이 아닙니다.
           </p>
         </>
