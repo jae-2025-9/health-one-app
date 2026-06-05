@@ -3,37 +3,79 @@
 @tailwind utilities;
 
 body {
-  background: #f9fafb;
-  color: #111827;
+  background: #f4f4f2;
+  color: #161616;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 @layer components {
+  .app-bg {
+    @apply min-h-screen bg-[#f4f4f2] text-[#161616];
+  }
+  .phone-shell {
+    @apply relative mx-auto min-h-screen w-full max-w-[430px] bg-[#fbfbfa] border-x border-[#1f1f1f];
+  }
+  .app-topbar {
+    @apply sticky top-0 z-20 grid h-14 grid-cols-[44px_1fr_44px] items-center border-b border-[#262626] bg-[#fbfbfa] px-2;
+  }
+  .app-title {
+    @apply text-center text-[15px] font-semibold tracking-normal text-[#111111];
+  }
+  .icon-button {
+    @apply flex h-9 w-9 items-center justify-center rounded-md text-[20px] leading-none text-[#111111];
+  }
+  .app-main {
+    @apply px-4 py-4 pb-24;
+  }
+  .bottom-tabs {
+    @apply fixed bottom-0 left-1/2 z-20 grid h-16 w-full max-w-[430px] -translate-x-1/2 grid-cols-5 items-center border-t border-[#262626] bg-[#fbfbfa] px-2;
+  }
+  .bottom-tab {
+    @apply flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium text-[#222222];
+  }
+  .bottom-tab > span:first-child {
+    @apply text-[18px] leading-none;
+  }
+  .bottom-tab-plus {
+    @apply mx-auto h-11 w-11 rounded-full border border-[#262626] text-[22px];
+  }
   .nav-link {
-    @apply px-3 py-1.5 rounded text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors;
+    @apply px-3 py-1.5 rounded text-sm text-[#333333] hover:bg-[#eeeeec] transition-colors;
   }
   .card {
-    @apply bg-white rounded-xl border border-gray-200 p-5;
+    @apply bg-[#fbfbfa] rounded-lg border border-[#2c2c2c] p-4;
   }
   .stat-label {
-    @apply text-xs text-gray-500 mb-0.5;
+    @apply text-[11px] font-medium text-[#5b5b5b] mb-1;
   }
   .stat-value {
-    @apply text-lg font-semibold text-gray-900;
+    @apply text-[18px] font-semibold leading-tight text-[#111111];
   }
   .btn-primary {
-    @apply bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-50 transition-colors;
+    @apply bg-[#303030] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-[#111111] disabled:opacity-50 transition-colors;
   }
   .btn-secondary {
-    @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors;
+    @apply bg-[#eeeeec] text-[#222222] px-4 py-2 rounded-md border border-[#bdbdb8] text-sm font-semibold hover:bg-[#e2e2df] transition-colors;
   }
   .input {
-    @apply w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500;
+    @apply w-full border border-[#bdbdb8] bg-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#303030];
   }
   .select {
-    @apply w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white;
+    @apply w-full border border-[#bdbdb8] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#303030] bg-white;
   }
   .empty-state {
-    @apply text-sm text-gray-400 text-center py-4;
+    @apply text-sm text-[#777777] text-center py-4;
+  }
+  .summary-grid {
+    @apply grid grid-cols-3 gap-2;
+  }
+  .summary-tile {
+    @apply min-h-[76px] rounded-lg border border-[#bdbdb8] bg-white p-3;
+  }
+  .section-title {
+    @apply text-[15px] font-semibold text-[#111111];
+  }
+  .quiet-note {
+    @apply rounded-lg border border-[#bdbdb8] bg-[#f2f2ef] p-3 text-[12px] leading-5 text-[#333333];
   }
 }

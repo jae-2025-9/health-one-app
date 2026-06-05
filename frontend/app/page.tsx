@@ -16,7 +16,7 @@ function StatCard({ label, value }: { label: string; value: string | number | nu
 function Section({ title, children, isEmpty }: { title: string; children: React.ReactNode; isEmpty: boolean }) {
   return (
     <div className="card">
-      <h2 className="font-semibold text-gray-700 mb-3">{title}</h2>
+      <h2 className="section-title mb-3">{title}</h2>
       {isEmpty ? <p className="empty-state">오늘 기록 없음</p> : children}
     </div>
   );
@@ -53,18 +53,23 @@ export default function HomePage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-gray-900">홈 대시보드</h1>
-        <div className="flex items-center gap-2">
+      <div className="space-y-3">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h1 className="text-[15px] font-semibold text-[#111111]">오늘의 건강 요약</h1>
+            <p className="text-[12px] text-[#666666]">{date || todayStr()}</p>
+          </div>
+          <div className="flex items-center gap-2">
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="input w-auto"
+            className="input w-[138px]"
           />
           <button onClick={() => load(date)} disabled={loading} className="btn-primary">
             {loading ? '로딩중…' : '조회'}
           </button>
+          </div>
         </div>
       </div>
 
@@ -72,9 +77,65 @@ export default function HomePage() {
 
       {report && (
         <>
-          <p className="text-sm text-gray-500">{report.date} · {report.timezone}</p>
+          <div className="summary-grid">
+            <div className="summary-tile">
+              <p className="stat-label">걸음수</p>
+              <p className="stat-value">{report.activity?.totalSteps?.toLocaleString() ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">목표 10,000</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">활동량</p>
+              <p className="stat-value">{report.activity?.totalActiveKcal?.toFixed(0) ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">kcal</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">수면</p>
+              <p className="stat-value">{report.sleep?.totalMinutes ? `${Math.floor(report.sleep.totalMinutes / 60)}시간` : '-'}</p>
+              <p className="text-[10px] text-[#777777]">{report.sleep?.sleepScore ? `점수 ${report.sleep.sleepScore}` : '목표 8시간'}</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">식사 칼로리</p>
+              <p className="stat-value">{report.nutrition?.totalKcal?.toFixed(0) ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">kcal</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">음용량</p>
+              <p className="stat-value">{report.hydration?.totalVolumeMl ? `${(report.hydration.totalVolumeMl / 1000).toFixed(1)}L` : '-'}</p>
+              <p className="text-[10px] text-[#777777]">물/커피/캔음료</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">복용 알림</p>
+              <p className="stat-value">{report.intakes?.scheduledCount ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">예정</p>
+            </div>
+          </div>
 
-          <Section title="🏃 활동" isEmpty={!report.activity}>
+          <div className="card">
+            <h2 className="section-title mb-2">AI 주의사항</h2>
+            <p className="quiet-note">
+              활동, 식사, 음용, 복약, 화장품 사용 기록을 같은 health_events 흐름으로 모아
+              건강 패턴을 참고 정보로 보여줍니다.
+            </p>
+          </div>
+
+          <div className="card">
+            <h2 className="section-title mb-3">오늘의 할 일</h2>
+            <div className="space-y-2 text-sm">
+              <label className="flex items-center justify-between rounded-md border border-[#d2d2cc] bg-white px-3 py-2">
+                <span>아침 약 복용</span><span className="text-[#777777]">09:00 ○</span>
+              </label>
+              <label className="flex items-center justify-between rounded-md border border-[#d2d2cc] bg-white px-3 py-2">
+                <span>식사 사진 기록</span><span className="text-[#777777]">12:30 ○</span>
+              </label>
+              <label className="flex items-center justify-between rounded-md border border-[#d2d2cc] bg-white px-3 py-2">
+                <span>저녁 수분 체크</span><span className="text-[#777777]">20:00 ○</span>
+              </label>
+            </div>
+          </div>
+
+          <p className="text-xs text-[#777777]">{report.date} · {report.timezone}</p>
+
+          <Section title="활동" isEmpty={!report.activity}>
             <div className="grid grid-cols-3 gap-4">
               <StatCard label="걸음 수" value={report.activity?.totalSteps?.toLocaleString() ?? null} />
               <StatCard label="활동 시간(분)" value={report.activity?.totalActiveMinutes ?? null} />
@@ -82,7 +143,7 @@ export default function HomePage() {
             </div>
           </Section>
 
-          <Section title="😴 수면" isEmpty={!report.sleep}>
+          <Section title="수면" isEmpty={!report.sleep}>
             <div className="grid grid-cols-4 gap-4">
               <StatCard label="총 수면(분)" value={report.sleep?.totalMinutes ?? null} />
               <StatCard label="깊은 수면(분)" value={report.sleep?.deepSleepMinutes ?? null} />
@@ -91,7 +152,7 @@ export default function HomePage() {
             </div>
           </Section>
 
-          <Section title="🥗 영양" isEmpty={!report.nutrition}>
+          <Section title="식사" isEmpty={!report.nutrition}>
             <div className="grid grid-cols-3 gap-4">
               <StatCard label="칼로리(kcal)" value={report.nutrition?.totalKcal?.toFixed(0) ?? null} />
               <StatCard label="탄수화물(g)" value={report.nutrition?.totalCarbsG?.toFixed(1) ?? null} />
@@ -101,7 +162,7 @@ export default function HomePage() {
             </div>
           </Section>
 
-          <Section title="💧 수분" isEmpty={!report.hydration}>
+          <Section title="음용" isEmpty={!report.hydration}>
             <div className="grid grid-cols-3 gap-4">
               <StatCard label="섭취량(ml)" value={report.hydration?.totalVolumeMl?.toFixed(0) ?? null} />
               <StatCard label="카페인(mg)" value={report.hydration?.totalCaffeineMg?.toFixed(1) ?? null} />
@@ -109,7 +170,7 @@ export default function HomePage() {
             </div>
           </Section>
 
-          <Section title="💊 복약" isEmpty={!report.intakes}>
+          <Section title="복약" isEmpty={!report.intakes}>
             <div className="grid grid-cols-3 gap-4">
               <StatCard label="예정" value={report.intakes?.scheduledCount ?? null} />
               <StatCard label="복용 완료" value={report.intakes?.takenCount ?? null} />
@@ -117,7 +178,7 @@ export default function HomePage() {
             </div>
           </Section>
 
-          <Section title="🔔 알림" isEmpty={!report.reminders}>
+          <Section title="알림" isEmpty={!report.reminders}>
             <div className="grid grid-cols-3 gap-4">
               <StatCard label="예정" value={report.reminders?.scheduledCount ?? null} />
               <StatCard label="전송 완료" value={report.reminders?.sentCount ?? null} />
@@ -125,7 +186,7 @@ export default function HomePage() {
             </div>
           </Section>
 
-          <p className="text-xs text-gray-400 text-center pt-2">
+          <p className="text-xs text-[#777777] text-center pt-2">
             이 리포트는 건강 관리 참고용이며 진단이 아닙니다.
           </p>
         </>
