@@ -1,6 +1,4 @@
 import type {
-  AiQuestionRequest,
-  AiQuestionResponse,
   CreateReminderDto,
   DailyReport,
   HealthSyncRequest,
@@ -13,8 +11,6 @@ import type {
 const DEMO_MODE_KEY = 'health-one-demo-mode';
 const DEMO_REMINDERS_KEY = 'health-one-demo-reminders';
 const USER_ID = '00000000-0000-0000-0000-000000000001';
-const SAFETY_NOTICE =
-  'AI 답변은 건강 관리 참고 정보이며 의료 진단이나 처방이 아닙니다. 증상이 있거나 약 복용 판단이 필요하면 전문가와 상담하세요.';
 
 export function isDemoModeEnabled(): boolean {
   if (typeof window === 'undefined') return false;
@@ -185,56 +181,6 @@ export function demoHealthSync(dto: HealthSyncRequest): HealthSyncResult {
     deduplicated: dto.events.length > 0 ? 1 : 0,
     failed: 0,
   };
-}
-
-export function demoAiQuestion(dto: AiQuestionRequest): AiQuestionResponse {
-  const question = dto.question.toLowerCase();
-  const answer = buildDemoAnswer(question);
-  return {
-    analysisId: makeId('demo-analysis'),
-    answer,
-    model: 'solar-pro3-demo-fallback',
-    safetyNotice: SAFETY_NOTICE,
-    usage: {
-      promptTokens: null,
-      completionTokens: null,
-      totalTokens: null,
-    },
-  };
-}
-
-function buildDemoAnswer(question: string): string {
-  if (
-    question.includes('이부프로펜') ||
-    question.includes('오메가') ||
-    question.includes('영양제') ||
-    question.includes('약/')
-  ) {
-    return [
-      '오메가3와 이부프로펜은 둘 다 출혈 위험과 관련해 주의가 필요한 조합으로 볼 수 있습니다.',
-      '단기간 복용이라도 위장 불편, 멍, 코피, 혈변 같은 신호가 있으면 중단하고 상담하는 편이 안전합니다.',
-      '시연 기준 안내로는 같은 시간에 몰아먹기보다 식후로 분리하고, 항응고제나 수술 예정이 있으면 전문가 확인을 권장합니다.',
-    ].join('\n');
-  }
-
-  if (
-    question.includes('레티놀') ||
-    question.includes('나이아신') ||
-    question.includes('살리실') ||
-    question.includes('화장품')
-  ) {
-    return [
-      '나이아신아마이드는 비교적 순한 편이지만, 레티놀이나 살리실산과 함께 쓰면 건조감과 따가움이 늘 수 있습니다.',
-      '처음에는 격일 저녁 사용, 보습제 병행, 낮 시간 자외선 차단을 기본 규칙으로 잡는 것이 좋습니다.',
-      '붉어짐이 오래가거나 화끈거림이 심하면 사용 빈도를 줄이고 피부과 상담을 권장합니다.',
-    ].join('\n');
-  }
-
-  return [
-    '오늘 기록 기준으로는 수면 시간, 수분 섭취, 복약 알림을 같이 보는 흐름이 핵심입니다.',
-    '걸음 수가 목표에 가까워도 카페인과 수면 시간이 흔들리면 컨디션이 떨어질 수 있으니 오후 카페인을 줄여보세요.',
-    '건강 one app은 활동, 식사, 음용, 복약, 화장품 사용을 health_events 흐름으로 묶어 하루 리포트에 합칩니다.',
-  ].join('\n');
 }
 
 function buildReminder(input: {

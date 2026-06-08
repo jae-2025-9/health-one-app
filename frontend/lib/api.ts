@@ -10,7 +10,6 @@ import type {
   WeeklyReport,
 } from './types';
 import {
-  demoAiQuestion,
   demoCreateReminder,
   demoDailyReport,
   demoHealthSync,
@@ -19,8 +18,9 @@ import {
   demoWeeklyReport,
   isDemoModeEnabled,
 } from './demo-data';
+import { resolveApiBase } from './api-base';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/v1';
+const API_BASE = resolveApiBase();
 const API_TIMEOUT_MS = 12_000;
 const AI_API_TIMEOUT_MS = 20_000;
 
@@ -111,14 +111,9 @@ export const api = {
   },
   ai: {
     ask: (dto: AiQuestionRequest) =>
-      apiFetchWithFallback<AiQuestionResponse>(
-        '/ai/questions',
-        () => demoAiQuestion(dto),
-        {
-          method: 'POST',
-          body: JSON.stringify(dto),
-        },
-        AI_API_TIMEOUT_MS,
-      ),
+      apiFetch<AiQuestionResponse>('/ai/questions', {
+        method: 'POST',
+        body: JSON.stringify(dto),
+      }, AI_API_TIMEOUT_MS),
   },
 };

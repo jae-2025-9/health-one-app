@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "engines": {
     "node": ">=20.11"
   },
@@ -9,7 +10,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "validate:api-base": "node --experimental-strip-types scripts/validate-api-base.ts"
   },
   "dependencies": {
     "next": "^16.2.7",

@@ -31,6 +31,7 @@ export default function HomePage() {
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiAnswer, setAiAnswer] = useState('');
   const [aiNotice, setAiNotice] = useState('');
+  const [aiModel, setAiModel] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState('');
 
@@ -65,6 +66,7 @@ export default function HomePage() {
     setAiError('');
     setAiAnswer('');
     setAiNotice('');
+    setAiModel('');
     try {
       const data = await api.ai.ask({
         question,
@@ -72,6 +74,7 @@ export default function HomePage() {
       });
       setAiAnswer(data.answer);
       setAiNotice(data.safetyNotice);
+      setAiModel(data.model);
     } catch (e) {
       setAiError((e as Error).message);
     } finally {
@@ -170,6 +173,7 @@ export default function HomePage() {
             {aiAnswer && (
               <div className="quiet-note space-y-2">
                 <p>{aiAnswer}</p>
+                {aiModel && <p className="text-[11px] font-semibold text-[#666666]">모델: {aiModel}</p>}
                 {aiNotice && <p className="text-[11px] text-[#666666]">{aiNotice}</p>}
               </div>
             )}

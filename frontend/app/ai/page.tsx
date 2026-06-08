@@ -10,6 +10,7 @@ interface ChatMessage {
   role: 'user' | 'assistant';
   text: string;
   notice?: string;
+  model?: string;
 }
 
 const modes: Array<{
@@ -71,7 +72,7 @@ function AiPageContent() {
       });
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', text: data.answer, notice: data.safetyNotice },
+        { role: 'assistant', text: data.answer, notice: data.safetyNotice, model: data.model },
       ]);
     } catch (e) {
       setError((e as Error).message);
@@ -115,6 +116,11 @@ function AiPageContent() {
             messages.map((message, index) => (
               <div key={`${message.role}-${index}`} className={`chat-bubble ${message.role === 'user' ? 'chat-user' : 'chat-assistant'}`}>
                 <p>{message.text}</p>
+                {message.model && (
+                  <p className="mt-2 text-[11px] font-semibold text-[#666666]">
+                    모델: {message.model}
+                  </p>
+                )}
                 {message.notice && <p className="mt-2 text-[11px] text-[#666666]">{message.notice}</p>}
               </div>
             ))
