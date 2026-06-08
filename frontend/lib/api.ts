@@ -9,6 +9,16 @@ import type {
   ReminderRule,
   WeeklyReport,
 } from './types';
+import {
+  demoAiQuestion,
+  demoCreateReminder,
+  demoDailyReport,
+  demoHealthSync,
+  demoPatchReminder,
+  demoReminderList,
+  demoWeeklyReport,
+  isDemoModeEnabled,
+} from './demo-data';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/v1';
 const API_TIMEOUT_MS = 12_000;
@@ -44,32 +54,71 @@ async function apiFetch<T>(
   }
 }
 
+async function apiFetchWithFallback<T>(
+  path: string,
+  fallback: () => T,
+  init?: RequestInit,
+  timeoutMs = API_TIMEOUT_MS,
+): Promise<T> {
+  if (isDemoModeEnabled()) return fallback();
+
+  try {
+    return await apiFetch<T>(path, init, timeoutMs);
+  } catch {
+    return fallback();
+  }
+}
+
 export const api = {
   reminders: {
-    list: () => apiFetch<ReminderRule[]>('/reminders'),
+    list: () =>
+      apiFetchWithFallback<ReminderRule[]>('/reminders', demoReminderList),
     create: (dto: CreateReminderDto) =>
-      apiFetch<ReminderRule>('/reminders', { method: 'POST', body: JSON.stringify(dto) }),
+      apiFetchWithFallback<ReminderRule>(
+        '/reminders',
+        () => demoCreateReminder(dto),
+        { method: 'POST', body: JSON.stringify(dto) },
+      ),
     patch: (id: string, dto: PatchReminderDto) =>
-      apiFetch<ReminderRule>(`/reminders/${id}`, { method: 'PATCH', body: JSON.stringify(dto) }),
+      apiFetchWithFallback<ReminderRule>(
+        `/reminders/${id}`,
+        () => demoPatchReminder(id, dto),
+        { method: 'PATCH', body: JSON.stringify(dto) },
+      ),
   },
   reports: {
     daily: (date?: string) =>
-      apiFetch<DailyReport>(`/reports/daily${date ? `?date=${date}` : ''}`),
+      apiFetchWithFallback<DailyReport>(
+        `/reports/daily${date ? `?date=${date}` : ''}`,
+        () => demoDailyReport(date),
+      ),
     weekly: (weekStart?: string) =>
-      apiFetch<WeeklyReport>(`/reports/weekly${weekStart ? `?weekStart=${weekStart}` : ''}`),
+      apiFetchWithFallback<WeeklyReport>(
+        `/reports/weekly${weekStart ? `?weekStart=${weekStart}` : ''}`,
+        () => demoWeeklyReport(weekStart),
+      ),
   },
   integrations: {
     healthSync: (dto: HealthSyncRequest) =>
-      apiFetch<HealthSyncResult>('/integrations/health-sync', {
-        method: 'POST',
-        body: JSON.stringify(dto),
-      }),
+      apiFetchWithFallback<HealthSyncResult>(
+        '/integrations/health-sync',
+        () => demoHealthSync(dto),
+        {
+          method: 'POST',
+          body: JSON.stringify(dto),
+        },
+      ),
   },
   ai: {
     ask: (dto: AiQuestionRequest) =>
-      apiFetch<AiQuestionResponse>('/ai/questions', {
-        method: 'POST',
-        body: JSON.stringify(dto),
-      }, AI_API_TIMEOUT_MS),
+      apiFetchWithFallback<AiQuestionResponse>(
+        '/ai/questions',
+        () => demoAiQuestion(dto),
+        {
+          method: 'POST',
+          body: JSON.stringify(dto),
+        },
+        AI_API_TIMEOUT_MS,
+      ),
   },
 };
