@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { api } from '@/lib/api';
 import type { HealthSyncResult } from '@/lib/types';
 
-const EXAMPLE_EVENTS = JSON.stringify([
+const EXAMPLE = JSON.stringify([
   {
     eventType: 'activity',
     sourceType: 'apple_health',
@@ -17,10 +17,17 @@ const EXAMPLE_EVENTS = JSON.stringify([
   },
 ], null, 2);
 
+const RESULT_CARDS = [
+  { key: 'received'     as const, label: '수신',       bg: 'bg-gray-50',    value: (n: number) => n,           color: 'text-gray-800' },
+  { key: 'inserted'     as const, label: '신규 저장', bg: 'bg-green-50',   value: (n: number) => n,           color: 'text-green-700' },
+  { key: 'deduplicated' as const, label: '중복 건너뜀', bg: 'bg-blue-50', value: (n: number) => n,           color: 'text-blue-700' },
+  { key: 'failed'       as const, label: '실패',       bg: (n: number) => n > 0 ? 'bg-red-50' : 'bg-gray-50', value: (n: number) => n, color: (n: number) => n > 0 ? 'text-red-600' : 'text-gray-300' },
+];
+
 export default function IntegrationsPage() {
   const [sourceType, setSourceType] = useState<'apple_health' | 'samsung_health'>('apple_health');
   const [externalAccountId, setExternalAccountId] = useState('');
-  const [eventsJson, setEventsJson] = useState(EXAMPLE_EVENTS);
+  const [eventsJson, setEventsJson] = useState(EXAMPLE);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<HealthSyncResult | null>(null);
   const [error, setError] = useState('');
@@ -29,23 +36,17 @@ export default function IntegrationsPage() {
     e.preventDefault();
     setError('');
     setResult(null);
-
     let events;
-    try {
-      events = JSON.parse(eventsJson);
-    } catch {
-      setError('events JSON 형식이 잘못됐습니다.');
-      return;
-    }
+    try { events = JSON.parse(eventsJson); }
+    catch { setError('events JSON 형식이 잘못됐어요.'); return; }
 
     setSubmitting(true);
     try {
-      const data = await api.integrations.healthSync({
+      setResult(await api.integrations.healthSync({
         sourceType,
         externalAccountId: externalAccountId.trim() || null,
         events,
-      });
-      setResult(data);
+      }));
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -54,25 +55,37 @@ export default function IntegrationsPage() {
   }
 
   return (
-    <div className="space-y-4 max-w-lg">
-      <h1 className="text-xl font-bold text-gray-900">건강 앱 연동</h1>
+    <div className="max-w-lg space-y-4">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">건강 앱 연동</h1>
+        <p className="text-sm text-gray-400 mt-0.5">Apple Health / Samsung Health 데이터를 동기화해요</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="card space-y-4">
+      <form onSubmit={handleSubmit} className="card space-y-5">
+        {/* 소스 유형 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">소스 유형</label>
-          <select
-            value={sourceType}
-            onChange={(e) => setSourceType(e.target.value as 'apple_health' | 'samsung_health')}
-            className="select"
-          >
-            <option value="apple_health">Apple Health</option>
-            <option value="samsung_health">Samsung Health</option>
-          </select>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">플랫폼</label>
+          <div className="grid grid-cols-2 gap-2">
+            {(['apple_health', 'samsung_health'] as const).map((v) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setSourceType(v)}
+                className={`py-3 rounded-xl text-sm font-semibold border transition-all
+                  ${sourceType === v
+                    ? 'bg-green-50 border-green-400 text-green-700 shadow-sm'
+                    : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'}`}
+              >
+                {v === 'apple_health' ? '🍎 Apple Health' : '🌐 Samsung Health'}
+              </button>
+            ))}
+          </div>
         </div>
 
+        {/* 외부 계정 ID */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            외부 계정 ID <span className="text-gray-400 font-normal">(선택)</span>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            외부 계정 ID <span className="text-gray-400 font-normal text-xs">(선택)</span>
           </label>
           <input
             type="text"
@@ -83,8 +96,9 @@ export default function IntegrationsPage() {
           />
         </div>
 
+        {/* 이벤트 JSON */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">이벤트 배열 (JSON)</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">이벤트 배열 (JSON)</label>
           <textarea
             value={eventsJson}
             onChange={(e) => setEventsJson(e.target.value)}
@@ -93,37 +107,40 @@ export default function IntegrationsPage() {
           />
         </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && (
+          <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-lg">⚠️ {error}</p>
+        )}
 
         <button type="submit" disabled={submitting} className="btn-primary w-full">
-          {submitting ? '동기화 중…' : '동기화 요청'}
+          {submitting ? (
+            <span className="flex items-center justify-center gap-2">
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              동기화 중…
+            </span>
+          ) : '동기화 요청'}
         </button>
       </form>
 
       {result && (
-        <div className="card space-y-3">
-          <h2 className="font-semibold text-gray-700">동기화 결과</h2>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-gray-50 rounded-lg p-3">
-              <p className="text-xs text-gray-500 mb-1">수신</p>
-              <p className="text-2xl font-bold text-gray-900">{result.received}</p>
-            </div>
-            <div className="bg-green-50 rounded-lg p-3">
-              <p className="text-xs text-gray-500 mb-1">신규 저장</p>
-              <p className="text-2xl font-bold text-green-700">{result.inserted}</p>
-            </div>
-            <div className="bg-blue-50 rounded-lg p-3">
-              <p className="text-xs text-gray-500 mb-1">중복 건너뜀</p>
-              <p className="text-2xl font-bold text-blue-700">{result.deduplicated}</p>
-            </div>
-            <div className={`rounded-lg p-3 ${result.failed > 0 ? 'bg-red-50' : 'bg-gray-50'}`}>
-              <p className="text-xs text-gray-500 mb-1">실패</p>
-              <p className={`text-2xl font-bold ${result.failed > 0 ? 'text-red-600' : 'text-gray-400'}`}>
-                {result.failed}
-              </p>
-            </div>
+        <div className="card space-y-4">
+          <div className="flex items-center gap-2">
+            <span className="text-green-500 text-lg">✓</span>
+            <h2 className="font-bold text-gray-800">동기화 완료</h2>
           </div>
-          <p className="text-xs text-gray-400">소스 ID: {result.sourceId}</p>
+          <div className="grid grid-cols-2 gap-3">
+            {RESULT_CARDS.map(({ key, label, bg, color }) => {
+              const val = result[key];
+              const bgClass = typeof bg === 'function' ? bg(val) : bg;
+              const colorClass = typeof color === 'function' ? color(val) : color;
+              return (
+                <div key={key} className={`${bgClass} rounded-xl p-4`}>
+                  <p className="text-xs text-gray-500 font-medium mb-1">{label}</p>
+                  <p className={`text-3xl font-bold ${colorClass}`}>{val}</p>
+                </div>
+              );
+            })}
+          </div>
+          <p className="text-xs text-gray-400 font-mono break-all">소스: {result.sourceId}</p>
         </div>
       )}
     </div>
