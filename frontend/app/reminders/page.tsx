@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { describeReminderSchedule } from '@/lib/reminder-schedule';
 import type { ReminderRule } from '@/lib/types';
 
 const TARGET_CONFIG: Record<string, { label: string; bg: string; text: string }> = {
@@ -95,7 +96,7 @@ function RuleCard({
           <span className={`badge ${cfg.bg} ${cfg.text}`}>{cfg.label}</span>
           <p className="font-semibold text-gray-900 truncate">{rule.title}</p>
         </div>
-        <p className="text-xs text-gray-400 font-mono truncate">{rule.rrule}</p>
+        <p className="text-xs text-gray-500 truncate">{describeReminderSchedule(rule.rrule)}</p>
       </div>
       <button
         onClick={() => onToggle(rule)}

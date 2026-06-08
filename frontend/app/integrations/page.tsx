@@ -4,11 +4,9 @@ import { useState } from 'react';
 import { api } from '@/lib/api';
 import type { HealthSyncResult } from '@/lib/types';
 
-const EXAMPLE = JSON.stringify([
+const DEMO_SYNC_EVENTS = [
   {
     eventType: 'activity',
-    sourceType: 'apple_health',
-    externalRecordId: 'AH-STEP-2026-06-06-001',
     startedAt: '2026-06-06T00:00:00+09:00',
     endedAt: '2026-06-06T23:59:59+09:00',
     timezone: 'Asia/Seoul',
@@ -16,14 +14,17 @@ const EXAMPLE = JSON.stringify([
   },
   {
     eventType: 'sleep',
-    sourceType: 'samsung_health',
-    externalRecordId: 'SH-SLEEP-2026-06-06-001',
     startedAt: '2026-06-05T23:40:00+09:00',
     endedAt: '2026-06-06T07:20:00+09:00',
     timezone: 'Asia/Seoul',
     confidenceScore: 0.93,
   },
-], null, 2);
+] as const;
+
+const SYNC_PREVIEW = [
+  { label: '활동 데이터', value: '걸음 수와 활동 시간' },
+  { label: '수면 데이터', value: '수면 시간과 수면 품질' },
+];
 
 const RESULT_CARDS = [
   { key: 'received'     as const, label: '수신',       bg: 'bg-gray-50',    value: (n: number) => n,           color: 'text-gray-800' },
@@ -34,8 +35,6 @@ const RESULT_CARDS = [
 
 export default function IntegrationsPage() {
   const [sourceType, setSourceType] = useState<'apple_health' | 'samsung_health'>('apple_health');
-  const [externalAccountId, setExternalAccountId] = useState('');
-  const [eventsJson, setEventsJson] = useState(EXAMPLE);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<HealthSyncResult | null>(null);
   const [error, setError] = useState('');
@@ -44,16 +43,16 @@ export default function IntegrationsPage() {
     e.preventDefault();
     setError('');
     setResult(null);
-    let events;
-    try { events = JSON.parse(eventsJson); }
-    catch { setError('events JSON 형식이 잘못됐어요.'); return; }
 
     setSubmitting(true);
     try {
       setResult(await api.integrations.healthSync({
         sourceType,
-        externalAccountId: externalAccountId.trim() || null,
-        events,
+        externalAccountId: null,
+        events: DEMO_SYNC_EVENTS.map((event) => ({
+          ...event,
+          sourceType,
+        })),
       }));
     } catch (e) {
       setError((e as Error).message);
@@ -90,29 +89,16 @@ export default function IntegrationsPage() {
           </div>
         </div>
 
-        {/* 외부 계정 ID */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            외부 계정 ID <span className="text-gray-400 font-normal text-xs">(선택)</span>
-          </label>
-          <input
-            type="text"
-            value={externalAccountId}
-            onChange={(e) => setExternalAccountId(e.target.value)}
-            placeholder="user-apple-id-abc123"
-            className="input"
-          />
-        </div>
-
-        {/* 이벤트 JSON */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">이벤트 배열 (JSON)</label>
-          <textarea
-            value={eventsJson}
-            onChange={(e) => setEventsJson(e.target.value)}
-            rows={10}
-            className="input font-mono text-xs resize-y"
-          />
+          <label className="block text-sm font-semibold text-gray-700 mb-2">동기화할 시연 데이터</label>
+          <div className="grid grid-cols-2 gap-2">
+            {SYNC_PREVIEW.map((item) => (
+              <div key={item.label} className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+                <p className="text-sm font-semibold text-gray-800">{item.label}</p>
+                <p className="mt-1 text-xs leading-5 text-gray-500">{item.value}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {error && (
@@ -148,7 +134,7 @@ export default function IntegrationsPage() {
               );
             })}
           </div>
-          <p className="text-xs text-gray-400 font-mono break-all">소스: {result.sourceId}</p>
+          <p className="text-xs text-gray-500">선택한 플랫폼의 건강 데이터가 백엔드로 전달되었습니다.</p>
         </div>
       )}
     </div>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
+import { REMINDER_SCHEDULE_PRESETS } from '@/lib/reminder-schedule';
 import type { ReminderTargetType } from '@/lib/types';
 
 const TARGET_OPTIONS = [
@@ -13,19 +14,17 @@ const TARGET_OPTIONS = [
   { value: 'custom'    as ReminderTargetType, label: '✏️ 기타'  },
 ];
 
-const RRULE_PRESETS = [
-  { label: '매일 오전 8시',       value: 'RRULE:FREQ=DAILY;BYHOUR=8;BYMINUTE=0'   },
-  { label: '매일 오후 9시',       value: 'RRULE:FREQ=DAILY;BYHOUR=21;BYMINUTE=0'  },
-  { label: '2시간마다 (9-19시)',  value: 'RRULE:FREQ=HOURLY;INTERVAL=2;BYHOUR=9,11,13,15,17,19' },
-  { label: '매주 월요일 오전 8시', value: 'RRULE:FREQ=WEEKLY;BYDAY=MO;BYHOUR=8;BYMINUTE=0' },
-];
-
 export default function NewReminderPage() {
   const router = useRouter();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    targetType: ReminderTargetType;
+    title: string;
+    rrule: string;
+    isActive: boolean;
+  }>({
     targetType: 'intake' as ReminderTargetType,
     title: '',
-    rrule: RRULE_PRESETS[0].value,
+    rrule: REMINDER_SCHEDULE_PRESETS[0].value,
     isActive: true,
   });
   const [submitting, setSubmitting] = useState(false);
@@ -34,7 +33,6 @@ export default function NewReminderPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.title.trim()) { setError('제목을 입력해주세요.'); return; }
-    if (!form.rrule.startsWith('RRULE:')) { setError('RRULE:로 시작해야 합니다.'); return; }
     setSubmitting(true);
     setError('');
     try {
@@ -87,11 +85,10 @@ export default function NewReminderPage() {
           />
         </div>
 
-        {/* RRULE */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">반복 시간</label>
           <div className="grid grid-cols-2 gap-2 mb-3">
-            {RRULE_PRESETS.map((p) => (
+            {REMINDER_SCHEDULE_PRESETS.map((p) => (
               <button
                 key={p.value}
                 type="button"
@@ -105,12 +102,6 @@ export default function NewReminderPage() {
               </button>
             ))}
           </div>
-          <input
-            type="text"
-            value={form.rrule}
-            onChange={(e) => setForm({ ...form, rrule: e.target.value })}
-            className="input font-mono text-xs"
-          />
         </div>
 
         {/* 활성화 토글 */}
