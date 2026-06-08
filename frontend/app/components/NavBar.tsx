@@ -15,11 +15,11 @@ export default function NavBar() {
   const path = usePathname();
 
   return (
-    <nav className="bg-white/80 backdrop-blur border-b border-gray-100 sticky top-0 z-10">
-      <div className="max-w-3xl mx-auto px-4 flex items-center gap-1 h-14">
+    <nav className="bg-[#fbfbfa] border-b border-[#e8e8e5] sticky top-0 z-10">
+      <div className="max-w-3xl mx-auto px-4 flex items-center gap-1 h-12">
         <Link href="/" className="flex items-center gap-1.5 mr-4 shrink-0">
-          <span className="text-xl">🌿</span>
-          <span className="font-bold text-gray-900 text-sm">건강 One</span>
+          <span className="text-base">🌿</span>
+          <span className="font-semibold text-[#111] text-[13px]">건강 One</span>
         </Link>
         {NAV.map(({ href, label }) => {
           const active = href === '/' ? path === '/' : path.startsWith(href);
@@ -27,10 +27,10 @@ export default function NavBar() {
             <Link
               key={href}
               href={href}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
                 active
-                  ? 'bg-green-50 text-green-700'
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'
+                  ? 'bg-[#ebebeb] text-[#111]'
+                  : 'text-[#666] hover:bg-[#f0f0ee] hover:text-[#111]'
               }`}
             >
               {label}
