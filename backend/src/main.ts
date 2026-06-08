@@ -5,16 +5,15 @@ import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/http/all-exceptions.filter';
 import { ResponseEnvelopeInterceptor } from './common/http/response-envelope.interceptor';
 
+const DEFAULT_PRODUCTION_CORS_ORIGIN = 'https://frontend-opal-three-86.vercel.app';
+
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('v1');
-  const corsOrigins = process.env.CORS_ORIGIN
-    ?.split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean);
+  const corsOrigins = resolveCorsOrigins();
   app.enableCors({
-    origin: corsOrigins?.length ? corsOrigins : true,
+    origin: corsOrigins,
     credentials: true,
   });
   app.useGlobalPipes(
@@ -34,3 +33,14 @@ async function bootstrap(): Promise<void> {
 }
 
 void bootstrap();
+
+function resolveCorsOrigins(): true | string[] {
+  const configured = process.env.CORS_ORIGIN
+    ?.split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  if (configured?.length) return configured;
+  if (process.env.NODE_ENV === 'production') return [DEFAULT_PRODUCTION_CORS_ORIGIN];
+  return true;
+}

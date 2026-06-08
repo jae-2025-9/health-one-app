@@ -88,6 +88,7 @@ REQUIRED_PATHS = {
     "/interaction-checks/{id}": {"get"},
     "/cosmetics/analyze-ingredients": {"post"},
     "/cosmetics/usage-logs": {"post"},
+    "/ai/questions": {"post"},
     "/reminders": {"get", "post"},
     "/reminders/{id}": {"patch"},
     "/reports/daily": {"get"},
@@ -107,6 +108,11 @@ L1_OPENAPI_PATHS = {
     "/auth/login": {"post"},
     "/me/profile": {"get", "patch"},
     "/health-events": {"get", "post"},
+}
+
+ENVELOPE_VALIDATED_PATHS = {
+    **L1_OPENAPI_PATHS,
+    "/ai/questions": {"post"},
 }
 
 
@@ -330,18 +336,18 @@ def validate_openapi() -> None:
         REQUIRED_INTERACTION_RISK_LEVELS,
     )
 
-    for path, methods in L1_OPENAPI_PATHS.items():
+    for path, methods in ENVELOPE_VALIDATED_PATHS.items():
         for method in methods:
             operation = paths[path].get(method, {})
             default_response = operation.get("responses", {}).get("default", {})
             if default_response.get("$ref") != "#/components/responses/ErrorResponse":
-                fail(f"L1 OpenAPI operation {method.upper()} {path} must reference ErrorResponse")
+                fail(f"OpenAPI operation {method.upper()} {path} must reference ErrorResponse")
             responses = operation.get("responses", {})
             for code in success_response_codes(responses):
                 validate_data_meta_envelope(
                     spec,
                     responses[code],
-                    f"L1 OpenAPI operation {method.upper()} {path} response {code}",
+                    f"OpenAPI operation {method.upper()} {path} response {code}",
                 )
 
 

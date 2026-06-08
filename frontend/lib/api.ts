@@ -1,4 +1,6 @@
 import type {
+  AiQuestionRequest,
+  AiQuestionResponse,
   CreateReminderDto,
   DailyReport,
   HealthSyncRequest,
@@ -10,8 +12,13 @@ import type {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/v1';
 const API_TIMEOUT_MS = 12_000;
+const AI_API_TIMEOUT_MS = 20_000;
 
-async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+async function apiFetch<T>(
+  path: string,
+  init?: RequestInit,
+  timeoutMs = API_TIMEOUT_MS,
+): Promise<T> {
   const headers = new Headers(init?.headers);
   headers.set('Accept', 'application/json');
   if (init?.body && !headers.has('Content-Type')) {
@@ -20,7 +27,7 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
 
   const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
   const timeoutId = controller
-    ? window.setTimeout(() => controller.abort(), API_TIMEOUT_MS)
+    ? window.setTimeout(() => controller.abort(), timeoutMs)
     : null;
 
   try {
@@ -57,5 +64,12 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(dto),
       }),
+  },
+  ai: {
+    ask: (dto: AiQuestionRequest) =>
+      apiFetch<AiQuestionResponse>('/ai/questions', {
+        method: 'POST',
+        body: JSON.stringify(dto),
+      }, AI_API_TIMEOUT_MS),
   },
 };

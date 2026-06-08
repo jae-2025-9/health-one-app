@@ -37,7 +37,34 @@ body {
     @apply text-[18px] leading-none;
   }
   .bottom-tab-plus {
-    @apply mx-auto h-11 w-11 rounded-full border border-[#262626] text-[22px];
+    @apply mx-auto h-11 w-11 rounded-full border border-[#262626] bg-white text-[22px] shadow-sm;
+  }
+  .bottom-tab-active {
+    @apply text-[#111111] font-bold;
+  }
+  .drawer-backdrop {
+    @apply fixed inset-0 z-40 bg-black/30;
+  }
+  .side-drawer {
+    @apply h-full w-[min(82vw,320px)] border-r border-[#262626] bg-[#fbfbfa] p-4 shadow-xl;
+  }
+  .side-link {
+    @apply flex min-h-11 items-center gap-3 rounded-md border border-[#d2d2cc] bg-white px-3 py-2 text-[14px] font-medium text-[#222222] transition-colors;
+  }
+  .side-link > span:first-child {
+    @apply flex h-7 w-7 items-center justify-center rounded-md bg-[#eeeeec] text-[15px];
+  }
+  .side-link-active {
+    @apply border-[#262626] bg-[#efefec];
+  }
+  .action-backdrop {
+    @apply fixed inset-0 z-40 flex items-end justify-center bg-black/30 px-3 pb-3;
+  }
+  .action-sheet {
+    @apply w-full max-w-[406px] rounded-lg border border-[#262626] bg-[#fbfbfa] p-4 shadow-xl;
+  }
+  .action-link {
+    @apply flex min-h-[58px] flex-col justify-center rounded-md border border-[#d2d2cc] bg-white px-3 py-2 text-[14px] text-[#222222] transition-colors hover:bg-[#eeeeec];
   }
   .nav-link {
     @apply px-3 py-1.5 rounded text-sm text-[#333333] hover:bg-[#eeeeec] transition-colors;
@@ -77,5 +104,35 @@ body {
   }
   .quiet-note {
     @apply rounded-lg border border-[#bdbdb8] bg-[#f2f2ef] p-3 text-[12px] leading-5 text-[#333333];
+  }
+  .segmented-control {
+    @apply grid grid-cols-3 rounded-lg border border-[#262626] bg-white p-1;
+  }
+  .segment {
+    @apply min-h-9 rounded-md px-2 text-[13px] font-semibold text-[#333333] transition-colors;
+  }
+  .segment-active {
+    @apply bg-[#303030] text-white;
+  }
+  .chat-panel {
+    @apply flex min-h-[520px] flex-col rounded-lg border border-[#262626] bg-[#fbfbfa] p-3;
+  }
+  .chat-scroll {
+    @apply flex min-h-[300px] flex-1 flex-col gap-3 overflow-y-auto pb-3;
+  }
+  .chat-bubble {
+    @apply max-w-[88%] whitespace-pre-wrap rounded-lg border px-3 py-2 text-[13px] leading-5;
+  }
+  .chat-user {
+    @apply self-end border-[#262626] bg-[#303030] text-white;
+  }
+  .chat-assistant {
+    @apply self-start border-[#bdbdb8] bg-white text-[#222222];
+  }
+  .quick-link-grid {
+    @apply grid grid-cols-2 gap-2;
+  }
+  .quick-link {
+    @apply rounded-md border border-[#d2d2cc] bg-white px-3 py-2 text-[12px] font-semibold text-[#222222] transition-colors hover:bg-[#eeeeec];
   }
 }

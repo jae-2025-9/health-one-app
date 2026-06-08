@@ -20,6 +20,7 @@ NestJS + Prisma backend for **L3**, the medical-safety domain of 건강 one app
 | GET  | `/interaction-checks/{id}` | Re-read a stored interaction check |
 | POST | `/cosmetics/analyze-ingredients` | Analyze ingredient text/image → product + ingredients |
 | POST | `/cosmetics/usage-logs` | Record cosmetic usage (creates `health_events` + `cosmetic_usage_logs`) |
+| POST | `/ai/questions` | Ask the server-side Upstage Solar Pro assistant |
 
 Liveness: `GET /v1/healthz`.
 
@@ -58,6 +59,12 @@ L1 owns real JWT auth. Until then the acting user is resolved from the
 `X-User-Id` header, falling back to `DEV_USER_ID` (see `.env.example`). The
 service/controller surface only depends on a `userId: string`, so dropping in
 L1's real guard later needs no changes here.
+
+### Upstage AI
+`POST /v1/ai/questions` reads `UPSTAGE_API_KEY`, `UPSTAGE_BASE_URL`, and
+`UPSTAGE_MODEL` only on the server. Real keys must stay in deployment/local env
+vars and must not be committed. If the key is absent, the endpoint returns a
+safe service-unavailable envelope instead of leaking provider details.
 
 ## Example
 

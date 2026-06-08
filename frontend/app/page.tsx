@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import type { DailyReport } from '@/lib/types';
@@ -27,6 +28,11 @@ export default function HomePage() {
   const [date, setDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [aiQuestion, setAiQuestion] = useState('');
+  const [aiAnswer, setAiAnswer] = useState('');
+  const [aiNotice, setAiNotice] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
 
   function todayStr() {
     return new Date().toLocaleDateString('en-CA');
@@ -50,6 +56,28 @@ export default function HomePage() {
     setDate(today);
     load(today);
   }, []);
+
+  async function askAi() {
+    const question = aiQuestion.trim();
+    if (!question) return;
+
+    setAiLoading(true);
+    setAiError('');
+    setAiAnswer('');
+    setAiNotice('');
+    try {
+      const data = await api.ai.ask({
+        question,
+        date: report?.date ?? date,
+      });
+      setAiAnswer(data.answer);
+      setAiNotice(data.safetyNotice);
+    } catch (e) {
+      setAiError((e as Error).message);
+    } finally {
+      setAiLoading(false);
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -116,6 +144,35 @@ export default function HomePage() {
               활동, 식사, 음용, 복약, 화장품 사용 기록을 같은 health_events 흐름으로 모아
               건강 패턴을 참고 정보로 보여줍니다.
             </p>
+          </div>
+
+          <div className="card space-y-3">
+            <h2 className="section-title">AI 질문</h2>
+            <div className="quick-link-grid">
+              <Link href="/ai?mode=meds" className="quick-link">약/영양제 바로 질문</Link>
+              <Link href="/ai?mode=cosmetics" className="quick-link">화장품 성분 바로 질문</Link>
+            </div>
+            <textarea
+              value={aiQuestion}
+              onChange={(e) => setAiQuestion(e.target.value)}
+              maxLength={1000}
+              className="input min-h-[96px] resize-none leading-5"
+              placeholder="오늘 기록을 보고 컨디션 관리 팁 알려줘"
+            />
+            <button
+              onClick={askAi}
+              disabled={aiLoading || !aiQuestion.trim()}
+              className="btn-primary w-full"
+            >
+              {aiLoading ? '답변 생성중…' : '질문하기'}
+            </button>
+            {aiError && <p className="text-sm text-red-500">{aiError}</p>}
+            {aiAnswer && (
+              <div className="quiet-note space-y-2">
+                <p>{aiAnswer}</p>
+                {aiNotice && <p className="text-[11px] text-[#666666]">{aiNotice}</p>}
+              </div>
+            )}
           </div>
 
           <div className="card">

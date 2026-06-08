@@ -119,3 +119,20 @@ export interface HealthSyncResult {
   deduplicated: number;
   failed: number;
 }
+
+export interface AiQuestionRequest {
+  question: string;
+  date?: string;
+}
+
+export interface AiQuestionResponse {
+  analysisId: string;
+  answer: string;
+  model: string;
+  safetyNotice: string;
+  usage: {
+    promptTokens: number | null;
+    completionTokens: number | null;
+    totalTokens: number | null;
+  };
+}
