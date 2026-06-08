@@ -5,6 +5,14 @@ import { api } from '@/lib/api';
 import { DEMO_WEEK_START, isDemoModeEnabled } from '@/lib/demo-data';
 import type { WeeklyReport } from '@/lib/types';
 
+const SECTION_META = {
+  activity:  { icon: '🏃', label: '활동',  iconBg: 'bg-[#fdf6ec]' },
+  sleep:     { icon: '😴', label: '수면',  iconBg: 'bg-[#eff4fc]' },
+  nutrition: { icon: '🥗', label: '영양',  iconBg: 'bg-[#f0f7f0]' },
+  hydration: { icon: '💧', label: '수분',  iconBg: 'bg-[#eef5fc]' },
+  intakes:   { icon: '💊', label: '복약',  iconBg: 'bg-[#f5f0fc]' },
+};
+
 function Stat({ label, value, unit }: { label: string; value: string | number | null; unit?: string }) {
   return (
     <div>
@@ -17,20 +25,50 @@ function Stat({ label, value, unit }: { label: string; value: string | number | 
   );
 }
 
-function SectionCard({ icon, label, isEmpty, children }: {
-  icon: string; label: string; isEmpty: boolean; children: React.ReactNode;
+function SectionCard({
+  sectionKey, primary, isEmpty, children,
+}: {
+  sectionKey: keyof typeof SECTION_META;
+  primary?: { value: string | null; unit?: string };
+  isEmpty: boolean;
+  children: React.ReactNode;
 }) {
+  const { icon, label, iconBg } = SECTION_META[sectionKey];
   return (
     <div className="card">
-      <div className="flex items-center gap-2 mb-3">
-        <span className="text-[15px]">{icon}</span>
-        <h2 className="section-title">{label}</h2>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <span className={`w-8 h-8 flex items-center justify-center rounded-xl text-[15px] ${iconBg}`}>{icon}</span>
+          <h2 className="section-title">{label}</h2>
+        </div>
+        {primary?.value != null && (
+          <p className="text-[18px] font-bold text-[#1a1a1a] leading-none">
+            {primary.value}
+            {primary.unit && <span className="text-[12px] font-medium text-[#888] ml-0.5">{primary.unit}</span>}
+          </p>
+        )}
       </div>
+      <div className="h-px bg-[#f0f0ee] mb-3" />
       {isEmpty ? (
         <div className="empty-section">
           <p className="text-[12px] text-[#aaa]">기록 없음</p>
         </div>
       ) : children}
+    </div>
+  );
+}
+
+function SummaryTile({
+  label, value, unit, sub,
+}: { label: string; value: React.ReactNode; unit?: string; sub?: string }) {
+  return (
+    <div className="bg-[#fafaf8] rounded-xl p-3.5">
+      <p className="stat-label mb-1">{label}</p>
+      <p className="text-[22px] font-bold text-[#111] leading-tight">
+        {value}
+        {unit && <span className="text-[13px] font-medium text-[#888] ml-0.5">{unit}</span>}
+      </p>
+      {sub && <p className="text-[11px] text-[#999] mt-0.5">{sub}</p>}
     </div>
   );
 }
@@ -75,39 +113,88 @@ export default function WeeklyReportPage() {
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-[17px] font-semibold text-[#111]">주간 리포트</h1>
+          <h1 className="text-[20px] font-bold text-[#111]">주간 리포트</h1>
           {report && (
-            <p className="text-[12px] text-[#888] mt-0.5">
+            <p className="text-[12px] text-[#999] mt-0.5">
               {report.weekStart} ~ {report.weekEnd} · {report.timezone}
             </p>
           )}
         </div>
         <div className="flex items-center gap-2">
           <div className="flex flex-col items-end gap-0.5">
-            <span className="text-[11px] text-[#888]">주 시작일 (월요일)</span>
-            <input type="date" value={weekStart} onChange={(e) => setWeekStart(e.target.value)} className="input w-auto text-xs" />
+            <span className="text-[10px] text-[#aaa]">주 시작 (월)</span>
+            <input
+              type="date"
+              value={weekStart}
+              onChange={(e) => setWeekStart(e.target.value)}
+              className="input w-auto text-xs"
+            />
           </div>
           <button onClick={() => load(weekStart)} disabled={loading} className="btn-primary text-xs py-1.5 px-3 self-end">
-            {loading ? '…' : '조회'}
+            {loading
+              ? <span className="w-3.5 h-3.5 border border-white border-t-transparent rounded-full animate-spin inline-block" />
+              : '조회'}
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="card bg-[#fff5f5] border-[#fecaca]">
+        <div className="card bg-[#fff8f8] border-[#fecaca]">
           <p className="text-[13px] text-red-600">⚠️ {error}</p>
         </div>
       )}
 
       {loading && !report && (
-        <div className="flex items-center justify-center h-32">
+        <div className="flex items-center justify-center h-40">
           <div className="w-5 h-5 border-2 border-[#555] border-t-transparent rounded-full animate-spin" />
         </div>
       )}
 
       {report && (
-        <div className="space-y-2">
-          <SectionCard icon="🏃" label="활동" isEmpty={!report.activity}>
+        <div className="space-y-2.5">
+          {/* 주간 요약 */}
+          <div className="card">
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="w-8 h-8 flex items-center justify-center rounded-xl bg-[#f0f0ee] text-[15px]">📊</span>
+              <h2 className="section-title">이번 주 요약</h2>
+            </div>
+            <div className="h-px bg-[#f0f0ee] mb-3" />
+            <div className="grid grid-cols-2 gap-2.5">
+              <SummaryTile
+                label="총 걸음 수"
+                value={report.activity?.totalSteps?.toLocaleString() ?? <span className="text-[#ccc] text-[18px]">—</span>}
+                sub={report.activity?.activeDays != null ? `활동한 날 ${report.activity.activeDays}일` : undefined}
+              />
+              <SummaryTile
+                label="평균 수면"
+                value={report.sleep?.avgTotalMinutes != null
+                  ? (report.sleep.avgTotalMinutes / 60).toFixed(1)
+                  : <span className="text-[#ccc] text-[18px]">—</span>}
+                unit={report.sleep?.avgTotalMinutes != null ? 'h/일' : undefined}
+                sub={report.sleep?.recordedDays != null ? `기록한 날 ${report.sleep.recordedDays}일` : undefined}
+              />
+              <SummaryTile
+                label="평균 칼로리"
+                value={report.nutrition?.avgTotalKcal?.toFixed(0) ?? <span className="text-[#ccc] text-[18px]">—</span>}
+                unit={report.nutrition?.avgTotalKcal != null ? 'kcal' : undefined}
+                sub={report.nutrition?.recordedDays != null ? `기록한 날 ${report.nutrition.recordedDays}일` : undefined}
+              />
+              <SummaryTile
+                label="복약 준수율"
+                value={adherencePct != null
+                  ? adherencePct
+                  : <span className="text-[#ccc] text-[18px]">—</span>}
+                unit={adherencePct != null ? '%' : undefined}
+                sub={report.intakes ? `${report.intakes.totalTaken}/${report.intakes.totalScheduled} 완료` : undefined}
+              />
+            </div>
+          </div>
+
+          <SectionCard
+            sectionKey="activity"
+            primary={{ value: report.activity?.totalSteps?.toLocaleString() ?? null, unit: '걸음' }}
+            isEmpty={!report.activity}
+          >
             <div className="grid grid-cols-2 gap-3">
               <Stat label="총 걸음 수" value={report.activity?.totalSteps?.toLocaleString() ?? null} />
               <Stat label="평균 활동" value={report.activity?.avgActiveMinutes?.toFixed(1) ?? null} unit="분" />
@@ -116,7 +203,13 @@ export default function WeeklyReportPage() {
             </div>
           </SectionCard>
 
-          <SectionCard icon="😴" label="수면" isEmpty={!report.sleep}>
+          <SectionCard
+            sectionKey="sleep"
+            primary={report.sleep?.avgTotalMinutes != null
+              ? { value: (report.sleep.avgTotalMinutes / 60).toFixed(1), unit: 'h/일' }
+              : { value: null }}
+            isEmpty={!report.sleep}
+          >
             <div className="grid grid-cols-3 gap-3">
               <Stat label="평균 수면" value={report.sleep?.avgTotalMinutes?.toFixed(0) ?? null} unit="분" />
               <Stat label="평균 점수" value={report.sleep?.avgSleepScore?.toFixed(1) ?? null} />
@@ -124,32 +217,52 @@ export default function WeeklyReportPage() {
             </div>
           </SectionCard>
 
-          <SectionCard icon="🥗" label="영양" isEmpty={!report.nutrition}>
+          <SectionCard
+            sectionKey="nutrition"
+            primary={{ value: report.nutrition?.avgTotalKcal?.toFixed(0) ?? null, unit: 'kcal/일' }}
+            isEmpty={!report.nutrition}
+          >
             <div className="grid grid-cols-2 gap-3">
               <Stat label="평균 칼로리" value={report.nutrition?.avgTotalKcal?.toFixed(0) ?? null} unit="kcal" />
               <Stat label="기록한 날" value={report.nutrition ? `${report.nutrition.recordedDays}일` : null} />
             </div>
           </SectionCard>
 
-          <SectionCard icon="💧" label="수분" isEmpty={!report.hydration}>
+          <SectionCard
+            sectionKey="hydration"
+            primary={{ value: report.hydration?.avgVolumeMl?.toFixed(0) ?? null, unit: 'ml/일' }}
+            isEmpty={!report.hydration}
+          >
             <div className="grid grid-cols-2 gap-3">
               <Stat label="평균 섭취량" value={report.hydration?.avgVolumeMl?.toFixed(0) ?? null} unit="ml" />
               <Stat label="평균 카페인" value={report.hydration?.avgCaffeineMg?.toFixed(0) ?? null} unit="mg" />
             </div>
           </SectionCard>
 
-          <SectionCard icon="💊" label="복약" isEmpty={!report.intakes}>
+          <SectionCard
+            sectionKey="intakes"
+            primary={adherencePct != null ? { value: `${adherencePct}%` } : { value: null }}
+            isEmpty={!report.intakes}
+          >
             <div className="grid grid-cols-3 gap-3 mb-3">
               <Stat label="총 예정" value={report.intakes?.totalScheduled ?? null} />
               <Stat label="총 완료" value={report.intakes?.totalTaken ?? null} />
               <div>
                 <p className="stat-label">준수율</p>
-                <p className="stat-value">{adherencePct !== null ? `${adherencePct}%` : <span className="text-[#ccc]">—</span>}</p>
+                <p className="stat-value">
+                  {adherencePct !== null ? `${adherencePct}%` : <span className="text-[#ccc]">—</span>}
+                </p>
               </div>
             </div>
             {adherencePct !== null ? (
-              <div className="w-full bg-[#ebebeb] rounded-full h-1.5">
-                <div className="bg-[#555] h-1.5 rounded-full transition-all" style={{ width: `${adherencePct}%` }} />
+              <div>
+                <div className="flex justify-between text-[11px] text-[#888] mb-1.5">
+                  <span>주간 복약 완료율</span>
+                  <span className="font-bold text-[#333]">{adherencePct}%</span>
+                </div>
+                <div className="w-full bg-[#ebebeb] rounded-full h-2">
+                  <div className="bg-[#333] h-2 rounded-full transition-all" style={{ width: `${adherencePct}%` }} />
+                </div>
               </div>
             ) : (
               <p className="text-[11px] text-[#aaa]">기록 없음</p>

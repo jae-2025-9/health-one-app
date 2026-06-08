@@ -5,14 +5,14 @@ import { api } from '@/lib/api';
 import { DEMO_TODAY, isDemoModeEnabled } from '@/lib/demo-data';
 import type { DailyReport } from '@/lib/types';
 
-const SECTIONS = [
-  { key: 'activity'  as const, icon: '🏃', label: '활동'  },
-  { key: 'sleep'     as const, icon: '😴', label: '수면'  },
-  { key: 'nutrition' as const, icon: '🥗', label: '영양'  },
-  { key: 'hydration' as const, icon: '💧', label: '수분'  },
-  { key: 'intakes'   as const, icon: '💊', label: '복약'  },
-  { key: 'reminders' as const, icon: '🔔', label: '알림'  },
-];
+const SECTION_META = {
+  activity:  { icon: '🏃', label: '활동',  iconBg: 'bg-[#fdf6ec]' },
+  sleep:     { icon: '😴', label: '수면',  iconBg: 'bg-[#eff4fc]' },
+  nutrition: { icon: '🥗', label: '영양',  iconBg: 'bg-[#f0f7f0]' },
+  hydration: { icon: '💧', label: '수분',  iconBg: 'bg-[#eef5fc]' },
+  intakes:   { icon: '💊', label: '복약',  iconBg: 'bg-[#f5f0fc]' },
+  reminders: { icon: '🔔', label: '알림',  iconBg: 'bg-[#f0f0ee]' },
+};
 
 function Stat({ label, value, unit }: { label: string; value: string | number | null; unit?: string }) {
   return (
@@ -26,15 +26,30 @@ function Stat({ label, value, unit }: { label: string; value: string | number | 
   );
 }
 
-function SectionCard({ icon, label, isEmpty, children }: {
-  icon: string; label: string; isEmpty: boolean; children: React.ReactNode;
+function SectionCard({
+  sectionKey, primary, isEmpty, children,
+}: {
+  sectionKey: keyof typeof SECTION_META;
+  primary?: { value: string | null; unit?: string };
+  isEmpty: boolean;
+  children: React.ReactNode;
 }) {
+  const { icon, label, iconBg } = SECTION_META[sectionKey];
   return (
     <div className="card">
-      <div className="flex items-center gap-2 mb-3">
-        <span className="text-[15px]">{icon}</span>
-        <h2 className="section-title">{label}</h2>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <span className={`w-8 h-8 flex items-center justify-center rounded-xl text-[15px] ${iconBg}`}>{icon}</span>
+          <h2 className="section-title">{label}</h2>
+        </div>
+        {primary?.value != null && (
+          <p className="text-[18px] font-bold text-[#1a1a1a] leading-none">
+            {primary.value}
+            {primary.unit && <span className="text-[12px] font-medium text-[#888] ml-0.5">{primary.unit}</span>}
+          </p>
+        )}
       </div>
+      <div className="h-px bg-[#f0f0ee] mb-3" />
       {isEmpty ? (
         <div className="empty-section">
           <p className="text-[12px] text-[#aaa]">기록 없음</p>
@@ -68,30 +83,51 @@ export default function HomePage() {
     load(today);
   }, []);
 
+  const intakePct = report?.intakes && report.intakes.scheduledCount > 0
+    ? Math.round((report.intakes.takenCount / report.intakes.scheduledCount) * 100)
+    : null;
+
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-[17px] font-semibold text-[#111]">오늘의 건강</h1>
-          {report && <p className="text-[12px] text-[#888] mt-0.5">{report.date} · {report.timezone}</p>}
+          <h1 className="text-[20px] font-bold text-[#111]">오늘의 건강</h1>
+          {report && <p className="text-[12px] text-[#999] mt-0.5">{report.date} · {report.timezone}</p>}
         </div>
         <div className="flex items-center gap-2">
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="input w-auto text-xs" />
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="input w-auto text-xs"
+          />
           <button onClick={() => load(date)} disabled={loading} className="btn-primary text-xs py-1.5 px-3">
-            {loading ? '…' : '조회'}
+            {loading
+              ? <span className="w-3.5 h-3.5 border border-white border-t-transparent rounded-full animate-spin inline-block" />
+              : '조회'}
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="card bg-[#fff5f5] border-[#fecaca]">
+        <div className="card bg-[#fff8f8] border-[#fecaca]">
           <p className="text-[13px] text-red-600">⚠️ {error}</p>
         </div>
       )}
 
+      {loading && !report && (
+        <div className="flex items-center justify-center h-40">
+          <div className="w-5 h-5 border-2 border-[#555] border-t-transparent rounded-full animate-spin" />
+        </div>
+      )}
+
       {report && (
-        <div className="space-y-2">
-          <SectionCard {...SECTIONS[0]} isEmpty={!report.activity}>
+        <div className="space-y-2.5">
+          <SectionCard
+            sectionKey="activity"
+            primary={{ value: report.activity?.totalSteps?.toLocaleString() ?? null, unit: '걸음' }}
+            isEmpty={!report.activity}
+          >
             <div className="grid grid-cols-3 gap-3">
               <Stat label="걸음" value={report.activity?.totalSteps?.toLocaleString() ?? null} />
               <Stat label="활동" value={report.activity?.totalActiveMinutes ?? null} unit="분" />
@@ -99,7 +135,13 @@ export default function HomePage() {
             </div>
           </SectionCard>
 
-          <SectionCard {...SECTIONS[1]} isEmpty={!report.sleep}>
+          <SectionCard
+            sectionKey="sleep"
+            primary={report.sleep?.totalMinutes != null
+              ? { value: (report.sleep.totalMinutes / 60).toFixed(1), unit: 'h' }
+              : { value: null }}
+            isEmpty={!report.sleep}
+          >
             <div className="grid grid-cols-4 gap-3">
               <Stat label="수면" value={report.sleep?.totalMinutes ?? null} unit="분" />
               <Stat label="깊은수면" value={report.sleep?.deepSleepMinutes ?? null} unit="분" />
@@ -108,7 +150,11 @@ export default function HomePage() {
             </div>
           </SectionCard>
 
-          <SectionCard {...SECTIONS[2]} isEmpty={!report.nutrition}>
+          <SectionCard
+            sectionKey="nutrition"
+            primary={{ value: report.nutrition?.totalKcal?.toFixed(0) ?? null, unit: 'kcal' }}
+            isEmpty={!report.nutrition}
+          >
             <div className="grid grid-cols-3 gap-3">
               <Stat label="칼로리" value={report.nutrition?.totalKcal?.toFixed(0) ?? null} unit="kcal" />
               <Stat label="탄수화물" value={report.nutrition?.totalCarbsG?.toFixed(1) ?? null} unit="g" />
@@ -118,7 +164,11 @@ export default function HomePage() {
             </div>
           </SectionCard>
 
-          <SectionCard {...SECTIONS[3]} isEmpty={!report.hydration}>
+          <SectionCard
+            sectionKey="hydration"
+            primary={{ value: report.hydration?.totalVolumeMl?.toFixed(0) ?? null, unit: 'ml' }}
+            isEmpty={!report.hydration}
+          >
             <div className="grid grid-cols-3 gap-3">
               <Stat label="수분" value={report.hydration?.totalVolumeMl?.toFixed(0) ?? null} unit="ml" />
               <Stat label="카페인" value={report.hydration?.totalCaffeineMg?.toFixed(0) ?? null} unit="mg" />
@@ -126,31 +176,34 @@ export default function HomePage() {
             </div>
           </SectionCard>
 
-          <SectionCard {...SECTIONS[4]} isEmpty={!report.intakes}>
-            <div className="grid grid-cols-3 gap-3">
+          <SectionCard
+            sectionKey="intakes"
+            primary={report.intakes ? { value: `${report.intakes.takenCount}/${report.intakes.scheduledCount}` } : { value: null }}
+            isEmpty={!report.intakes}
+          >
+            <div className="grid grid-cols-3 gap-3 mb-3">
               <Stat label="예정" value={report.intakes?.scheduledCount ?? null} />
               <Stat label="완료" value={report.intakes?.takenCount ?? null} />
               <Stat label="건너뜀" value={report.intakes?.skippedCount ?? null} />
             </div>
-            {report.intakes && report.intakes.scheduledCount > 0 && (
-              <div className="mt-3">
-                <div className="flex justify-between text-[11px] text-[#888] mb-1">
+            {intakePct !== null && (
+              <div>
+                <div className="flex justify-between text-[11px] text-[#888] mb-1.5">
                   <span>복약 완료율</span>
-                  <span className="font-semibold text-[#444]">
-                    {Math.round((report.intakes.takenCount / report.intakes.scheduledCount) * 100)}%
-                  </span>
+                  <span className="font-bold text-[#333]">{intakePct}%</span>
                 </div>
                 <div className="w-full bg-[#ebebeb] rounded-full h-1.5">
-                  <div
-                    className="bg-[#555] h-1.5 rounded-full transition-all"
-                    style={{ width: `${(report.intakes.takenCount / report.intakes.scheduledCount) * 100}%` }}
-                  />
+                  <div className="bg-[#333] h-1.5 rounded-full transition-all" style={{ width: `${intakePct}%` }} />
                 </div>
               </div>
             )}
           </SectionCard>
 
-          <SectionCard {...SECTIONS[5]} isEmpty={!report.reminders}>
+          <SectionCard
+            sectionKey="reminders"
+            primary={report.reminders ? { value: String(report.reminders.sentCount), unit: '전송' } : { value: null }}
+            isEmpty={!report.reminders}
+          >
             <div className="grid grid-cols-3 gap-3">
               <Stat label="예정" value={report.reminders?.scheduledCount ?? null} />
               <Stat label="전송" value={report.reminders?.sentCount ?? null} />
