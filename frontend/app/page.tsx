@@ -1,62 +1,56 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { DEMO_TODAY, isDemoModeEnabled } from '@/lib/demo-data';
-import type { DailyReport } from '@/lib/types';
+import type { DailyReport, DemoRawEvent } from '@/lib/types';
 
-const SECTION_META = {
-  activity:  { icon: '🏃', label: '활동',  iconBg: 'bg-[#fdf6ec]' },
-  sleep:     { icon: '😴', label: '수면',  iconBg: 'bg-[#eff4fc]' },
-  nutrition: { icon: '🥗', label: '영양',  iconBg: 'bg-[#f0f7f0]' },
-  hydration: { icon: '💧', label: '수분',  iconBg: 'bg-[#eef5fc]' },
-  intakes:   { icon: '💊', label: '복약',  iconBg: 'bg-[#f5f0fc]' },
-  reminders: { icon: '🔔', label: '알림',  iconBg: 'bg-[#f0f0ee]' },
-};
-
-function Stat({ label, value, unit }: { label: string; value: string | number | null; unit?: string }) {
+function StatCard({ label, value }: { label: string; value: string | number | null }) {
   return (
     <div>
       <p className="stat-label">{label}</p>
-      <p className="stat-value">
-        {value ?? <span className="text-[#ccc]">—</span>}
-        {value != null && unit && <span className="stat-unit">{unit}</span>}
-      </p>
+      <p className="stat-value">{value ?? '-'}</p>
     </div>
   );
 }
 
-function SectionCard({
-  sectionKey, primary, isEmpty, children,
-}: {
-  sectionKey: keyof typeof SECTION_META;
-  primary?: { value: string | null; unit?: string };
-  isEmpty: boolean;
-  children: React.ReactNode;
-}) {
-  const { icon, label, iconBg } = SECTION_META[sectionKey];
+function Section({ title, children, isEmpty }: { title: string; children: React.ReactNode; isEmpty: boolean }) {
   return (
     <div className="card">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2.5">
-          <span className={`w-8 h-8 flex items-center justify-center rounded-xl text-[15px] ${iconBg}`}>{icon}</span>
-          <h2 className="section-title">{label}</h2>
-        </div>
-        {primary?.value != null && (
-          <p className="text-[18px] font-bold text-[#1a1a1a] leading-none">
-            {primary.value}
-            {primary.unit && <span className="text-[12px] font-medium text-[#888] ml-0.5">{primary.unit}</span>}
-          </p>
-        )}
-      </div>
-      <div className="h-px bg-[#f0f0ee] mb-3" />
-      {isEmpty ? (
-        <div className="empty-section">
-          <p className="text-[12px] text-[#aaa]">기록 없음</p>
-        </div>
-      ) : children}
+      <h2 className="section-title mb-3">{title}</h2>
+      {isEmpty ? <p className="empty-state">오늘 기록 없음</p> : children}
     </div>
   );
+}
+
+function RawEventRow({ event }: { event: DemoRawEvent }) {
+  return (
+    <div className="raw-event-row">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-[12px] font-semibold text-[#222222]">{event.time} · {event.title}</p>
+          <p className="text-[11px] text-[#666666]">{sourceLabel(event.sourceType)}</p>
+        </div>
+        <span className="rounded border border-[#bdbdb8] px-1.5 py-0.5 text-[10px] text-[#555555]">
+          기록
+        </span>
+      </div>
+      <p className="mt-1 text-[12px] text-[#333333]">{event.summary}</p>
+    </div>
+  );
+}
+
+function sourceLabel(sourceType: string): string {
+  const labels: Record<string, string> = {
+    apple_health: 'Apple Health 연동',
+    samsung_health: 'Samsung Health 연동',
+    wearable: '웨어러블 연동',
+    vision_ai: '사진 분석',
+    label_scan: '라벨 스캔',
+    manual: '직접 입력',
+  };
+  return labels[sourceType] ?? '기록';
 }
 
 export default function HomePage() {
@@ -64,12 +58,22 @@ export default function HomePage() {
   const [date, setDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [aiQuestion, setAiQuestion] = useState('');
+  const [aiAnswer, setAiAnswer] = useState('');
+  const [aiNotice, setAiNotice] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
 
-  async function load(d: string) {
+  function todayStr() {
+    return new Date().toLocaleDateString('en-CA');
+  }
+
+  async function load(d?: string) {
     setLoading(true);
     setError('');
     try {
-      setReport(await api.reports.daily(d));
+      const data = await api.reports.daily(d);
+      setReport(data);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -78,141 +82,213 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    const today = isDemoModeEnabled() ? DEMO_TODAY : new Date().toLocaleDateString('en-CA');
+    const today = isDemoModeEnabled() ? DEMO_TODAY : todayStr();
     setDate(today);
     load(today);
   }, []);
 
-  const intakePct = report?.intakes && report.intakes.scheduledCount > 0
-    ? Math.round((report.intakes.takenCount / report.intakes.scheduledCount) * 100)
-    : null;
+  async function askAi() {
+    const question = aiQuestion.trim();
+    if (!question) return;
+
+    setAiLoading(true);
+    setAiError('');
+    setAiAnswer('');
+    setAiNotice('');
+    try {
+      const data = await api.ai.ask({
+        question,
+        date: report?.date ?? date,
+      });
+      setAiAnswer(data.answer);
+      setAiNotice(data.safetyNotice);
+    } catch (e) {
+      setAiError((e as Error).message);
+    } finally {
+      setAiLoading(false);
+    }
+  }
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-[20px] font-bold text-[#111]">오늘의 건강</h1>
-          {report && <p className="text-[12px] text-[#999] mt-0.5">{report.date} · {report.timezone}</p>}
-        </div>
-        <div className="flex items-center gap-2">
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="input w-auto text-xs"
-          />
-          <button onClick={() => load(date)} disabled={loading} className="btn-primary text-xs py-1.5 px-3">
-            {loading
-              ? <span className="w-3.5 h-3.5 border border-white border-t-transparent rounded-full animate-spin inline-block" />
-              : '조회'}
-          </button>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h1 className="text-[15px] font-semibold text-[#111111]">오늘의 건강 요약</h1>
+            <p className="text-[12px] text-[#666666]">{date || '날짜 선택'}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="input w-[138px]"
+            />
+            <button onClick={() => load(date)} disabled={loading} className="btn-primary">
+              {loading ? '로딩중…' : '조회'}
+            </button>
+          </div>
         </div>
       </div>
 
-      {error && (
-        <div className="card bg-[#fff8f8] border-[#fecaca]">
-          <p className="text-[13px] text-red-600">⚠️ {error}</p>
-        </div>
-      )}
-
-      {loading && !report && (
-        <div className="flex items-center justify-center h-40">
-          <div className="w-5 h-5 border-2 border-[#555] border-t-transparent rounded-full animate-spin" />
-        </div>
-      )}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
 
       {report && (
-        <div className="space-y-2.5">
-          <SectionCard
-            sectionKey="activity"
-            primary={{ value: report.activity?.totalSteps?.toLocaleString() ?? null, unit: '걸음' }}
-            isEmpty={!report.activity}
-          >
-            <div className="grid grid-cols-3 gap-3">
-              <Stat label="걸음" value={report.activity?.totalSteps?.toLocaleString() ?? null} />
-              <Stat label="활동" value={report.activity?.totalActiveMinutes ?? null} unit="분" />
-              <Stat label="소모" value={report.activity?.totalActiveKcal?.toFixed(0) ?? null} unit="kcal" />
+        <>
+          <div className="summary-grid">
+            <div className="summary-tile">
+              <p className="stat-label">걸음수</p>
+              <p className="stat-value">{report.activity?.totalSteps?.toLocaleString() ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">목표 10,000</p>
             </div>
-          </SectionCard>
+            <div className="summary-tile">
+              <p className="stat-label">활동량</p>
+              <p className="stat-value">{report.activity?.totalActiveKcal?.toFixed(0) ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">kcal</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">수면</p>
+              <p className="stat-value">{report.sleep?.totalMinutes ? `${Math.floor(report.sleep.totalMinutes / 60)}시간` : '-'}</p>
+              <p className="text-[10px] text-[#777777]">{report.sleep?.sleepScore ? `점수 ${report.sleep.sleepScore}` : '목표 8시간'}</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">식사 칼로리</p>
+              <p className="stat-value">{report.nutrition?.totalKcal?.toFixed(0) ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">kcal</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">음용량</p>
+              <p className="stat-value">{report.hydration?.totalVolumeMl ? `${(report.hydration.totalVolumeMl / 1000).toFixed(1)}L` : '-'}</p>
+              <p className="text-[10px] text-[#777777]">물/커피/캔음료</p>
+            </div>
+            <div className="summary-tile">
+              <p className="stat-label">복용 알림</p>
+              <p className="stat-value">{report.intakes?.scheduledCount ?? '-'}</p>
+              <p className="text-[10px] text-[#777777]">예정</p>
+            </div>
+          </div>
 
-          <SectionCard
-            sectionKey="sleep"
-            primary={report.sleep?.totalMinutes != null
-              ? { value: (report.sleep.totalMinutes / 60).toFixed(1), unit: 'h' }
-              : { value: null }}
-            isEmpty={!report.sleep}
-          >
-            <div className="grid grid-cols-4 gap-3">
-              <Stat label="수면" value={report.sleep?.totalMinutes ?? null} unit="분" />
-              <Stat label="깊은수면" value={report.sleep?.deepSleepMinutes ?? null} unit="분" />
-              <Stat label="REM" value={report.sleep?.remSleepMinutes ?? null} unit="분" />
-              <Stat label="점수" value={report.sleep?.sleepScore?.toFixed(1) ?? null} />
-            </div>
-          </SectionCard>
+          <div className="card">
+            <h2 className="section-title mb-2">AI 주의사항</h2>
+            <p className="quiet-note">
+              활동, 식사, 음용, 복약, 화장품 사용 기록을 같은 health_events 흐름으로 모아
+              건강 패턴을 참고 정보로 보여줍니다.
+            </p>
+          </div>
 
-          <SectionCard
-            sectionKey="nutrition"
-            primary={{ value: report.nutrition?.totalKcal?.toFixed(0) ?? null, unit: 'kcal' }}
-            isEmpty={!report.nutrition}
-          >
-            <div className="grid grid-cols-3 gap-3">
-              <Stat label="칼로리" value={report.nutrition?.totalKcal?.toFixed(0) ?? null} unit="kcal" />
-              <Stat label="탄수화물" value={report.nutrition?.totalCarbsG?.toFixed(1) ?? null} unit="g" />
-              <Stat label="단백질" value={report.nutrition?.totalProteinG?.toFixed(1) ?? null} unit="g" />
-              <Stat label="지방" value={report.nutrition?.totalFatG?.toFixed(1) ?? null} unit="g" />
-              <Stat label="식사" value={report.nutrition?.mealCount ?? null} unit="회" />
+          <div className="card space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="section-title">오늘 원본 기록</h2>
+              <span className="text-[11px] font-semibold text-[#666666]">{report.date}</span>
             </div>
-          </SectionCard>
+            <div className="space-y-2">
+              {(report.demoRawEvents ?? []).map((event) => (
+                <RawEventRow key={event.id} event={event} />
+              ))}
+            </div>
+          </div>
 
-          <SectionCard
-            sectionKey="hydration"
-            primary={{ value: report.hydration?.totalVolumeMl?.toFixed(0) ?? null, unit: 'ml' }}
-            isEmpty={!report.hydration}
-          >
-            <div className="grid grid-cols-3 gap-3">
-              <Stat label="수분" value={report.hydration?.totalVolumeMl?.toFixed(0) ?? null} unit="ml" />
-              <Stat label="카페인" value={report.hydration?.totalCaffeineMg?.toFixed(0) ?? null} unit="mg" />
-              <Stat label="당분" value={report.hydration?.totalSugarG?.toFixed(1) ?? null} unit="g" />
+          <div className="card space-y-3">
+            <h2 className="section-title">AI 질문</h2>
+            <div className="quick-link-grid">
+              <Link href="/ai?mode=meds" className="quick-link">약/영양제 바로 질문</Link>
+              <Link href="/ai?mode=cosmetics" className="quick-link">화장품 성분 바로 질문</Link>
             </div>
-          </SectionCard>
-
-          <SectionCard
-            sectionKey="intakes"
-            primary={report.intakes ? { value: `${report.intakes.takenCount}/${report.intakes.scheduledCount}` } : { value: null }}
-            isEmpty={!report.intakes}
-          >
-            <div className="grid grid-cols-3 gap-3 mb-3">
-              <Stat label="예정" value={report.intakes?.scheduledCount ?? null} />
-              <Stat label="완료" value={report.intakes?.takenCount ?? null} />
-              <Stat label="건너뜀" value={report.intakes?.skippedCount ?? null} />
-            </div>
-            {intakePct !== null && (
-              <div>
-                <div className="flex justify-between text-[11px] text-[#888] mb-1.5">
-                  <span>복약 완료율</span>
-                  <span className="font-bold text-[#333]">{intakePct}%</span>
-                </div>
-                <div className="w-full bg-[#ebebeb] rounded-full h-1.5">
-                  <div className="bg-[#333] h-1.5 rounded-full transition-all" style={{ width: `${intakePct}%` }} />
-                </div>
+            <textarea
+              value={aiQuestion}
+              onChange={(e) => setAiQuestion(e.target.value)}
+              maxLength={1000}
+              className="input min-h-[96px] resize-none leading-5"
+              placeholder="오늘 기록을 보고 컨디션 관리 팁 알려줘"
+            />
+            <button
+              onClick={askAi}
+              disabled={aiLoading || !aiQuestion.trim()}
+              className="btn-primary w-full"
+            >
+              {aiLoading ? '답변 생성중…' : '질문하기'}
+            </button>
+            {aiError && <p className="text-sm text-red-500">{aiError}</p>}
+            {aiAnswer && (
+              <div className="quiet-note space-y-2">
+                <p>{aiAnswer}</p>
+                {aiNotice && <p className="text-[11px] text-[#666666]">{aiNotice}</p>}
               </div>
             )}
-          </SectionCard>
+          </div>
 
-          <SectionCard
-            sectionKey="reminders"
-            primary={report.reminders ? { value: String(report.reminders.sentCount), unit: '전송' } : { value: null }}
-            isEmpty={!report.reminders}
-          >
-            <div className="grid grid-cols-3 gap-3">
-              <Stat label="예정" value={report.reminders?.scheduledCount ?? null} />
-              <Stat label="전송" value={report.reminders?.sentCount ?? null} />
-              <Stat label="실패" value={report.reminders?.failedCount ?? null} />
+          <div className="card">
+            <h2 className="section-title mb-3">오늘의 할 일</h2>
+            <div className="space-y-2 text-sm">
+              <label className="flex items-center justify-between rounded-md border border-[#d2d2cc] bg-white px-3 py-2">
+                <span>아침 약 복용</span><span className="text-[#777777]">09:00 ○</span>
+              </label>
+              <label className="flex items-center justify-between rounded-md border border-[#d2d2cc] bg-white px-3 py-2">
+                <span>식사 사진 기록</span><span className="text-[#777777]">12:30 ○</span>
+              </label>
+              <label className="flex items-center justify-between rounded-md border border-[#d2d2cc] bg-white px-3 py-2">
+                <span>저녁 수분 체크</span><span className="text-[#777777]">20:00 ○</span>
+              </label>
             </div>
-          </SectionCard>
+          </div>
 
-          <p className="text-center text-[11px] text-[#bbb] pt-1">건강 관리 참고용이며 의학적 진단이 아닙니다</p>
-        </div>
+          <p className="text-xs text-[#777777]">{report.date} · {report.timezone}</p>
+
+          <Section title="활동" isEmpty={!report.activity}>
+            <div className="grid grid-cols-3 gap-4">
+              <StatCard label="걸음 수" value={report.activity?.totalSteps?.toLocaleString() ?? null} />
+              <StatCard label="활동 시간(분)" value={report.activity?.totalActiveMinutes ?? null} />
+              <StatCard label="소모 칼로리" value={report.activity?.totalActiveKcal?.toFixed(1) ?? null} />
+            </div>
+          </Section>
+
+          <Section title="수면" isEmpty={!report.sleep}>
+            <div className="grid grid-cols-4 gap-4">
+              <StatCard label="총 수면(분)" value={report.sleep?.totalMinutes ?? null} />
+              <StatCard label="깊은 수면(분)" value={report.sleep?.deepSleepMinutes ?? null} />
+              <StatCard label="REM(분)" value={report.sleep?.remSleepMinutes ?? null} />
+              <StatCard label="수면 점수" value={report.sleep?.sleepScore?.toFixed(1) ?? null} />
+            </div>
+          </Section>
+
+          <Section title="식사" isEmpty={!report.nutrition}>
+            <div className="grid grid-cols-3 gap-4">
+              <StatCard label="칼로리(kcal)" value={report.nutrition?.totalKcal?.toFixed(0) ?? null} />
+              <StatCard label="탄수화물(g)" value={report.nutrition?.totalCarbsG?.toFixed(1) ?? null} />
+              <StatCard label="단백질(g)" value={report.nutrition?.totalProteinG?.toFixed(1) ?? null} />
+              <StatCard label="지방(g)" value={report.nutrition?.totalFatG?.toFixed(1) ?? null} />
+              <StatCard label="식사 횟수" value={report.nutrition?.mealCount ?? null} />
+            </div>
+          </Section>
+
+          <Section title="음용" isEmpty={!report.hydration}>
+            <div className="grid grid-cols-3 gap-4">
+              <StatCard label="섭취량(ml)" value={report.hydration?.totalVolumeMl?.toFixed(0) ?? null} />
+              <StatCard label="카페인(mg)" value={report.hydration?.totalCaffeineMg?.toFixed(1) ?? null} />
+              <StatCard label="당분(g)" value={report.hydration?.totalSugarG?.toFixed(1) ?? null} />
+            </div>
+          </Section>
+
+          <Section title="복약" isEmpty={!report.intakes}>
+            <div className="grid grid-cols-3 gap-4">
+              <StatCard label="예정" value={report.intakes?.scheduledCount ?? null} />
+              <StatCard label="복용 완료" value={report.intakes?.takenCount ?? null} />
+              <StatCard label="건너뜀" value={report.intakes?.skippedCount ?? null} />
+            </div>
+          </Section>
+
+          <Section title="알림" isEmpty={!report.reminders}>
+            <div className="grid grid-cols-3 gap-4">
+              <StatCard label="예정" value={report.reminders?.scheduledCount ?? null} />
+              <StatCard label="전송 완료" value={report.reminders?.sentCount ?? null} />
+              <StatCard label="실패" value={report.reminders?.failedCount ?? null} />
+            </div>
+          </Section>
+
+          <p className="text-xs text-[#777777] text-center pt-2">
+            이 리포트는 건강 관리 참고용이며 진단이 아닙니다.
+          </p>
+        </>
       )}
     </div>
   );

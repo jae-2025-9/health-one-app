@@ -3,42 +3,101 @@
 @tailwind utilities;
 
 body {
-  background: #f5f5f3;
-  color: #1a1a1a;
+  background: #f4f4f2;
+  color: #161616;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 @layer components {
+  .app-bg {
+    @apply min-h-screen bg-[#f4f4f2] text-[#161616];
+  }
+  .phone-shell {
+    @apply relative mx-auto min-h-screen w-full max-w-[430px] bg-[#fbfbfa] border-x border-[#1f1f1f];
+  }
+  .app-topbar {
+    @apply sticky top-0 z-20 grid h-14 grid-cols-[44px_1fr_44px] items-center border-b border-[#262626] bg-[#fbfbfa] px-2;
+  }
+  .app-title {
+    @apply text-center text-[15px] font-semibold tracking-normal text-[#111111];
+  }
+  .icon-button {
+    @apply flex h-9 w-9 items-center justify-center rounded-md text-[20px] leading-none text-[#111111];
+  }
+  .app-main {
+    @apply px-4 py-4 pb-24;
+  }
+  .bottom-tabs {
+    @apply fixed bottom-0 left-1/2 z-20 grid h-16 w-full max-w-[430px] -translate-x-1/2 grid-cols-5 items-center border-t border-[#262626] bg-[#fbfbfa] px-2;
+  }
+  .bottom-tab {
+    @apply flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium text-[#222222];
+  }
+  .bottom-tab > span:first-child {
+    @apply text-[18px] leading-none;
+  }
+  .bottom-tab-plus {
+    @apply mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#262626] bg-white text-[22px] shadow-sm;
+  }
+  .bottom-tab-active {
+    @apply text-[#111111] font-bold;
+  }
+  .drawer-backdrop {
+    @apply fixed inset-0 z-40 bg-black/30;
+  }
+  .side-drawer {
+    @apply h-full w-[min(82vw,320px)] border-r border-[#262626] bg-[#fbfbfa] p-4 shadow-xl;
+  }
+  .side-link {
+    @apply flex min-h-11 items-center gap-3 rounded-md border border-[#d2d2cc] bg-white px-3 py-2 text-[14px] font-medium text-[#222222] transition-colors;
+  }
+  .side-link > span:first-child {
+    @apply flex h-7 w-7 items-center justify-center rounded-md bg-[#eeeeec] text-[15px];
+  }
+  .side-link-active {
+    @apply border-[#262626] bg-[#efefec];
+  }
+  .action-backdrop {
+    @apply fixed inset-0 z-40 flex items-end justify-center bg-black/30 px-3 pb-3;
+  }
+  .action-sheet {
+    @apply w-full max-w-[406px] rounded-lg border border-[#262626] bg-[#fbfbfa] p-4 shadow-xl;
+  }
+  .action-link {
+    @apply flex min-h-[58px] flex-col justify-center rounded-md border border-[#d2d2cc] bg-white px-3 py-2 text-[14px] text-[#222222] transition-colors hover:bg-[#eeeeec];
+  }
+  .nav-link {
+    @apply px-3 py-1.5 rounded text-sm text-[#333333] hover:bg-[#eeeeec] transition-colors;
+  }
   .card {
-    @apply bg-white rounded-xl border border-[#e8e8e5] p-4;
+    @apply bg-[#fbfbfa] rounded-lg border border-[#2c2c2c] p-4;
   }
   .stat-label {
-    @apply text-[11px] font-medium text-gray-400 mb-0.5;
+    @apply text-[11px] font-medium text-[#5b5b5b] mb-1;
   }
   .stat-value {
-    @apply text-[20px] font-semibold text-gray-900 leading-tight;
+    @apply text-[18px] font-semibold leading-tight text-[#111111];
   }
   .stat-unit {
-    @apply text-[11px] text-gray-400 ml-0.5;
+    @apply text-[11px] text-[#5b5b5b] ml-0.5;
   }
   .btn-primary {
-    @apply bg-[#1a1a1a] text-white px-4 py-2 rounded-lg text-sm font-semibold
-           hover:bg-[#333] disabled:opacity-40 transition-colors;
+    @apply bg-[#303030] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-[#111111] disabled:opacity-50 transition-colors;
   }
   .btn-secondary {
-    @apply bg-[#f0f0ee] text-[#333] px-4 py-2 rounded-lg text-sm font-semibold
-           hover:bg-[#e4e4e1] transition-colors;
+    @apply bg-[#eeeeec] text-[#222222] px-4 py-2 rounded-md border border-[#bdbdb8] text-sm font-semibold hover:bg-[#e2e2df] transition-colors;
   }
   .input {
-    @apply w-full border border-[#d8d8d4] rounded-lg px-3 py-2 text-sm bg-white
-           focus:outline-none focus:ring-1 focus:ring-gray-400 placeholder:text-gray-300 transition-all;
+    @apply w-full border border-[#bdbdb8] bg-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#303030];
   }
   .select {
-    @apply w-full border border-[#d8d8d4] rounded-lg px-3 py-2 text-sm bg-white
-           focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all;
+    @apply w-full border border-[#bdbdb8] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#303030] bg-white;
   }
   .badge {
     @apply inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold;
+  }
+  .empty-state {
+    @apply text-sm text-[#777777] text-center py-4;
   }
   .empty-section {
     @apply flex flex-col items-center justify-center py-5 gap-1.5;
@@ -51,42 +110,49 @@ body {
     @apply pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow
            transform transition-transform duration-200 ease-in-out;
   }
-  .section-title { @apply text-[14px] font-semibold text-[#111]; }
-
-  /* ── AppShell ── */
-  .app-bg { @apply min-h-screen bg-[#f4f4f2]; }
-  .phone-shell { @apply relative mx-auto min-h-screen w-full max-w-[430px] bg-[#fbfbfa] border-x border-[#e8e8e5]; }
-  .app-topbar { @apply sticky top-0 z-20 grid h-14 grid-cols-[44px_1fr_44px] items-center border-b border-[#e8e8e5] bg-[#fbfbfa] px-2; }
-  .app-title { @apply text-center text-[15px] font-semibold text-[#111]; }
-  .icon-button { @apply flex h-9 w-9 items-center justify-center rounded-md text-[20px] leading-none text-[#111]; }
-  .app-main { @apply px-4 py-4 pb-24; }
-  .bottom-tabs { @apply fixed bottom-0 left-1/2 z-20 grid h-16 w-full max-w-[430px] -translate-x-1/2 grid-cols-5 items-center border-t border-[#e8e8e5] bg-[#fbfbfa] px-2; }
-  .bottom-tab { @apply flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium text-gray-500; }
-  .bottom-tab > span:first-child { @apply text-[18px] leading-none; }
-  .bottom-tab-plus { @apply mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#d8d8d4] bg-white text-[22px] shadow-sm; }
-  .bottom-tab-active { @apply text-[#111] font-bold; }
-  .drawer-backdrop { @apply fixed inset-0 z-40 bg-black/30; }
-  .side-drawer { @apply h-full w-[min(82vw,320px)] border-r border-[#e8e8e5] bg-[#fbfbfa] p-4 shadow-xl; }
-  .side-link { @apply flex min-h-11 items-center gap-3 rounded-lg border border-[#e8e8e5] bg-white px-3 py-2 text-[14px] font-medium text-[#333] transition-colors; }
-  .side-link > span:first-child { @apply flex h-7 w-7 items-center justify-center rounded-lg bg-[#f0f0ee] text-[15px]; }
-  .side-link-active { @apply border-[#bdbdb8] bg-[#f0f0ee]; }
-  .action-backdrop { @apply fixed inset-0 z-40 flex items-end justify-center bg-black/30 px-3 pb-3; }
-  .action-sheet { @apply w-full max-w-[406px] rounded-xl border border-[#e8e8e5] bg-[#fbfbfa] p-4 shadow-xl; }
-  .action-link { @apply flex min-h-[58px] flex-col justify-center rounded-lg border border-[#e8e8e5] bg-white px-3 py-2 text-[14px] text-[#222] transition-colors hover:bg-[#f5f5f3]; }
-
-  /* ── AI 채팅 ── */
-  .segmented-control { @apply grid rounded-lg border border-[#e8e8e5] bg-[#f0f0ee] p-0.5; }
-  .segment { @apply min-h-8 rounded-md px-2 text-[13px] font-semibold text-gray-500 transition-colors; }
-  .segment-active { @apply bg-white text-gray-900 shadow-sm; }
-  .chat-panel { @apply flex min-h-[520px] flex-col rounded-xl border border-[#e8e8e5] bg-white p-3; }
-  .chat-scroll { @apply flex min-h-[300px] flex-1 flex-col gap-3 overflow-y-auto pb-3; }
-  .chat-bubble { @apply max-w-[88%] whitespace-pre-wrap rounded-xl border px-3.5 py-2 text-[13px] leading-5; }
-  .chat-user { @apply self-end border-[#1a1a1a] bg-[#1a1a1a] text-white; }
-  .chat-assistant { @apply self-start border-[#e8e8e5] bg-[#f5f5f3] text-[#1a1a1a]; }
-  .quick-link-grid { @apply grid grid-cols-2 gap-2; }
-  .quick-link { @apply rounded-lg border border-[#e8e8e5] bg-white px-3 py-2 text-[12px] font-semibold text-[#333] transition-colors hover:bg-[#f5f5f3]; }
-  .raw-event-row { @apply rounded-lg border border-[#e8e8e5] bg-white p-3 text-left; }
-  .quiet-note { @apply rounded-lg border border-[#e8e8e5] bg-[#f5f5f3] p-3 text-[12px] leading-5 text-[#555]; }
-  .summary-grid { @apply grid grid-cols-3 gap-2; }
-  .summary-tile { @apply min-h-[72px] rounded-lg border border-[#e8e8e5] bg-white p-3; }
+  .summary-grid {
+    @apply grid grid-cols-3 gap-2;
+  }
+  .summary-tile {
+    @apply min-h-[76px] rounded-lg border border-[#bdbdb8] bg-white p-3;
+  }
+  .section-title {
+    @apply text-[15px] font-semibold text-[#111111];
+  }
+  .quiet-note {
+    @apply rounded-lg border border-[#bdbdb8] bg-[#f2f2ef] p-3 text-[12px] leading-5 text-[#333333];
+  }
+  .segmented-control {
+    @apply grid grid-cols-3 rounded-lg border border-[#262626] bg-white p-1;
+  }
+  .segment {
+    @apply min-h-9 rounded-md px-2 text-[13px] font-semibold text-[#333333] transition-colors;
+  }
+  .segment-active {
+    @apply bg-[#303030] text-white;
+  }
+  .chat-panel {
+    @apply flex min-h-[520px] flex-col rounded-lg border border-[#262626] bg-[#fbfbfa] p-3;
+  }
+  .chat-scroll {
+    @apply flex min-h-[300px] flex-1 flex-col gap-3 overflow-y-auto pb-3;
+  }
+  .chat-bubble {
+    @apply max-w-[88%] whitespace-pre-wrap rounded-lg border px-3 py-2 text-[13px] leading-5;
+  }
+  .chat-user {
+    @apply self-end border-[#262626] bg-[#303030] text-white;
+  }
+  .chat-assistant {
+    @apply self-start border-[#bdbdb8] bg-white text-[#222222];
+  }
+  .quick-link-grid {
+    @apply grid grid-cols-2 gap-2;
+  }
+  .quick-link {
+    @apply rounded-md border border-[#d2d2cc] bg-white px-3 py-2 text-[12px] font-semibold text-[#222222] transition-colors hover:bg-[#eeeeec];
+  }
+  .raw-event-row {
+    @apply rounded-md border border-[#d2d2cc] bg-white p-3 text-left;
+  }
 }
