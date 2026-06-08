@@ -5,6 +5,8 @@ import { AppModule } from './app.module';
 import { PrismaService } from './common/prisma/prisma.service';
 import { AllExceptionsFilter } from './common/http/all-exceptions.filter';
 import { ResponseEnvelopeInterceptor } from './common/http/response-envelope.interceptor';
+import { ReportsService } from './reports/reports.service';
+import { AiService } from './ai/ai.service';
 
 /**
  * In-process e2e: boots the real AppModule with PrismaService mocked, so the
@@ -40,8 +42,26 @@ function buildPrismaMock() {
         ingredientName: where.id === ID1 ? 'Warfarin' : 'Vitamin K',
       })),
     },
+    aiAnalysisResult: {
+      create: jest.fn(async () => ({ id: 'analysis-1' })),
+    },
     interactionCheck: { findFirst: jest.fn(async () => null) },
     $transaction: jest.fn(async (cb: any) => cb(tx)),
+  };
+}
+
+function buildReportsMock() {
+  return {
+    daily: jest.fn(async () => ({
+      date: '2026-06-06',
+      timezone: 'Asia/Seoul',
+      activity: { totalSteps: 9230, totalActiveMinutes: 57, totalActiveKcal: 455 },
+      sleep: { totalMinutes: 465, deepSleepMinutes: 102, remSleepMinutes: 84, sleepScore: 79 },
+      nutrition: { totalKcal: 1710, totalCarbsG: 222, totalProteinG: 60, totalFatG: 43, mealCount: 1 },
+      hydration: { totalVolumeMl: 1900, totalCaffeineMg: 95, totalSugarG: 1 },
+      intakes: { scheduledCount: 1, takenCount: 1, skippedCount: 0 },
+      reminders: null,
+    })),
   };
 }
 
@@ -52,6 +72,8 @@ describe('L3 API (e2e, mocked Prisma)', () => {
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(PrismaService)
       .useValue(buildPrismaMock())
+      .overrideProvider(ReportsService)
+      .useValue(buildReportsMock())
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -139,5 +161,77 @@ describe('L3 API (e2e, mocked Prisma)', () => {
       .send({ productName: 'x' })
       .expect(400);
     expect(res.body.error.code).toBe('VALIDATION_ERROR');
+  });
+
+  it('POST /v1/ai/questions returns an Upstage-backed answer envelope', async () => {
+    const oldKey = process.env.UPSTAGE_API_KEY;
+    const oldFetch = global.fetch;
+    process.env.UPSTAGE_API_KEY = 'test-key';
+    global.fetch = jest.fn(async () => ({
+      ok: true,
+      json: async () => ({
+        model: 'solar-pro3',
+        choices: [{ message: { content: '오늘은 수분 섭취를 유지해 보세요.' } }],
+      }),
+    })) as any;
+
+    try {
+      const res = await request(app.getHttpServer())
+        .post('/v1/ai/questions')
+        .send({ question: '오늘 건강 팁 알려줘', date: '2026-06-06' })
+        .expect(200);
+      expect(res.body.data.analysisId).toBe('analysis-1');
+      expect(res.body.data.answer).toContain('수분');
+      expect(res.body.data.model).toBe('solar-pro3');
+      expect(res.body.data.safetyNotice).toContain('의료 진단');
+      expect(res.body.meta.requestId).toBeDefined();
+    } finally {
+      if (oldKey === undefined) delete process.env.UPSTAGE_API_KEY;
+      else process.env.UPSTAGE_API_KEY = oldKey;
+      global.fetch = oldFetch;
+    }
+  });
+
+  it('POST /v1/ai/questions cannot bypass rate limits by rotating X-User-Id', async () => {
+    const oldKey = process.env.UPSTAGE_API_KEY;
+    const oldMax = process.env.AI_RATE_LIMIT_MAX;
+    const oldGlobalMax = process.env.AI_GLOBAL_RATE_LIMIT_MAX;
+    const oldFetch = global.fetch;
+    (app.get(AiService) as any).rateLimitBuckets.clear();
+    process.env.UPSTAGE_API_KEY = 'test-key';
+    process.env.AI_RATE_LIMIT_MAX = '1';
+    process.env.AI_GLOBAL_RATE_LIMIT_MAX = '100';
+    global.fetch = jest.fn(async () => ({
+      ok: true,
+      json: async () => ({
+        model: 'solar-pro3',
+        choices: [{ message: { content: '첫 답변입니다.' } }],
+      }),
+    })) as any;
+
+    try {
+      await request(app.getHttpServer())
+        .post('/v1/ai/questions')
+        .set('X-User-Id', ID1)
+        .send({ question: '첫 질문', date: '2026-06-06' })
+        .expect(200);
+
+      const res = await request(app.getHttpServer())
+        .post('/v1/ai/questions')
+        .set('X-User-Id', ID2)
+        .send({ question: '두 번째 질문', date: '2026-06-06' })
+        .expect(429);
+
+      expect(res.body.error.code).toBe('AI_RATE_LIMIT_EXCEEDED');
+      expect((global.fetch as jest.Mock).mock.calls).toHaveLength(1);
+    } finally {
+      if (oldKey === undefined) delete process.env.UPSTAGE_API_KEY;
+      else process.env.UPSTAGE_API_KEY = oldKey;
+      if (oldMax === undefined) delete process.env.AI_RATE_LIMIT_MAX;
+      else process.env.AI_RATE_LIMIT_MAX = oldMax;
+      if (oldGlobalMax === undefined) delete process.env.AI_GLOBAL_RATE_LIMIT_MAX;
+      else process.env.AI_GLOBAL_RATE_LIMIT_MAX = oldGlobalMax;
+      global.fetch = oldFetch;
+    }
   });
 });

@@ -8,6 +8,7 @@ const NAV = [
   { href: '/reminders',        label: '알림' },
   { href: '/reports/weekly',   label: '주간 리포트' },
   { href: '/integrations',     label: '연동' },
+  { href: '/ai',               label: '🤖 AI' },
 ];
 
 export default function NavBar() {

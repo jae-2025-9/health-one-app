@@ -99,7 +99,7 @@ https://api.health-one.example/v1
 ```json
 {
   "data": {
-    "analysisId": "ana_123",
+    "analysisId": "6f0c1c2d-9f4a-45f1-9f17-f2f4a5a90831",
     "mealDraft": {
       "mealType": "breakfast",
       "totalKcal": 620,
@@ -168,6 +168,45 @@ https://api.health-one.example/v1
 | --- | --- | --- |
 | POST | `/cosmetics/analyze-ingredients` | 성분명 텍스트 또는 성분표 사진을 분석합니다. |
 | POST | `/cosmetics/usage-logs` | 화장품 사용 부위와 반응 메모를 기록합니다. |
+
+## AI 질문
+
+| Method | Path | 설명 |
+| --- | --- | --- |
+| POST | `/ai/questions` | 건강 기록 맥락과 사용자 질문을 Upstage Solar Pro로 보내 참고 답변을 생성합니다. |
+
+요청:
+
+```json
+{
+  "question": "오늘 컨디션 관리 팁 알려줘",
+  "date": "2026-06-06"
+}
+```
+
+응답:
+
+```json
+{
+  "data": {
+    "analysisId": "6f0c1c2d-9f4a-45f1-9f17-f2f4a5a90831",
+    "answer": "수면과 수분 섭취를 조금 더 안정적으로 유지해 보세요.",
+    "model": "solar-pro3",
+    "safetyNotice": "AI 답변은 건강 관리 참고 정보이며 의료 진단이나 처방이 아닙니다. 증상이 있거나 약 복용 판단이 필요하면 전문가와 상담하세요.",
+    "usage": {
+      "promptTokens": 10,
+      "completionTokens": 12,
+      "totalTokens": 22
+    }
+  },
+  "meta": {
+    "requestId": "req_20260525_0005",
+    "generatedAt": "2026-05-25T10:00:00+09:00"
+  }
+}
+```
+
+반복 호출이 많으면 `429 AI_RATE_LIMIT_EXCEEDED`를 반환할 수 있습니다.
 
 ## 알림
 

@@ -10,6 +10,7 @@ import { CosmeticsModule } from './cosmetics/cosmetics.module';
 import { RemindersModule } from './reminders/reminders.module';
 import { ReportsModule } from './reports/reports.module';
 import { IntegrationsModule } from './integrations/integrations.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { IntegrationsModule } from './integrations/integrations.module';
     RemindersModule,
     ReportsModule,
     IntegrationsModule,
+    AiModule,
   ],
   controllers: [HealthController],
 })

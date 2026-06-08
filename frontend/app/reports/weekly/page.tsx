@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
+import { DEMO_WEEK_START, isDemoModeEnabled } from '@/lib/demo-data';
 import type { WeeklyReport } from '@/lib/types';
 
 function Stat({ label, value, unit }: { label: string; value: string | number | null; unit?: string }) {
@@ -64,7 +65,7 @@ export default function WeeklyReportPage() {
   }
 
   useEffect(() => {
-    const mon = currentMonday();
+    const mon = isDemoModeEnabled() ? DEMO_WEEK_START : currentMonday();
     setWeekStart(mon);
     load(mon);
   }, []);

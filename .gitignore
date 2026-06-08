@@ -3,6 +3,12 @@
 *_문제파일백업.xlsx
 **/__pycache__/
 *.pyc
+.env
+.env.*
+!.env.example
+!.env.*.example
+.vercel/
+**/.vercel/
 .omx/
 .omc/
 .omo/

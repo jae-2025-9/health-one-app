@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
+import { DEMO_TODAY, isDemoModeEnabled } from '@/lib/demo-data';
 import type { DailyReport } from '@/lib/types';
 
 const SECTIONS = [
@@ -95,7 +96,7 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    const today = new Date().toLocaleDateString('en-CA');
+    const today = isDemoModeEnabled() ? DEMO_TODAY : new Date().toLocaleDateString('en-CA');
     setDate(today);
     load(today);
   }, []);

@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: health-one-api
+    runtime: node
+    rootDir: backend
+    region: singapore
+    plan: free
+    buildCommand: npm ci --include=dev && npm run prisma:generate && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /v1/healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: DEV_USER_ID
+        value: 00000000-0000-0000-0000-000000000001
+      - key: UPSTAGE_API_KEY
+        sync: false
+      - key: UPSTAGE_BASE_URL
+        value: https://api.upstage.ai/v1
+      - key: UPSTAGE_MODEL
+        value: solar-pro3

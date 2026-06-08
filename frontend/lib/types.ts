@@ -62,6 +62,7 @@ export interface DailyReport {
     sentCount: number;
     failedCount: number;
   } | null;
+  demoRawEvents?: DemoRawEvent[];
 }
 
 export interface WeeklyReport {
@@ -92,6 +93,19 @@ export interface WeeklyReport {
     totalTaken: number;
     adherenceRate: number | null;
   } | null;
+  dailyReports?: DailyReport[];
+  demoRawEvents?: DemoRawEvent[];
+}
+
+export interface DemoRawEvent {
+  id: string;
+  date: string;
+  time: string;
+  eventType: string;
+  sourceType: string;
+  title: string;
+  summary: string;
+  rawPayload: Record<string, unknown>;
 }
 
 export interface HealthSyncEvent {
@@ -118,4 +132,21 @@ export interface HealthSyncResult {
   inserted: number;
   deduplicated: number;
   failed: number;
+}
+
+export interface AiQuestionRequest {
+  question: string;
+  date?: string;
+}
+
+export interface AiQuestionResponse {
+  analysisId: string;
+  answer: string;
+  model: string;
+  safetyNotice: string;
+  usage: {
+    promptTokens: number | null;
+    completionTokens: number | null;
+    totalTokens: number | null;
+  };
 }

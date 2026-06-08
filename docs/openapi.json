@@ -18,7 +18,9 @@
   "paths": {
     "/auth/signup": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Create a user account",
         "security": [],
         "requestBody": {
@@ -43,7 +45,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Issue an access token",
         "security": [],
         "requestBody": {
@@ -68,7 +72,9 @@
     },
     "/me/profile": {
       "get": {
-        "tags": ["Profile"],
+        "tags": [
+          "Profile"
+        ],
         "summary": "Get my health profile",
         "responses": {
           "200": {
@@ -87,7 +93,9 @@
         }
       },
       "patch": {
-        "tags": ["Profile"],
+        "tags": [
+          "Profile"
+        ],
         "summary": "Update my health profile",
         "requestBody": {
           "required": true,
@@ -118,7 +126,9 @@
     },
     "/health-events": {
       "get": {
-        "tags": ["Health Events"],
+        "tags": [
+          "Health Events"
+        ],
         "summary": "List health events by type and time range",
         "parameters": [
           {
@@ -162,7 +172,9 @@
         }
       },
       "post": {
-        "tags": ["Health Events"],
+        "tags": [
+          "Health Events"
+        ],
         "summary": "Create a common health event",
         "requestBody": {
           "required": true,
@@ -193,7 +205,9 @@
     },
     "/activities": {
       "post": {
-        "tags": ["Activities"],
+        "tags": [
+          "Activities"
+        ],
         "summary": "Create an activity record",
         "requestBody": {
           "required": true,
@@ -217,7 +231,9 @@
     },
     "/activities/summary": {
       "get": {
-        "tags": ["Activities"],
+        "tags": [
+          "Activities"
+        ],
         "summary": "Get activity summary",
         "parameters": [
           {
@@ -239,7 +255,9 @@
     },
     "/sleep-records": {
       "post": {
-        "tags": ["Sleep"],
+        "tags": [
+          "Sleep"
+        ],
         "summary": "Create a sleep record",
         "requestBody": {
           "required": true,
@@ -263,7 +281,9 @@
     },
     "/sleep-records/summary": {
       "get": {
-        "tags": ["Sleep"],
+        "tags": [
+          "Sleep"
+        ],
         "summary": "Get sleep summary",
         "parameters": [
           {
@@ -285,7 +305,9 @@
     },
     "/meals/analyze-image": {
       "post": {
-        "tags": ["Meals"],
+        "tags": [
+          "Meals"
+        ],
         "summary": "Analyze a meal image",
         "requestBody": {
           "required": true,
@@ -316,7 +338,9 @@
     },
     "/meals": {
       "get": {
-        "tags": ["Meals"],
+        "tags": [
+          "Meals"
+        ],
         "summary": "List meal records",
         "parameters": [
           {
@@ -336,7 +360,9 @@
         }
       },
       "post": {
-        "tags": ["Meals"],
+        "tags": [
+          "Meals"
+        ],
         "summary": "Create or confirm a meal record",
         "requestBody": {
           "required": true,
@@ -360,7 +386,9 @@
     },
     "/beverages/analyze-label": {
       "post": {
-        "tags": ["Beverages"],
+        "tags": [
+          "Beverages"
+        ],
         "summary": "Analyze a beverage label image",
         "requestBody": {
           "required": true,
@@ -391,7 +419,9 @@
     },
     "/beverages": {
       "post": {
-        "tags": ["Beverages"],
+        "tags": [
+          "Beverages"
+        ],
         "summary": "Create a beverage record",
         "requestBody": {
           "required": true,
@@ -415,7 +445,9 @@
     },
     "/beverages/summary": {
       "get": {
-        "tags": ["Beverages"],
+        "tags": [
+          "Beverages"
+        ],
         "summary": "Get beverage, water, caffeine, and sugar summary",
         "parameters": [
           {
@@ -437,7 +469,9 @@
     },
     "/intakes/items": {
       "post": {
-        "tags": ["Intakes"],
+        "tags": [
+          "Intakes"
+        ],
         "summary": "Register a medication or supplement item",
         "requestBody": {
           "required": true,
@@ -461,7 +495,9 @@
     },
     "/intakes/logs": {
       "post": {
-        "tags": ["Intakes"],
+        "tags": [
+          "Intakes"
+        ],
         "summary": "Create a medication or supplement intake log",
         "requestBody": {
           "required": true,
@@ -485,7 +521,9 @@
     },
     "/intakes/schedule": {
       "get": {
-        "tags": ["Intakes"],
+        "tags": [
+          "Intakes"
+        ],
         "summary": "Get intake schedule for a date",
         "parameters": [
           {
@@ -509,7 +547,9 @@
     },
     "/interaction-checks": {
       "post": {
-        "tags": ["Interaction Checks"],
+        "tags": [
+          "Interaction Checks"
+        ],
         "summary": "Check medication and supplement caution information",
         "description": "Returns wellness caution information, not diagnosis, treatment, or prescription guidance.",
         "requestBody": {
@@ -541,7 +581,9 @@
     },
     "/interaction-checks/{id}": {
       "get": {
-        "tags": ["Interaction Checks"],
+        "tags": [
+          "Interaction Checks"
+        ],
         "summary": "Get an interaction check result",
         "parameters": [
           {
@@ -567,7 +609,9 @@
     },
     "/cosmetics/analyze-ingredients": {
       "post": {
-        "tags": ["Cosmetics"],
+        "tags": [
+          "Cosmetics"
+        ],
         "summary": "Analyze cosmetic ingredient text or image",
         "requestBody": {
           "required": true,
@@ -591,7 +635,9 @@
     },
     "/cosmetics/usage-logs": {
       "post": {
-        "tags": ["Cosmetics"],
+        "tags": [
+          "Cosmetics"
+        ],
         "summary": "Create a cosmetic usage log",
         "requestBody": {
           "required": true,
@@ -615,7 +661,9 @@
     },
     "/reminders": {
       "get": {
-        "tags": ["Reminders"],
+        "tags": [
+          "Reminders"
+        ],
         "summary": "List reminder rules",
         "responses": {
           "200": {
@@ -627,7 +675,9 @@
         }
       },
       "post": {
-        "tags": ["Reminders"],
+        "tags": [
+          "Reminders"
+        ],
         "summary": "Create a reminder rule",
         "requestBody": {
           "required": true,
@@ -651,7 +701,9 @@
     },
     "/reminders/{id}": {
       "patch": {
-        "tags": ["Reminders"],
+        "tags": [
+          "Reminders"
+        ],
         "summary": "Update a reminder rule",
         "parameters": [
           {
@@ -680,7 +732,9 @@
     },
     "/reports/daily": {
       "get": {
-        "tags": ["Reports"],
+        "tags": [
+          "Reports"
+        ],
         "summary": "Get daily health factor report",
         "parameters": [
           {
@@ -704,7 +758,9 @@
     },
     "/reports/weekly": {
       "get": {
-        "tags": ["Reports"],
+        "tags": [
+          "Reports"
+        ],
         "summary": "Get weekly health factor report",
         "parameters": [
           {
@@ -728,7 +784,9 @@
     },
     "/integrations/health-sync": {
       "post": {
-        "tags": ["Integrations"],
+        "tags": [
+          "Integrations"
+        ],
         "summary": "Sync Apple HealthKit or Samsung Health data from a mobile client",
         "description": "The mobile app reads authorized HealthKit or Samsung Health records and uploads normalized events. The server deduplicates by sourceId and externalRecordId.",
         "requestBody": {
@@ -744,6 +802,53 @@
         "responses": {
           "202": {
             "$ref": "#/components/responses/ResourceResponse"
+          },
+          "default": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/ai/questions": {
+      "post": {
+        "summary": "Ask health assistant AI",
+        "description": "Creates a server-side Upstage Solar Pro response for a health-management question. The response is informational and not medical diagnosis.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiQuestionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "AI answer response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiQuestionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "description": "AI question rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
           },
           "default": {
             "$ref": "#/components/responses/ErrorResponse"
@@ -847,12 +952,25 @@
             }
           }
         }
+      },
+      "ServiceUnavailable": {
+        "description": "AI provider unavailable or not configured",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ApiErrorResponse"
+            }
+          }
+        }
       }
     },
     "schemas": {
       "ApiMeta": {
         "type": "object",
-        "required": ["requestId", "generatedAt"],
+        "required": [
+          "requestId",
+          "generatedAt"
+        ],
         "properties": {
           "requestId": {
             "type": "string"
@@ -865,7 +983,10 @@
       },
       "ApiError": {
         "type": "object",
-        "required": ["code", "message"],
+        "required": [
+          "code",
+          "message"
+        ],
         "properties": {
           "code": {
             "type": "string"
@@ -883,7 +1004,10 @@
       },
       "ApiErrorResponse": {
         "type": "object",
-        "required": ["error", "meta"],
+        "required": [
+          "error",
+          "meta"
+        ],
         "properties": {
           "error": {
             "$ref": "#/components/schemas/ApiError"
@@ -918,11 +1042,20 @@
       },
       "InteractionRiskLevel": {
         "type": "string",
-        "enum": ["low", "medium", "high", "unknown"]
+        "enum": [
+          "low",
+          "medium",
+          "high",
+          "unknown"
+        ]
       },
       "SignupRequest": {
         "type": "object",
-        "required": ["email", "password", "displayName"],
+        "required": [
+          "email",
+          "password",
+          "displayName"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -939,7 +1072,10 @@
       },
       "LoginRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -952,7 +1088,11 @@
       },
       "AuthPayload": {
         "type": "object",
-        "required": ["accessToken", "tokenType", "user"],
+        "required": [
+          "accessToken",
+          "tokenType",
+          "user"
+        ],
         "properties": {
           "accessToken": {
             "type": "string"
@@ -968,7 +1108,10 @@
       },
       "AuthResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "$ref": "#/components/schemas/AuthPayload"
@@ -980,7 +1123,11 @@
       },
       "User": {
         "type": "object",
-        "required": ["id", "email", "displayName"],
+        "required": [
+          "id",
+          "email",
+          "displayName"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -999,20 +1146,35 @@
         "type": "object",
         "properties": {
           "birthDate": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date"
           },
           "sex": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "heightCm": {
-            "type": ["number", "null"]
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "weightKg": {
-            "type": ["number", "null"]
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "activityGoal": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "timezone": {
             "type": "string",
@@ -1038,7 +1200,10 @@
       },
       "UserProfileResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "$ref": "#/components/schemas/UserProfile"
@@ -1050,7 +1215,12 @@
       },
       "HealthEventCreate": {
         "type": "object",
-        "required": ["eventType", "sourceType", "startedAt", "timezone"],
+        "required": [
+          "eventType",
+          "sourceType",
+          "startedAt",
+          "timezone"
+        ],
         "properties": {
           "eventType": {
             "$ref": "#/components/schemas/HealthEventType"
@@ -1059,18 +1229,27 @@
             "$ref": "#/components/schemas/DataSourceType"
           },
           "sourceId": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uuid"
           },
           "externalRecordId": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "startedAt": {
             "type": "string",
             "format": "date-time"
           },
           "endedAt": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "timezone": {
@@ -1094,7 +1273,10 @@
           },
           {
             "type": "object",
-            "required": ["id", "createdAt"],
+            "required": [
+              "id",
+              "createdAt"
+            ],
             "properties": {
               "id": {
                 "type": "string",
@@ -1110,7 +1292,10 @@
       },
       "HealthEventResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "$ref": "#/components/schemas/HealthEvent"
@@ -1122,7 +1307,10 @@
       },
       "HealthEventListResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "type": "array",
@@ -1144,22 +1332,37 @@
             "type": "object",
             "properties": {
               "steps": {
-                "type": ["integer", "null"],
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "minimum": 0
               },
               "activeMinutes": {
-                "type": ["integer", "null"],
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "minimum": 0
               },
               "activeKcal": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               },
               "workoutType": {
-                "type": ["string", "null"]
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "distanceMeters": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               }
             }
@@ -1173,31 +1376,48 @@
           },
           {
             "type": "object",
-            "required": ["totalMinutes"],
+            "required": [
+              "totalMinutes"
+            ],
             "properties": {
               "totalMinutes": {
                 "type": "integer",
                 "minimum": 0
               },
               "awakeMinutes": {
-                "type": ["integer", "null"],
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "minimum": 0
               },
               "deepSleepMinutes": {
-                "type": ["integer", "null"],
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "minimum": 0
               },
               "remSleepMinutes": {
-                "type": ["integer", "null"],
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "minimum": 0
               },
               "sleepScore": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0,
                 "maximum": 100
               },
               "qualityNote": {
-                "type": ["string", "null"]
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             }
           }
@@ -1205,14 +1425,19 @@
       },
       "ImageAnalysisRequest": {
         "type": "object",
-        "required": ["imageUrl"],
+        "required": [
+          "imageUrl"
+        ],
         "properties": {
           "imageUrl": {
             "type": "string",
             "format": "uri"
           },
           "takenAt": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time"
           },
           "timezone": {
@@ -1228,25 +1453,40 @@
           },
           {
             "type": "object",
-            "required": ["mealType", "items"],
+            "required": [
+              "mealType",
+              "items"
+            ],
             "properties": {
               "mealType": {
                 "type": "string"
               },
               "totalKcal": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               },
               "carbsG": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               },
               "proteinG": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               },
               "fatG": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               },
               "items": {
@@ -1261,35 +1501,58 @@
       },
       "FoodItem": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string"
           },
           "servingAmount": {
-            "type": ["number", "null"]
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "servingUnit": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "kcal": {
-            "type": ["number", "null"],
+            "type": [
+              "number",
+              "null"
+            ],
             "minimum": 0
           },
           "carbsG": {
-            "type": ["number", "null"],
+            "type": [
+              "number",
+              "null"
+            ],
             "minimum": 0
           },
           "proteinG": {
-            "type": ["number", "null"],
+            "type": [
+              "number",
+              "null"
+            ],
             "minimum": 0
           },
           "fatG": {
-            "type": ["number", "null"],
+            "type": [
+              "number",
+              "null"
+            ],
             "minimum": 0
           },
           "confidenceScore": {
-            "type": ["number", "null"],
+            "type": [
+              "number",
+              "null"
+            ],
             "minimum": 0,
             "maximum": 1
           }
@@ -1297,11 +1560,18 @@
       },
       "MealAnalysisResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "type": "object",
-            "required": ["analysisId", "mealDraft", "safetyNotice"],
+            "required": [
+              "analysisId",
+              "mealDraft",
+              "safetyNotice"
+            ],
             "properties": {
               "analysisId": {
                 "type": "string"
@@ -1326,28 +1596,45 @@
           },
           {
             "type": "object",
-            "required": ["beverageType"],
+            "required": [
+              "beverageType"
+            ],
             "properties": {
               "beverageType": {
                 "type": "string"
               },
               "name": {
-                "type": ["string", "null"]
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "volumeMl": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               },
               "kcal": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               },
               "sugarG": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               },
               "caffeineMg": {
-                "type": ["number", "null"],
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "minimum": 0
               }
             }
@@ -1356,11 +1643,18 @@
       },
       "BeverageAnalysisResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "type": "object",
-            "required": ["analysisId", "beverageDraft", "safetyNotice"],
+            "required": [
+              "analysisId",
+              "beverageDraft",
+              "safetyNotice"
+            ],
             "properties": {
               "analysisId": {
                 "type": "string"
@@ -1380,23 +1674,38 @@
       },
       "IntakeItemCreate": {
         "type": "object",
-        "required": ["itemType", "name"],
+        "required": [
+          "itemType",
+          "name"
+        ],
         "properties": {
           "itemType": {
             "type": "string",
-            "enum": ["medication", "supplement"]
+            "enum": [
+              "medication",
+              "supplement"
+            ]
           },
           "name": {
             "type": "string"
           },
           "ingredientName": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "doseAmount": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "instructions": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           }
         }
       },
@@ -1407,14 +1716,23 @@
           },
           {
             "type": "object",
-            "required": ["takenAt", "status"],
+            "required": [
+              "takenAt",
+              "status"
+            ],
             "properties": {
               "medicationItemId": {
-                "type": ["string", "null"],
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "uuid"
               },
               "supplementItemId": {
-                "type": ["string", "null"],
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "uuid"
               },
               "takenAt": {
@@ -1423,10 +1741,17 @@
               },
               "status": {
                 "type": "string",
-                "enum": ["scheduled", "taken", "skipped"]
+                "enum": [
+                  "scheduled",
+                  "taken",
+                  "skipped"
+                ]
               },
               "note": {
-                "type": ["string", "null"]
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             }
           }
@@ -1434,18 +1759,26 @@
       },
       "InteractionCheckCreate": {
         "type": "object",
-        "required": ["items"],
+        "required": [
+          "items"
+        ],
         "properties": {
           "items": {
             "type": "array",
             "minItems": 2,
             "items": {
               "type": "object",
-              "required": ["itemType", "itemId"],
+              "required": [
+                "itemType",
+                "itemId"
+              ],
               "properties": {
                 "itemType": {
                   "type": "string",
-                  "enum": ["medication", "supplement"]
+                  "enum": [
+                    "medication",
+                    "supplement"
+                  ]
                 },
                 "itemId": {
                   "type": "string",
@@ -1458,7 +1791,14 @@
       },
       "InteractionCheck": {
         "type": "object",
-        "required": ["id", "riskLevel", "summary", "recommendation", "safetyNotice", "createdAt"],
+        "required": [
+          "id",
+          "riskLevel",
+          "summary",
+          "recommendation",
+          "safetyNotice",
+          "createdAt"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -1491,7 +1831,10 @@
       },
       "InteractionCheckResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "$ref": "#/components/schemas/InteractionCheck"
@@ -1505,28 +1848,47 @@
         "type": "object",
         "properties": {
           "productName": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "brand": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "ingredientText": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "imageUrl": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uri"
           },
           "skinType": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "anyOf": [
           {
-            "required": ["ingredientText"]
+            "required": [
+              "ingredientText"
+            ]
           },
           {
-            "required": ["imageUrl"]
+            "required": [
+              "imageUrl"
+            ]
           }
         ]
       },
@@ -1537,17 +1899,25 @@
           },
           {
             "type": "object",
-            "required": ["cosmeticProductId"],
+            "required": [
+              "cosmeticProductId"
+            ],
             "properties": {
               "cosmeticProductId": {
                 "type": "string",
                 "format": "uuid"
               },
               "bodyArea": {
-                "type": ["string", "null"]
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "reactionNote": {
-                "type": ["string", "null"]
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             }
           }
@@ -1555,14 +1925,27 @@
       },
       "ReminderCreate": {
         "type": "object",
-        "required": ["targetType", "title", "rrule"],
+        "required": [
+          "targetType",
+          "title",
+          "rrule"
+        ],
         "properties": {
           "targetType": {
             "type": "string",
-            "enum": ["intake", "hydration", "sleep", "activity", "custom"]
+            "enum": [
+              "intake",
+              "hydration",
+              "sleep",
+              "activity",
+              "custom"
+            ]
           },
           "targetId": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uuid"
           },
           "title": {
@@ -1593,14 +1976,23 @@
       },
       "HealthSyncRequest": {
         "type": "object",
-        "required": ["sourceType", "events"],
+        "required": [
+          "sourceType",
+          "events"
+        ],
         "properties": {
           "sourceType": {
             "type": "string",
-            "enum": ["apple_health", "samsung_health"]
+            "enum": [
+              "apple_health",
+              "samsung_health"
+            ]
           },
           "externalAccountId": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "events": {
             "type": "array",
@@ -1612,7 +2004,10 @@
       },
       "ListResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "type": "array",
@@ -1627,7 +2022,10 @@
       },
       "ResourceResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "type": "object"
@@ -1639,10 +2037,99 @@
       },
       "SummaryResponse": {
         "type": "object",
-        "required": ["data", "meta"],
+        "required": [
+          "data",
+          "meta"
+        ],
         "properties": {
           "data": {
             "type": "object"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ApiMeta"
+          }
+        }
+      },
+      "AiQuestionRequest": {
+        "type": "object",
+        "required": [
+          "question"
+        ],
+        "properties": {
+          "question": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 1000
+          },
+          "date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        }
+      },
+      "AiQuestion": {
+        "type": "object",
+        "required": [
+          "analysisId",
+          "answer",
+          "model",
+          "safetyNotice",
+          "usage"
+        ],
+        "properties": {
+          "analysisId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string",
+            "example": "solar-pro3"
+          },
+          "safetyNotice": {
+            "type": "string"
+          },
+          "usage": {
+            "type": "object",
+            "required": [
+              "promptTokens",
+              "completionTokens",
+              "totalTokens"
+            ],
+            "properties": {
+              "promptTokens": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "completionTokens": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "totalTokens": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "AiQuestionResponse": {
+        "type": "object",
+        "required": [
+          "data",
+          "meta"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AiQuestion"
           },
           "meta": {
             "$ref": "#/components/schemas/ApiMeta"

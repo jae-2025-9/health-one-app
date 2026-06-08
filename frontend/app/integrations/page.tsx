@@ -8,12 +8,20 @@ const EXAMPLE = JSON.stringify([
   {
     eventType: 'activity',
     sourceType: 'apple_health',
-    externalRecordId: `AH-STEP-${new Date().toISOString().split('T')[0]}-001`,
-    startedAt: `${new Date().toISOString().split('T')[0]}T00:00:00+09:00`,
-    endedAt: `${new Date().toISOString().split('T')[0]}T23:59:59+09:00`,
+    externalRecordId: 'AH-STEP-2026-06-06-001',
+    startedAt: '2026-06-06T00:00:00+09:00',
+    endedAt: '2026-06-06T23:59:59+09:00',
     timezone: 'Asia/Seoul',
     confidenceScore: 1.0,
-    rawPayload: { steps: 8000, activeMinutes: 40 },
+  },
+  {
+    eventType: 'sleep',
+    sourceType: 'samsung_health',
+    externalRecordId: 'SH-SLEEP-2026-06-06-001',
+    startedAt: '2026-06-05T23:40:00+09:00',
+    endedAt: '2026-06-06T07:20:00+09:00',
+    timezone: 'Asia/Seoul',
+    confidenceScore: 0.93,
   },
 ], null, 2);
 
