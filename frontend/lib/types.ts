@@ -140,13 +140,6 @@ export interface AiQuestionRequest {
 }
 
 export interface AiQuestionResponse {
-  analysisId: string;
   answer: string;
-  model: string;
   safetyNotice: string;
-  usage: {
-    promptTokens: number | null;
-    completionTokens: number | null;
-    totalTokens: number | null;
-  };
 }

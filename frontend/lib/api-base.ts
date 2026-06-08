@@ -1,4 +1,4 @@
-export const DEPLOYED_API_BASE = 'https://health-one-api.onrender.com/v1';
+export const DEPLOYED_API_BASE = '/api/v1';
 
 export function resolveApiBase(
   configured = process.env.NEXT_PUBLIC_API_URL,
@@ -6,6 +6,10 @@ export function resolveApiBase(
 ): string {
   const candidate = configured?.trim();
   if (!candidate) return DEPLOYED_API_BASE;
+
+  if (candidate.startsWith('/') && !candidate.startsWith('//')) {
+    return candidate.replace(/\/$/, '') || DEPLOYED_API_BASE;
+  }
 
   let parsed: URL;
   try {

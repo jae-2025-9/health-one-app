@@ -10,6 +10,16 @@ const nextConfig = {
     basePath: '/health-one-app',
     trailingSlash: true,
   }),
+  ...(process.env.GITHUB_PAGES !== 'true' && {
+    async rewrites() {
+      return [
+        {
+          source: '/api/v1/:path*',
+          destination: `${process.env.HEALTH_ONE_BACKEND_URL ?? 'https://health-one-api.onrender.com/v1'}/:path*`,
+        },
+      ];
+    },
+  }),
   images: { unoptimized: true },
   turbopack: { root },
 };

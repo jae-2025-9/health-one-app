@@ -8,8 +8,9 @@ const cases: Array<{
 }> = [
   { name: 'unset', configured: undefined, nodeEnv: 'production', expected: DEPLOYED_API_BASE },
   { name: 'blank', configured: '   ', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
-  { name: 'relative slash', configured: '/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
+  { name: 'relative slash', configured: '/api/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
   { name: 'relative bare', configured: 'api/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
+  { name: 'protocol-relative', configured: '//example.com/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
   { name: 'invalid protocol', configured: 'ftp://example.com/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
   { name: 'prod localhost', configured: 'http://localhost:3000/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
   { name: 'prod localhost https', configured: 'https://localhost:3000/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
@@ -18,7 +19,7 @@ const cases: Array<{
   { name: 'prod ipv6 loopback', configured: 'http://[::1]:3000/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
   { name: 'prod zero host', configured: 'http://0.0.0.0:3000/v1', nodeEnv: 'production', expected: DEPLOYED_API_BASE },
   { name: 'dev localhost allowed', configured: 'http://localhost:3000/v1', nodeEnv: 'development', expected: 'http://localhost:3000/v1' },
-  { name: 'valid render', configured: DEPLOYED_API_BASE, nodeEnv: 'production', expected: DEPLOYED_API_BASE },
+  { name: 'same-origin proxy default', configured: DEPLOYED_API_BASE, nodeEnv: 'production', expected: DEPLOYED_API_BASE },
   { name: 'valid custom https', configured: 'https://api.example.com/v1/', nodeEnv: 'production', expected: 'https://api.example.com/v1' },
 ];
 
