@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
-import type { DailyReport } from '@/lib/types';
+import { DEMO_TODAY, isDemoModeEnabled } from '@/lib/demo-data';
+import type { DailyReport, DemoRawEvent } from '@/lib/types';
 
 function StatCard({ label, value }: { label: string; value: string | number | null }) {
   return (
@@ -23,6 +24,35 @@ function Section({ title, children, isEmpty }: { title: string; children: React.
   );
 }
 
+function RawEventRow({ event }: { event: DemoRawEvent }) {
+  return (
+    <div className="raw-event-row">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-[12px] font-semibold text-[#222222]">{event.time} · {event.title}</p>
+          <p className="text-[11px] text-[#666666]">{sourceLabel(event.sourceType)}</p>
+        </div>
+        <span className="rounded border border-[#bdbdb8] px-1.5 py-0.5 text-[10px] text-[#555555]">
+          기록
+        </span>
+      </div>
+      <p className="mt-1 text-[12px] text-[#333333]">{event.summary}</p>
+    </div>
+  );
+}
+
+function sourceLabel(sourceType: string): string {
+  const labels: Record<string, string> = {
+    apple_health: 'Apple Health 연동',
+    samsung_health: 'Samsung Health 연동',
+    wearable: '웨어러블 연동',
+    vision_ai: '사진 분석',
+    label_scan: '라벨 스캔',
+    manual: '직접 입력',
+  };
+  return labels[sourceType] ?? '기록';
+}
+
 export default function HomePage() {
   const [report, setReport] = useState<DailyReport | null>(null);
   const [date, setDate] = useState('');
@@ -31,7 +61,6 @@ export default function HomePage() {
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiAnswer, setAiAnswer] = useState('');
   const [aiNotice, setAiNotice] = useState('');
-  const [aiModel, setAiModel] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState('');
 
@@ -53,7 +82,7 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    const today = todayStr();
+    const today = isDemoModeEnabled() ? DEMO_TODAY : todayStr();
     setDate(today);
     load(today);
   }, []);
@@ -66,7 +95,6 @@ export default function HomePage() {
     setAiError('');
     setAiAnswer('');
     setAiNotice('');
-    setAiModel('');
     try {
       const data = await api.ai.ask({
         question,
@@ -74,7 +102,6 @@ export default function HomePage() {
       });
       setAiAnswer(data.answer);
       setAiNotice(data.safetyNotice);
-      setAiModel(data.model);
     } catch (e) {
       setAiError((e as Error).message);
     } finally {
@@ -150,6 +177,18 @@ export default function HomePage() {
           </div>
 
           <div className="card space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="section-title">오늘 원본 기록</h2>
+              <span className="text-[11px] font-semibold text-[#666666]">{report.date}</span>
+            </div>
+            <div className="space-y-2">
+              {(report.demoRawEvents ?? []).map((event) => (
+                <RawEventRow key={event.id} event={event} />
+              ))}
+            </div>
+          </div>
+
+          <div className="card space-y-3">
             <h2 className="section-title">AI 질문</h2>
             <div className="quick-link-grid">
               <Link href="/ai?mode=meds" className="quick-link">약/영양제 바로 질문</Link>
@@ -173,7 +212,6 @@ export default function HomePage() {
             {aiAnswer && (
               <div className="quiet-note space-y-2">
                 <p>{aiAnswer}</p>
-                {aiModel && <p className="text-[11px] font-semibold text-[#666666]">모델: {aiModel}</p>}
                 {aiNotice && <p className="text-[11px] text-[#666666]">{aiNotice}</p>}
               </div>
             )}

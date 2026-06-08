@@ -135,4 +135,7 @@ body {
   .quick-link {
     @apply rounded-md border border-[#d2d2cc] bg-white px-3 py-2 text-[12px] font-semibold text-[#222222] transition-colors hover:bg-[#eeeeec];
   }
+  .raw-event-row {
+    @apply rounded-md border border-[#d2d2cc] bg-white p-3 text-left;
+  }
 }

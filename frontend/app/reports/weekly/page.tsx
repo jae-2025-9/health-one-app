@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
-import type { WeeklyReport } from '@/lib/types';
+import { DEMO_WEEK_START, isDemoModeEnabled } from '@/lib/demo-data';
+import type { DemoRawEvent, WeeklyReport } from '@/lib/types';
 
 function StatCard({ label, value }: { label: string; value: string | number | null }) {
   return (
@@ -20,6 +21,30 @@ function Section({ title, children, isEmpty }: { title: string; children: React.
       {isEmpty ? <p className="empty-state">이번 주 기록 없음</p> : children}
     </div>
   );
+}
+
+function RawEventRow({ event }: { event: DemoRawEvent }) {
+  return (
+    <div className="raw-event-row">
+      <p className="text-[12px] font-semibold text-[#222222]">
+        {event.date} {event.time} · {event.title}
+      </p>
+      <p className="text-[11px] text-[#666666]">{sourceLabel(event.sourceType)}</p>
+      <p className="mt-1 text-[12px] text-[#333333]">{event.summary}</p>
+    </div>
+  );
+}
+
+function sourceLabel(sourceType: string): string {
+  const labels: Record<string, string> = {
+    apple_health: 'Apple Health 연동',
+    samsung_health: 'Samsung Health 연동',
+    wearable: '웨어러블 연동',
+    vision_ai: '사진 분석',
+    label_scan: '라벨 스캔',
+    manual: '직접 입력',
+  };
+  return labels[sourceType] ?? '기록';
 }
 
 function currentMonday(): string {
@@ -51,7 +76,7 @@ export default function WeeklyReportPage() {
   }
 
   useEffect(() => {
-    const mon = currentMonday();
+    const mon = isDemoModeEnabled() ? DEMO_WEEK_START : currentMonday();
     setWeekStart(mon);
     load(mon);
   }, []);
@@ -166,6 +191,20 @@ export default function WeeklyReportPage() {
               </div>
             </div>
           </Section>
+
+          <div className="card space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="section-title">주간 원본 기록</h2>
+              <span className="text-[11px] font-semibold text-[#666666]">6.1~6.6 데모</span>
+            </div>
+            <div className="space-y-2">
+              {(report.demoRawEvents ?? [])
+                .filter((event) => event.date >= '2026-06-01' && event.date <= '2026-06-06')
+                .map((event) => (
+                  <RawEventRow key={event.id} event={event} />
+                ))}
+            </div>
+          </div>
 
           <p className="text-xs text-[#777777] text-center pt-2">
             이 리포트는 건강 관리 참고용이며 진단이 아닙니다.

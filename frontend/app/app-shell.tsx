@@ -37,7 +37,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           className="icon-button"
           aria-label="사이드바 열기"
           aria-expanded={sidebarOpen}
-          onClick={() => setSidebarOpen(true)}
+          onClick={() => {
+            setActionsOpen(false);
+            setSidebarOpen(true);
+          }}
         >
           ≡
         </button>
@@ -135,7 +138,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           className="bottom-tab bottom-tab-plus"
           aria-label="빠른 추가"
           aria-expanded={actionsOpen}
-          onClick={() => setActionsOpen(true)}
+          onClick={() => {
+            setSidebarOpen(false);
+            setActionsOpen((open) => !open);
+          }}
         >
           <span aria-hidden="true">＋</span>
         </button>
